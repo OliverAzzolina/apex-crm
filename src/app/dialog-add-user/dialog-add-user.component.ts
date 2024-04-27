@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatIconModule} from '@angular/material/icon';
 import {
@@ -17,26 +17,45 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { User } from '../../models/user.class';
+import { Firestore, addDoc, collection } from 'firebase/firestore';
+import { DatabaseService } from '../services/database.service';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-dialog-add-user',
   standalone: true,
-  imports: [MatDialogModule,
-    MatDialogTitle,
-    MatDialogContent,
-    MatDialogActions,
-    MatDialogClose, MatButtonModule, FormsModule, MatInputModule, MatFormFieldModule, MatIconModule, MatDatepickerModule],
+  imports: [
+    CommonModule, MatDialogModule, MatDialogTitle, MatDialogContent, MatDialogActions, MatDialogClose, MatButtonModule, 
+    FormsModule, MatInputModule, MatFormFieldModule, MatIconModule, MatDatepickerModule, MatProgressBarModule
+  ],
   templateUrl: './dialog-add-user.component.html',
   providers: [provideNativeDateAdapter()],
   styleUrl: './dialog-add-user.component.scss'
 })
-export class DialogAddUserComponent {
-  user: User = new User;
-  birthDate: Date;
 
-  saveUser(){
+export class DialogAddUserComponent {
+
+  constructor(private database: DatabaseService, public dialogRef: MatDialogRef<DialogAddUserComponent>){};
+
+  user: User = new User();
+  birthDate: Date;
+  userData: any;
+  loading: boolean = false;
+  
+  async saveUser() {
     this.user.birthDate = this.birthDate.getTime();
-    console.log(this.user)
+    const userData = this.user.toJSON();
+    this.loading = true;
+    await this.database.saveUser(userData).then((result: any) => {
+      console.log('added user', result);
+      this.loading = false;
+      this.dialogRef.close();
+    });
   }
 
+
 }
+
+    
+

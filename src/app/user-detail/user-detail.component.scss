@@ -1,0 +1,119 @@
+.user-detail-container{
+    display: flex;
+    flex-direction: row;
+}
+
+.user-detail-card{
+    width: 30%;
+    margin-right: 16px;
+}
+
+.user-header{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+    padding-bottom: 16px;
+    img{
+        padding-bottom: 16px;
+    }
+}
+
+.user-job-info{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.user-action-btn-container{
+    display: flex;
+    gap: 16px;
+    padding-top: 16px;
+}
+
+.user-contact-info{
+   width: max-content;
+    padding-top: 16px;
+}
+
+.user-contact-detail{
+    display: flex;
+    flex-direction: column;
+    padding-top: 16px;
+    width: max-content;
+}
+
+.adress-link{
+    display: flex;
+    flex-direction: column;
+}
+
+.user-dashboard{
+    width: 100%;
+}
+
+.tasks-table{
+    width: 100%;
+    border-collapse: collapse;
+    
+    th{
+        &:first-child{
+            padding-left: 16px;
+        }
+        
+        text-align: start;
+        color: darkgray;
+        font-weight: 400;
+        font-size: 16px;
+        border-bottom: 1px solid rgba(0,0,0,0.04);
+    }
+
+    tr{
+        height: 40px;
+        border-bottom: 1px solid rgba(0,0,0,0.04);
+            &:first-child{
+                &:hover{
+                    cursor:default;
+                    background-color: unset;
+                }
+            }
+            &:last-child{
+                    border-bottom: 0;
+            }
+            &:hover{
+                cursor: pointer;
+                background-color: rgba(0,0,0,0.04);
+            }
+            td{
+                &:first-child{
+                    padding-left: 16px;
+                }
+            }
+    }
+
+}
+
+.table-container{
+    padding: 16px;
+
+}
+
+.button-container{
+    display: flex;
+    justify-content: flex-end;
+    
+    width: 100%;
+}
+
+.add-button{
+    margin-top: 16px;
+    margin-right: 40px;
+}
+
+.content-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}

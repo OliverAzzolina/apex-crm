@@ -4,7 +4,6 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatDialogModule} from '@angular/material/dialog';
-import { DialogAddUserComponent } from '../dialog-add-user/dialog-add-user.component';
 import {MatDialog,} from '@angular/material/dialog';
 import {FormsModule} from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -13,62 +12,52 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatCardModule} from '@angular/material/card';
 import {MatTableModule} from '@angular/material/table';
 import { DatabaseService } from '../services/database.service';
-import { collection, doc, onSnapshot } from 'firebase/firestore';
+import { collection, doc, onSnapshot, query } from 'firebase/firestore';
 import { Firestore } from '@angular/fire/firestore';
 
-
 @Component({
-  selector: 'app-user',
+  selector: 'app-products',
   standalone: true,
-  imports: [RouterLink, MatIconModule, MatButtonModule, MatTooltipModule, MatDialogModule, FormsModule, MatFormFieldModule, 
-    MatInputModule, CommonModule, MatCardModule, MatTableModule],
-    providers: [],
-  templateUrl: './user.component.html',
-  styleUrl: './user.component.scss'
+  imports: [MatCardModule, MatTableModule, MatIconModule, MatButtonModule, MatTooltipModule, MatDialogModule, CommonModule],
+  templateUrl: './products.component.html',
+  styleUrl: './products.component.scss'
 })
-
-export class UserComponent {
-  userData:any;
+export class ProductsComponent {
+  productData:any;
   loading: boolean = false;
   constructor(public db: Firestore, public dialog: MatDialog, public database: DatabaseService) {}
 
-
-  openDialog(){
-    const dialogRef = this.dialog.open(DialogAddUserComponent, { panelClass: 'pd-top-16' });
-  }
-
-  
   async ngOnInit(): Promise<void>{
-    await this.getAllUser('users');
+    await this.getAllproducts('products');
   }
 
-  async getAllUser(user: string) {
+  async getAllproducts(products: string) {
     this.loading = true;
     try {
-      const usersCollectionRef = collection(this.db, user);
-      this.getUserDataOnSnapshot(usersCollectionRef);
+      const productssCollectionRef = collection(this.db, products);
+      this.getProductDataOnSnapshot(productssCollectionRef);
     } catch (error) {
       console.error('Fehler beim Aktualisieren der Daten:', error);
     }
   }
 
-  getUserDataOnSnapshot(usersCollectionRef: any) {
+  getProductDataOnSnapshot(productssCollectionRef: any){
     onSnapshot(
-      usersCollectionRef,
+      productssCollectionRef,
       (snapshot: { docs: any[] }) => {
-        this.userData = snapshot.docs.map((doc) => {
-          const userData = doc.data();
+        this.productData = snapshot.docs.map((doc) => {
+          const productData = doc.data();
 
           return {
             id: doc.id,
-            firstName: userData['firstName'],
-            lastName: userData['lastName'],
-            email: userData['email'],
-            city: userData['city'],
+            name: productData['name'],
+            productId: productData['productId'],
+            ppu: productData['ppu'],
+            type: productData['type'],
           };
           
         });
-        console.log(this.userData)
+        console.log(this.productData)
         //this.filterUsers();
         this.loading = false;
       },
@@ -77,8 +66,6 @@ export class UserComponent {
         this.loading = false;
       }
     );
-  }
 
-
-
+  };
 }

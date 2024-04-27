@@ -1,0 +1,139 @@
+<div class="user-detail-container">
+    <mat-card class="user-detail-card">
+        <mat-card-content>
+            <div>
+                <div>
+                    <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                        <mat-icon>more_vert</mat-icon>
+                      </button>
+                      <mat-menu #menu="matMenu">
+                        <button mat-menu-item (click)="openDialogEditUser()">
+                          <mat-icon>edit</mat-icon>
+                          <span>Edit</span>
+                        </button>
+                        <button mat-menu-item (click)="openDialogDeleteUser()">
+                          <mat-icon color="warn">delete</mat-icon>
+                          <span>Delete</span>
+                        </button>
+                      </mat-menu>
+                </div>
+                <div class="user-header">
+                    <img src="assets/icons/user.png" alt="">
+                    <h2>{{user.firstName}} {{user.lastName}}</h2>
+                    <div class="user-job-info">
+                        <div>{{user.position}}</div>
+                        <div>{{user.company}}</div>
+                    </div>
+                    <div class="user-action-btn-container">
+                        <a mat-icon-button color="primary" href="tel:{{user.phone}}" #tooltip="matTooltip" matTooltip="Call"
+                        [matTooltipPosition]="'above'"
+                        matTooltipHideDelay=""><mat-icon>call</mat-icon></a>
+                        <a mat-icon-button color="primary" href="mailto:{{user.email}}" #tooltip="matTooltip" matTooltip="Send Mail"
+                        [matTooltipPosition]="'above'"
+                        matTooltipHideDelay=""><mat-icon>mail</mat-icon></a>
+                    </div>
+                </div>
+    
+                <div class="user-contact-info">
+                    Contact Information
+    
+                    <div class="user-contact-detail" >
+                        Birthdate:<br>
+                        {{user.birthdate}}                    
+                    </div>
+    
+                    <div class="user-contact-detail" >
+                        E-Mail: 
+                        <a href="mailto:{{user.email}}" #tooltip="matTooltip" matTooltip="Send Mail"
+                        [matTooltipPosition]="'above'"
+                        matTooltipHideDelay="">{{user.email}}</a>
+                    </div>
+    
+                    <div class="user-contact-detail">
+                        Phone Number:
+                        <a href="tel:{{user.phone}}" #tooltip="matTooltip" matTooltip="Call"
+                        [matTooltipPosition]="'above'"
+                        matTooltipHideDelay="">{{user.phone}}</a>
+                    </div>
+    
+                    <div class="user-contact-detail">
+                        Adress:
+                        <a class="adress-link" target="_blank" #tooltip="matTooltip" matTooltip="Open in Maps"
+                        [matTooltipPosition]="'above'"
+                        matTooltipHideDelay="" 
+                        href="https://www.google.com/maps/place/{{user.street}}+{{user.number}},+{{user.zipCode}}+{{user.city}}">
+                            {{user.street}} {{user.number}}<br>
+                            {{user.zipCode}} {{user.city}}
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </mat-card-content>
+    </mat-card>
+    
+    
+    <mat-card class="user-dashboard">
+        <mat-tab-group >
+            <mat-tab label="Tasks" class="table-container"> 
+            
+                <mat-card-content class="content-container">
+                    <table class="tasks-table">
+                        <tbody>
+                            <tr>
+                                <th>Status</th>
+                                <th>Task</th>
+                                <th>Task-ID</th>
+                            </tr>
+                            <tr *ngFor="let task of allTasks" (click)="openDialogEditTask(task)">
+                                <td>{{task.status}}</td>
+                                <td>{{task.note}}</td>
+                                <td>{{task.taskId}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                    <div class="button-container">
+                        <button (click)="openDialogAddTask()" class="add-button" mat-fab color="warn" #tooltip="matTooltip" matTooltip="Add a Task" [matTooltipPosition]="'above'" matTooltipHideDelay="1000">
+                            <mat-icon>add</mat-icon>
+                        </button>
+                    </div>
+
+                </mat-card-content>
+
+
+            </mat-tab>
+
+            <mat-tab label="Purchases"> 
+                <mat-card-content class="table-container">
+                    <table class="tasks-table">
+                        <tbody>
+                            <tr>
+                                <th>Date</th>
+                                <th>Status</th>
+                                <th>Product</th>
+                                <th>Amount</th>
+                                <th>Price</th>
+                            </tr>
+                            <tr *ngFor="let purchase of allPurchases">
+                                <td>purchase.date</td>
+                                <td>purchase.status</td>
+                                <td>purchase.product</td>
+                                <td>purchase.amount</td>
+                                <td>purchase.price</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="button-container">
+                        <button (click)="openDialogAddPurchase()" class="add-button" mat-fab color="warn" #tooltip="matTooltip" matTooltip="Add a Purchase" [matTooltipPosition]="'above'" matTooltipHideDelay="1000">
+                            <mat-icon>add</mat-icon>
+                        </button>
+                    </div>
+                </mat-card-content>
+            </mat-tab>
+
+        </mat-tab-group>
+
+
+    </mat-card>
+
+</div>

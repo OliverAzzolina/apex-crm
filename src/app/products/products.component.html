@@ -1,0 +1,24 @@
+<mat-card>
+    <mat-card-content>
+        <table class="user-table">
+            <tbody>
+                <tr>
+                    <th>Name</th>
+                    <th>Price per unit</th>
+                    <th>Type</th>
+                </tr>
+                <tr *ngFor="let product of productData">
+                    <td>{{product.name}}</td>
+                    <td>{{product.ppu}}€</td>
+                    <td>{{product.type}}</td>
+                </tr>
+
+            </tbody>
+            
+        </table>
+    </mat-card-content>
+</mat-card>
+
+<button class="add-user-button" mat-fab color="warn" #tooltip="matTooltip" matTooltip="Add a User" [matTooltipPosition]="'above'" matTooltipHideDelay="1000">
+    <mat-icon>add</mat-icon>
+</button>

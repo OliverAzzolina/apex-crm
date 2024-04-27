@@ -1,0 +1,25 @@
+<mat-card>
+    <mat-card-content>
+        <table class="user-table">
+            <tbody>
+                <tr>
+                    <th>Status</th>
+                    <th>Task</th>
+                    <th>User</th>
+                </tr>
+                <tr *ngFor="let task of taskData">
+                    <td>{{task.status}}</td>
+                    <td>{{task.note}}</td>
+                    <td>{{task.userId}}</td>
+                </tr>
+
+            </tbody>
+            
+        </table>
+    </mat-card-content>
+</mat-card>
+
+<button class="add-user-button" mat-fab color="warn" #tooltip="matTooltip" matTooltip="Add a User" [matTooltipPosition]="'above'" matTooltipHideDelay="1000">
+    <mat-icon>add</mat-icon>
+</button>
+

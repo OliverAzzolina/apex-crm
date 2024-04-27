@@ -1,0 +1,22 @@
+<div class="edit-task-container">
+    <h2>Add Task</h2>
+    <mat-form-field>
+      <mat-label>Status</mat-label>
+      <mat-select [(ngModel)]="task.status" name="status">
+        @for (status of statusOpt; track status) {
+            <mat-option [value]="status.value">{{status.viewValue}}</mat-option>
+          }
+      </mat-select>
+    </mat-form-field>
+    <p> New Status: {{selectedStatus}} </p>
+  
+    <mat-form-field class="example-full-width">
+      <mat-label>Task Note</mat-label>
+      <textarea [(ngModel)]="task.note" matInput placeholder="Enter Task Note"></textarea>
+    </mat-form-field>
+  
+    <mat-dialog-actions>
+      <button mat-button (click)="this.dialogRef.close();">Cancel</button>
+      <button mat-button (click)="saveTask()">Save</button>
+    </mat-dialog-actions>
+  </div>

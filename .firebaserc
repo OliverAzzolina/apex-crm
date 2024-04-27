@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "apex-crm-89eb0": {
+      "hosting": {
+        "simple-crm": [
+          "apex-crm-89eb0"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "apex-crm-89eb0"
+  }
+}
