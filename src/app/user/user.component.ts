@@ -15,6 +15,7 @@ import {MatTableModule} from '@angular/material/table';
 import { DatabaseService } from '../services/database.service';
 import { collection, doc, onSnapshot } from 'firebase/firestore';
 import { Firestore } from '@angular/fire/firestore';
+import { SetTabIndexService } from '../services/set-tab-index.service';
 
 
 @Component({
@@ -30,7 +31,7 @@ import { Firestore } from '@angular/fire/firestore';
 export class UserComponent {
   userData:any;
   loading: boolean = false;
-  constructor(public db: Firestore, public dialog: MatDialog, public database: DatabaseService) {}
+  constructor(public db: Firestore, public dialog: MatDialog, public database: DatabaseService, public tabIndex: SetTabIndexService) {}
 
 
   openDialog(){
@@ -79,6 +80,9 @@ export class UserComponent {
     );
   }
 
+  async setTabIndex(index: any){
+    await this.tabIndex.setTabToIndex(index);
+  }
 
 
 }

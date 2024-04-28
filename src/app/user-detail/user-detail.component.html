@@ -71,9 +71,9 @@
         </mat-card-content>
     </mat-card>
     
-    
     <mat-card class="user-dashboard">
-        <mat-tab-group >
+        <mat-tab-group  [selectedIndex]="selectedTabIndex.value"
+        (selectedIndexChange)="selectedTabIndex.setValue($event)" ngDefaultControl >
             <mat-tab label="Tasks" class="table-container"> 
             
                 <mat-card-content class="content-container">
@@ -108,18 +108,18 @@
                     <table class="tasks-table">
                         <tbody>
                             <tr>
-                                <th>Date</th>
+                                <th>Orderdate</th>
                                 <th>Status</th>
                                 <th>Product</th>
                                 <th>Amount</th>
                                 <th>Price</th>
                             </tr>
-                            <tr *ngFor="let purchase of allPurchases">
-                                <td>purchase.date</td>
-                                <td>purchase.status</td>
-                                <td>purchase.product</td>
-                                <td>purchase.amount</td>
-                                <td>purchase.price</td>
+                            <tr *ngFor="let purchase of allPurchases" (click)="openDialogEditPurchase(purchase)">
+                                <td>{{purchase.orderdate}}</td>
+                                <td>{{purchase.status}}</td>
+                                <td>{{purchase.product}}</td>
+                                <td>{{purchase.amount}}</td>
+                                <td>{{purchase.totalPrice}} €</td>
                             </tr>
                         </tbody>
                     </table>
@@ -132,8 +132,10 @@
             </mat-tab>
 
         </mat-tab-group>
-
-
     </mat-card>
 
 </div>
+<mat-form-field class="d-none">
+    <mat-label>Selected tab index</mat-label>
+    <input matInput type="number" [formControl]="selectedTabIndex" (ngModel)="selectedTabIndex">
+  </mat-form-field>

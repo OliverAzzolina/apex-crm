@@ -14,19 +14,20 @@ import {MatTableModule} from '@angular/material/table';
 import { DatabaseService } from '../services/database.service';
 import { collection, doc, onSnapshot, query } from 'firebase/firestore';
 import { Firestore } from '@angular/fire/firestore';
+import { SetTabIndexService } from '../services/set-tab-index.service';
 
 
 @Component({
   selector: 'app-tasks',
   standalone: true,
-  imports: [MatCardModule, MatTableModule, MatIconModule, MatButtonModule, MatTooltipModule, MatDialogModule, CommonModule],
+  imports: [MatCardModule, MatTableModule, MatIconModule, MatButtonModule, MatTooltipModule, MatDialogModule, CommonModule, RouterLink],
   templateUrl: './tasks.component.html',
   styleUrl: './tasks.component.scss'
 })
 export class TasksComponent {
   taskData:any;
   loading: boolean = false;
-  constructor(public db: Firestore, public dialog: MatDialog, public database: DatabaseService) {}
+  constructor(public db: Firestore, public dialog: MatDialog, public database: DatabaseService, public tabIndex: SetTabIndexService) {}
 
   async ngOnInit(): Promise<void>{
     await this.getAllTasks('tasks');
@@ -66,7 +67,10 @@ export class TasksComponent {
         this.loading = false;
       }
     );
-
   };
+
+  async setTabIndex(index: any){
+    await this.tabIndex.setTabToIndex(index);
+  }
 
 }

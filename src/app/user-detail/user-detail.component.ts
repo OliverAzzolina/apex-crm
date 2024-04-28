@@ -1,4 +1,4 @@
-import { Component, Input, ViewChild } from '@angular/core';
+import { Component, Input, ViewChild, forwardRef } from '@angular/core';
 import {MatCardModule} from '@angular/material/card';
 import { Router } from '@angular/router';
 import { UserComponent } from '../user/user.component';
@@ -23,20 +23,25 @@ import { DialogEditTaskComponent } from '../dialog-edit-task/dialog-edit-task.co
 import { DialogAddTaskComponent } from '../dialog-add-task/dialog-add-task.component';
 import { Purchase } from '../../models/purchase.class';
 import { DialogAddPurchaseComponent } from '../dialog-add-purchase/dialog-add-purchase.component';
-
-
+import { DialogEditPurchaseComponent } from '../dialog-edit-purchase/dialog-edit-purchase.component';
+import { SetTabIndexService } from '../services/set-tab-index.service';
+import {FormControl, FormsModule, NG_VALUE_ACCESSOR, ReactiveFormsModule} from '@angular/forms';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatInputModule} from '@angular/material/input';
+import {MatFormFieldModule} from '@angular/material/form-field';
 
 @Component({
   selector: 'app-user-detail',
   standalone: true,
-  imports: [MatCardModule, CommonModule, UserComponent, MatIconModule, MatButtonModule, MatTooltipModule, MatTabsModule, MatMenuModule, MatTableModule, MatFormField, MatLabel],
+  imports: [MatCardModule, CommonModule, UserComponent, MatIconModule, MatButtonModule, MatTooltipModule, MatTabsModule, MatMenuModule, 
+    MatTableModule, MatFormField, MatLabel, MatCheckboxModule, MatInputModule, MatFormFieldModule, FormsModule, ReactiveFormsModule],
   templateUrl: './user-detail.component.html',
   styleUrl: './user-detail.component.scss'
 })
 
 export class UserDetailComponent {
   
-  constructor(private router: Router, public db: Firestore, public dialog: MatDialog ) {}
+  constructor(private router: Router, public db: Firestore, public dialog: MatDialog, public tabIndex: SetTabIndexService ) {}
 
   id: string;
   userData: any;
@@ -47,13 +52,22 @@ export class UserDetailComponent {
   task: Task = new Task();
   purchase: Purchase = new Purchase();
   birthdate: Date;
-
+  actualTabIndex:any = 0;
+  selectedTabIndex = new FormControl( this.actualTabIndex);
+ 
   ngOnInit(){
     this.id = this.router.url.split('/').splice(2, 1).toString();
     console.log(this.id);
     this.getUserData();
     this.getTasks();
+    this.setNewTabIndex()
     this.getPurchases();
+  }
+
+  setNewTabIndex(){
+    this.actualTabIndex = this.tabIndex.tabIndex;
+    console.log(this.actualTabIndex, this.tabIndex.tabIndex)
+    this.selectedTabIndex = new FormControl( this.actualTabIndex);
   }
 
   getUserData(){
@@ -105,6 +119,7 @@ export class UserDetailComponent {
       dialog.componentInstance.taskId = task.taskId;
       dialog.componentInstance.userId = this.id;
     }
+    
   //PURCHASES TABLE
   async getPurchases(){
     const purchasesRef = collection(this.db, "purchases");
@@ -123,5 +138,14 @@ export class UserDetailComponent {
     let dialog = this.dialog.open(DialogAddPurchaseComponent);
     dialog.componentInstance.userId = this.id;
   }
+
+  openDialogEditPurchase(purchase: any){
+    let dialog = this.dialog.open(DialogEditPurchaseComponent);
+    console.log(purchase)
+    dialog.componentInstance.purchase = new Purchase(purchase);
+    dialog.componentInstance.purchaseId = purchase.purchaseId;
+    dialog.componentInstance.userId = this.id;
+  }
+
 
 }

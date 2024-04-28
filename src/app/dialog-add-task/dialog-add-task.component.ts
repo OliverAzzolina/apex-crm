@@ -3,9 +3,7 @@ import { Task } from '../../models/task.class';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatButtonModule} from '@angular/material/button';
 import { MatFormField, MatLabel } from '@angular/material/form-field';
-
 import {MatInputModule} from '@angular/material/input';
-
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {FormsModule} from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
@@ -20,9 +18,7 @@ import {
 } from '@angular/material/dialog';
 import { DatabaseService } from '../services/database.service';
 import { User } from '../../models/user.class';
-import { Router, RouterLink } from '@angular/router';
-import { Firestore } from '@angular/fire/firestore';
-import { generate } from 'rxjs';
+import { RouterLink } from '@angular/router';
 
 interface Status {
   value: string;
@@ -48,7 +44,7 @@ export class DialogAddTaskComponent {
   loading = false;
   taskData: any;
 
-  constructor(private database: DatabaseService, private router: Router, public db: Firestore, public dialogRef: MatDialogRef<DialogAddTaskComponent>){};
+  constructor(private database: DatabaseService, public dialogRef: MatDialogRef<DialogAddTaskComponent>){};
 
 statusOpt: Status[] = [
   {value: 'open', viewValue: 'open'},

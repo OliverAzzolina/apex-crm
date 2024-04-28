@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
 import {collection, addDoc,doc,  deleteDoc,  updateDoc,  getDocs,  where,  query,  onSnapshot, setDoc,} from 'firebase/firestore';
 import { Firestore } from '@angular/fire/firestore';
-import { Router } from '@angular/router';
-import { getFirestore } from 'firebase/firestore'
 
 @Injectable({
   providedIn: 'root'
@@ -71,7 +69,24 @@ async saveNewPurchase(purchaseData:any){
   try {
     await addDoc(collection(this.db, 'purchases'), purchaseData);
   }catch (error: any) {
-    console.error('Fehler beim erstellen des tasks:', error);
+    console.error('Fehler beim erstellen des Kaufs:', error);
+  }
+}
+
+async saveEditedPurchase(purchaseData:any, purchaseId:string){
+  try {
+    await setDoc(doc(this.db, "purchases", purchaseId), purchaseData);
+  }catch (error: any) {
+    console.error('Fehler beim updaten des Tasks:', error);
+  }
+}
+
+async deleteSelectedPurchase(purchaseId: string){
+  try{
+    await deleteDoc(doc(this.db, "purchases", purchaseId));
+  }catch(error: any) {
+    console.error('Fehler beim löschen des Kaufs:', error);
+
   }
 }
 }

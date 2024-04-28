@@ -7,7 +7,7 @@
                     <th>Task</th>
                     <th>User</th>
                 </tr>
-                <tr *ngFor="let task of taskData">
+                <tr *ngFor="let task of taskData" [routerLink]="['/user/' + task.userId]" (click)="setTabIndex(0)">
                     <td>{{task.status}}</td>
                     <td>{{task.note}}</td>
                     <td>{{task.userId}}</td>

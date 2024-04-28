@@ -4,6 +4,8 @@ import { UserComponent } from './user/user.component';
 import { UserDetailComponent } from './user-detail/user-detail.component';
 import { ProductsComponent } from './products/products.component';
 import { TasksComponent } from './tasks/tasks.component';
+import { Purchase } from '../models/purchase.class';
+import { PurchasesComponent } from './purchases/purchases.component';
 
 export const routes: Routes = [
     {path: '', redirectTo:'dashboard' ,pathMatch:'full'},
@@ -12,4 +14,5 @@ export const routes: Routes = [
     {path: 'user/:id', component: UserDetailComponent},
     {path: 'products', component: ProductsComponent},
     {path: 'tasks', component: TasksComponent},
+    {path: 'purchases', component: PurchasesComponent},
 ];

@@ -42,7 +42,6 @@ export class DialogEditTaskComponent {
   user: User;
   task: Task;
   taskId: string;
-  selectedStatus: string;
   loading = false;
 
 constructor(private database: DatabaseService, public dialog: MatDialog, public db: Firestore, public dialogRef: MatDialogRef<DialogEditTaskComponent>){};

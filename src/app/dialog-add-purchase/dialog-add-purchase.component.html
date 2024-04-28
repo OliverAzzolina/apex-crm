@@ -1,1 +1,43 @@
-<p>dialog-add-purchase works!</p>
+<div class="add-purchase-container">
+    <h2>Add Purchase</h2>
+
+    <mat-form-field>
+        <mat-label>Order Date</mat-label>
+        <input matInput [matDatepicker]="picker1" [(ngModel)]="orderDate">
+        <mat-hint>MM/DD/YYYY</mat-hint>
+        <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
+        <mat-datepicker #picker1></mat-datepicker>
+      </mat-form-field>
+      
+
+    <mat-form-field>
+      <mat-label>Status</mat-label>
+      <mat-select [(ngModel)]="purchase.status" name="status">
+        @for (status of statusOpt; track status) {
+            <mat-option [value]="status.value">{{status.viewValue}}</mat-option>
+          }
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field>
+        <mat-label>Product</mat-label>
+        <mat-select [(ngModel)]="purchase.product" name="product">
+          @for (product of allProducts; track product) {
+              <mat-option [value]="product.name" (click)="getProductPrice(product.ppu)">{{product.name}}</mat-option>
+            }
+        </mat-select>
+    </mat-form-field>
+  
+    <mat-form-field>
+        <input matInput (change)="getTotalPrice(product.ppu)" [(ngModel)]="purchase.amount" placeholder="Amount" value={{purchase.amount}} min="1" type="number" >
+    </mat-form-field>
+
+    <mat-form-field>
+        <input matInput  [(ngModel)]="purchase.totalPrice" value="{{totalPrice}}" placeholder="Total Price" disabled type="number">
+    </mat-form-field>
+
+    <mat-dialog-actions>
+      <button mat-button (click)="this.dialogRef.close();">Cancel</button>
+      <button mat-button (click)="savePurchase()">Save</button>
+    </mat-dialog-actions>
+  </div>

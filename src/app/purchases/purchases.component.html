@@ -1,0 +1,30 @@
+<mat-card>
+    <mat-card-content>
+        <table class="user-table">
+            <tbody>
+                <tr>
+                    <th>Orderid</th>
+                    <th>Orderdate</th>
+                    <th>Status</th>
+                    <th>Product</th>
+                    <th>Amount</th>
+                    <th>Price</th>
+                </tr>
+                <tr *ngFor="let purchase of purchaseData" [routerLink]="['/user/' + purchase.userId]" (click)="setTabIndex(1)">
+                    <td>{{purchase.purchaseId}}</td>
+                    <td>{{purchase.orderdate}}</td>
+                    <td>{{purchase.status}}</td>
+                    <td>{{purchase.product}}</td>
+                    <td>{{purchase.amount}}</td>
+                    <td>{{purchase.totalPrice}} €</td>
+                </tr>
+
+            </tbody>
+            
+        </table>
+    </mat-card-content>
+</mat-card>
+
+<button class="add-user-button" mat-fab color="warn" #tooltip="matTooltip" matTooltip="Add a User" [matTooltipPosition]="'above'" matTooltipHideDelay="1000">
+    <mat-icon>add</mat-icon>
+</button>

@@ -1,0 +1,61 @@
+<div class="add-purchase-container">
+    <mat-card-content>
+        <h2>Edit Purchase</h2>
+    </mat-card-content>
+
+    <div>
+        <mat-card-content>
+            Order Date: {{purchase.orderdate}}
+        </mat-card-content>
+        <mat-card-content>
+            ID: {{purchase.purchaseId}}
+        </mat-card-content>
+    </div>
+
+    <mat-card-content>
+        <mat-form-field>
+            <mat-label>Change Status</mat-label>
+            <mat-select [(ngModel)]="purchase.status" name="status">
+                  @for (status of statusOpt; track status) {
+                      <mat-option [value]="status.value">{{status.viewValue}}</mat-option>
+                    }
+            </mat-select>
+          </mat-form-field>
+    </mat-card-content>
+
+    <mat-card-content>
+        <mat-form-field  class="full-width">
+            <mat-label>Product</mat-label>
+            <mat-select [(ngModel)]="purchase.product" name="product">
+              @for (product of allProducts; track product) {
+                  <mat-option [value]="product.name">{{product.name}}</mat-option>
+                }
+            </mat-select>
+        </mat-form-field>
+    </mat-card-content>
+
+    <mat-card-content>
+        <mat-form-field class="margin-r-16">
+            <mat-label>Amount</mat-label>
+            <input matInput (change)="getTotalPrice()" [(ngModel)]="purchase.amount" placeholder="Amount" value={{purchase.amount}} min="1" type="number" >
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Price</mat-label>
+            <input matInput  [(ngModel)]="purchase.totalPrice" value="{{totalPrice}}" placeholder="Total Price" disabled type="number">
+        </mat-form-field>
+    </mat-card-content>
+    <div class="items-center">
+        <mat-dialog-actions class="full-width items-center">
+            <button class="half-width" mat-button (click)="updatePurchase()">Save</button>
+        </mat-dialog-actions>
+
+        <mat-dialog-actions class="full-width items-center">
+            <button class="half-width" mat-button (click)="this.dialogRef.close();">Cancel</button>
+        </mat-dialog-actions>
+            
+        <mat-dialog-actions class="full-width items-center">
+              <button class="half-width" mat-button color="warn" (click)="openDialogDeletePurchase(purchase)">Delete</button>
+        </mat-dialog-actions>
+    </div>
+
+</div>
