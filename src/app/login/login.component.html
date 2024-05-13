@@ -9,19 +9,22 @@
         <form class="login-form">
           <mat-form-field class="full-width">
             <mat-label>Email</mat-label>
-            <input type="email" matInput [formControl]="emailFormControl" placeholder="Ex. pat@example.com">
+            <input type="email" [(ngModel)]="email" matInput [formControl]="emailFormControl" placeholder="Ex. pat@example.com">
           </mat-form-field>
           <mat-form-field class="full-width">
             <mat-label>Password</mat-label>
-            <input type="password" matInput [formControl]="passwordFormControl">
+            <input type="password" [(ngModel)]="password" matInput [formControl]="passwordFormControl">
           </mat-form-field>
         </form>
       </mat-card-content>
       <mat-card-actions class="login-btn-container">
         <button class="login-btn" mat-raised-button color="primary"
         [disabled]="emailFormControl.invalid || passwordFormControl.invalid"
-        (click)="userIsLoggedIn = true" routerLink="/main/dashboard">LOGIN</button>
+        (click)="checkUser()">LOGIN</button>
       </mat-card-actions>
+      <mat-card-content  class="user-not-found-note" *ngIf="userNotFound">
+        User not found!
+      </mat-card-content>
       <mat-card-content class="register">
         <mat-card-subtitle>You don't have an Account? </mat-card-subtitle>
         <mat-card-subtitle class="register-link" routerLink="/register">Sign up here!</mat-card-subtitle>

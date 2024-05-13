@@ -30,9 +30,12 @@
       </mat-card-content>
       <mat-card-actions class="login-btn-container">
         <button class="login-btn" mat-raised-button color="primary"
-        [disabled]="emailFormControl.invalid || passwordFormControl.invalid"
-        (click)="registerUser()" routerLink="/login">REGISTER</button>
+        [disabled]="firstNameFormControl.invalid || lastNameFormControl.invalid || emailFormControl.invalid || passwordFormControl.invalid"
+        (click)="checkIfUserExists()">REGISTER</button>
       </mat-card-actions>
+      <mat-card-content  class="user-exists-note" *ngIf="userExistsNote">
+        User already exists!
+      </mat-card-content>
       <mat-card-content class="register">
         <mat-card-subtitle>You already have an Account? </mat-card-subtitle>
         <mat-card-subtitle class="register-link" routerLink="/login">Sign in here!</mat-card-subtitle>

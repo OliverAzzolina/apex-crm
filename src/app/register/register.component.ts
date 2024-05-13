@@ -6,9 +6,11 @@ import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { User } from '../../models/user.class';
 import { DatabaseService } from '../services/database.service';
+import { doc, getDoc, getDocs } from "firebase/firestore";
+import { Firestore, collection, query, where } from '@angular/fire/firestore';
 
 
 @Component({
@@ -19,7 +21,7 @@ import { DatabaseService } from '../services/database.service';
   styleUrl: './register.component.scss'
 })
 export class RegisterComponent {
-  constructor(private database: DatabaseService){}
+  constructor(private database: DatabaseService, public db: Firestore, private router: Router){}
   loading = false;
   hide = true;
   userIsLoggedIn = false;
@@ -30,14 +32,39 @@ export class RegisterComponent {
 
   user: User = new User();
   userData: any;
+  userExistsNote = false;
   
-  async registerUser(){
-    const userData = this.user.toJSON();
-    console.log(userData)
-    this.loading = true;
+  async registerUser(userData:any){
     await this.database.saveNewUser(userData).then((result: any) => {
       console.log('added new User', result);
       this.loading = false;
+      console.log("registered", userData)
     });
   }
+
+  async checkIfUserExists(){
+    this.userExistsNote = false;
+    const userEmail = this.user.email
+    this.loading = true;
+
+    const q = query(collection(this.db, "users"), where("email", "==", userEmail));
+    const querySnapshot = await getDocs(q);
+
+    querySnapshot.forEach((doc) => {
+      const userExists = doc.id;
+      if (userExists) {
+        console.log("User already exists:", userExists);
+        this.userExistsNote = true;
+      }
+    });
+
+    if(this.userExistsNote == false){
+      const userData = this.user.toJSON();
+      this.registerUser(userData);
+      this.router.navigateByUrl('/login')
+    }
+  }   
 }
+
+
+
