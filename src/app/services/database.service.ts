@@ -14,6 +14,15 @@ export class DatabaseService {
   loading:boolean = false;
 
   //USER-----------------------------------------------------------------------------------------------------------------------
+  async saveNewUser(userData:any){
+    try {
+      await addDoc(collection(this.db, 'users'), userData);
+  }catch (error: any) {
+    console.error('Fehler beim erstellen des Nutzers:', error);
+  }
+  }
+
+  //CUSTOMER-----------------------------------------------------------------------------------------------------------------------
   async saveCustomer(customerData: any) {
     try {
         await addDoc(collection(this.db, 'customers'), customerData);

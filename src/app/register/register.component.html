@@ -1,0 +1,41 @@
+<div class="full-width-height">
+    <mat-card class="login-container">
+      <div class="logo-login-container"><img src="/assets/logo/logo.png" alt=""></div>
+      <mat-divider></mat-divider>
+      <mat-card-header class="header-container">
+        <mat-card-title>Register</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <form class="login-form">
+          <mat-form-field class="full-width">
+            <mat-label>Firstname</mat-label>
+            <input type="text" [(ngModel)]="user.firstName" matInput [formControl]="firstNameFormControl" placeholder="Anna">
+          </mat-form-field>
+          <mat-form-field class="full-width">
+            <mat-label>Lastname</mat-label>
+            <input type="text" [(ngModel)]="user.lastName" matInput [formControl]="lastNameFormControl" placeholder="Mustermann">
+          </mat-form-field>
+          <mat-form-field class="full-width">
+            <mat-label>Email</mat-label>
+            <input type="email" [(ngModel)]="user.email" matInput [formControl]="emailFormControl" placeholder="Ex. pat@example.com">
+          </mat-form-field>
+          <mat-form-field class="full-width">
+            <mat-label>Password</mat-label>
+            <input [type]="hide ? 'password' : 'text'" [(ngModel)]="user.password" matInput [formControl]="passwordFormControl" placeholder="Ex. pat@example.com">
+            <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+              <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </button>
+          </mat-form-field>
+        </form>
+      </mat-card-content>
+      <mat-card-actions class="login-btn-container">
+        <button class="login-btn" mat-raised-button color="primary"
+        [disabled]="emailFormControl.invalid || passwordFormControl.invalid"
+        (click)="registerUser()" routerLink="/login">REGISTER</button>
+      </mat-card-actions>
+      <mat-card-content class="register">
+        <mat-card-subtitle>You already have an Account? </mat-card-subtitle>
+        <mat-card-subtitle class="register-link" routerLink="/login">Sign in here!</mat-card-subtitle>
+      </mat-card-content>
+    </mat-card>
+  </div>

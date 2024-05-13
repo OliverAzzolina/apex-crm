@@ -31,6 +31,7 @@ export class Customer{
         this.position = obj ? obj.position : '';
         this.phone = obj ? obj.phone : '';
     }
+    
     public toJSON() {
         return {
           firstName: this.firstName,
