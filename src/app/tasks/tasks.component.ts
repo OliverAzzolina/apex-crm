@@ -56,8 +56,8 @@ export class TasksComponent {
             taskId: doc.id,
             status: taskData['status'],
             note: taskData['note'],
-            userId: taskData['userId'],
-            userName: taskData['userName']
+            customerId: taskData['customerId'],
+            customerName: taskData['customerName']
           };
           
           

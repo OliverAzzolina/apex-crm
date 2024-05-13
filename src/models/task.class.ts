@@ -5,26 +5,26 @@ import 'firebase/compat/firestore';
 
 export class Task{
     taskId: string;
-    userId: string;
+    customerId: string;
     status: string;
     note: string;
-    userName: string;
+    customerName: string;
 
     constructor(obj?: any){
         this.taskId = obj ? obj.taskId : '';
-        this.userId = obj ? obj.userId : '';
+        this.customerId = obj ? obj.customerId : '';
         this.status = obj ? obj.status : '';
         this.note = obj ? obj.note : '';
-        this.userName = obj ? obj.userName : '';
+        this.customerName = obj ? obj.customerName : '';
     }
     
     public toJSON() {
         return {
             taskId: this.taskId,
-            userId: this.userId,
+            customerId: this.customerId,
             status: this.status,
             note: this.note,
-            userName: this.userName,
+            customerName: this.customerName,
         };
     }
 }

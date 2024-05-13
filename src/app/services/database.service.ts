@@ -10,31 +10,31 @@ export class DatabaseService {
 
   constructor(public db: Firestore) { }
 
-  userData: any = [];
+  customerData: any = [];
   loading:boolean = false;
 
   //USER-----------------------------------------------------------------------------------------------------------------------
-  async saveUser(userData: any) {
+  async saveCustomer(customerData: any) {
     try {
-        await addDoc(collection(this.db, 'users'), userData);
+        await addDoc(collection(this.db, 'customers'), customerData);
     }catch (error: any) {
-      console.error('Fehler beim erstellen des Users:', error);
+      console.error('Fehler beim erstellen des Kunden:', error);
     }
   }
 
-  async saveEditedUser(userData:any, id:string){
+  async saveEditedCustomer(customerData:any, id:string){
     try {
-        await setDoc(doc(this.db, "users", id), userData);
+        await setDoc(doc(this.db, "customers", id), customerData);
     }catch (error: any) {
-        console.error('Fehler beim updaten des Users:', error);
+        console.error('Fehler beim Aktualisieren des Kunden:', error);
     }
   }
 
-  async deleteSelectedUser(id:string){
+  async deleteSelectedCustomer(id:string){
     try{
-      await deleteDoc(doc(this.db, "users", id));
+      await deleteDoc(doc(this.db, "customers", id));
     }catch (error: any) {
-      console.error('Fehler beim updaten des Users:', error);
+      console.error('Fehler beim Löschen des Kunden:', error);
     }
   }
 
@@ -60,7 +60,7 @@ export class DatabaseService {
     try{
       await deleteDoc(doc(this.db, "tasks", taskId));
     }catch (error: any) {
-      console.error('Fehler beim updaten des Users:', error);
+      console.error('Fehler beim updaten des Tasks:', error);
     }
   }
 
@@ -112,7 +112,7 @@ async deleteSelectedProduct(productId: string){
   try{
     await deleteDoc(doc(this.db, "products", productId));
   }catch(error: any) {
-    console.error('Fehler beim löschen des Kaufs:', error);
+    console.error('Fehler beim löschen des Produkts:', error);
 
 }
 }

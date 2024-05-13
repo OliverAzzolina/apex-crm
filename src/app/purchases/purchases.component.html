@@ -10,7 +10,7 @@
                     <th>Amount</th>
                     <th>Price</th>
                 </tr>
-                <tr *ngFor="let purchase of purchaseData" [routerLink]="['/user/' + purchase.userId]" (click)="setTabIndex(1); setNewHeader('User')"
+                <tr *ngFor="let purchase of purchaseData" [routerLink]="['/main/customers/' + purchase.customerId]" (click)="setTabIndex(1); setNewHeader('Customer')"
                 #tooltip="matTooltip" matTooltip="Jump to Customer" [matTooltipPosition]="'above'" matTooltipHideDelay="0">
                     <td>{{purchase.purchaseId}}</td>
                     <td>{{purchase.orderdate}}</td>
@@ -26,6 +26,6 @@
     </mat-card-content>
 </mat-card>
 
-<button class="add-user-button" mat-fab color="warn" #tooltip="matTooltip" matTooltip="Add a User" [matTooltipPosition]="'above'" matTooltipHideDelay="1000">
+<button class="add-user-button" mat-fab color="warn" #tooltip="matTooltip" matTooltip="Add a Purchase" [matTooltipPosition]="'above'" matTooltipHideDelay="1000">
     <mat-icon>add</mat-icon>
 </button>

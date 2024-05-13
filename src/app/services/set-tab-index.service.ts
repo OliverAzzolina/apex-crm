@@ -6,7 +6,7 @@ import { Injectable } from '@angular/core';
 export class SetTabIndexService {
 
   constructor() { }
-tabIndex: any;
+  tabIndex: any;
 
   async setTabToIndex(index:any){
     this.tabIndex = index;

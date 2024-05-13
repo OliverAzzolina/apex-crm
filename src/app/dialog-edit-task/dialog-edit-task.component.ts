@@ -19,7 +19,7 @@ import {
   MatDialogClose,
 } from '@angular/material/dialog';
 import { DatabaseService } from '../services/database.service';
-import { User } from '../../models/user.class';
+import { Customer } from '../../models/customer.class';
 import { Router, RouterLink } from '@angular/router';
 import { Firestore } from '@angular/fire/firestore';
 import { DialogDeleteTaskComponent } from '../dialog-delete-task/dialog-delete-task.component';
@@ -38,8 +38,8 @@ interface Status {
   styleUrl: './dialog-edit-task.component.scss'
 })
 export class DialogEditTaskComponent {
-  userId: string;
-  user: User;
+  customerId: string;
+  customer: Customer;
   task: Task;
   taskId: string;
   loading = false;

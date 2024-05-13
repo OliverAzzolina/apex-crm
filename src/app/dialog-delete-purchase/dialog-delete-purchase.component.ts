@@ -17,7 +17,7 @@ import { MatButtonModule } from '@angular/material/button';
 export class DialogDeletePurchaseComponent {
   purchase: Purchase;
   purchaseId: string;
-  userId:string;
+  customerId:string;
 
   constructor(private database: DatabaseService, public dialogRef: MatDialogRef<DialogDeletePurchaseComponent>){};
   checked = false;

@@ -1,0 +1,27 @@
+<mat-card>
+    <mat-card-content>
+        <table class="user-table">
+            <tbody>
+                <tr>
+                    <th>Lastname</th>
+                    <th>Firstname</th>
+                    <th>Birthdate</th>
+                    <th>E-Mail</th>
+                </tr>
+                <tr *ngFor="let customer of customerData" [routerLink]="['/main/customers/' + customer.id]" (click)="setTabIndex(0)">
+                    <td>{{customer.lastName}}</td>
+                    <td>{{customer.firstName}}</td>
+                    <td>{{customer.birthDate}}</td>
+                    <td>{{customer.email}}</td>
+                </tr>
+
+            </tbody>
+            
+        </table>
+    </mat-card-content>
+</mat-card>
+
+<button (click)="openDialog()" class="add-user-button" mat-fab color="warn" #tooltip="matTooltip" matTooltip="Add a Customer" [matTooltipPosition]="'above'" matTooltipHideDelay="1000">
+    <mat-icon>add</mat-icon>
+</button>
+

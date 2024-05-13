@@ -8,26 +8,25 @@ import {MatButtonModule} from '@angular/material/button';
 import { RouterLink } from '@angular/router';
 
 @Component({
-  selector: 'app-dialog-delete-user',
+  selector: 'app-dialog-delete-customer',
   standalone: true,
   imports: [MatDialogModule, MatCheckboxModule, CommonModule, FormsModule, MatButtonModule, RouterLink],
-  templateUrl: './dialog-delete-user.component.html',
-  styleUrl: './dialog-delete-user.component.scss'
+  templateUrl: './dialog-delete-customer.component.html',
+  styleUrl: './dialog-delete-customer.component.scss'
 })
-export class DialogDeleteUserComponent {
+export class DialogDeleteCustomerComponent {
   router: any;
-  constructor(private database: DatabaseService, public dialogRef: MatDialogRef<DialogDeleteUserComponent>){};
+  constructor(private database: DatabaseService, public dialogRef: MatDialogRef<DialogDeleteCustomerComponent>){};
 
 id:string;
 checked = false;
 
 
-async deleteUser(){
-  this.database.deleteSelectedUser(this.id).then((result:any) =>{
-    console.log('deleted user with ID: ', this.id, result);
+async deleteCustomer(){
+  this.database.deleteSelectedCustomer(this.id).then((result:any) =>{
+    console.log('deleted Customer with ID: ', this.id, result);
     this.dialogRef.close();
   })
 
 }
- 
 }

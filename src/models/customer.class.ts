@@ -3,7 +3,7 @@ import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
 
 
-export class User{
+export class Customer{
     firstName: string;
     lastName: string;
     birthDate: number;

@@ -33,7 +33,7 @@ interface Status {
 export class DialogEditPurchaseComponent {
   purchase:any;
   purchaseId: string;
-  userId: string;
+  customerId: string;
   selectedStatus:string;
   selectedProduct:string;
   loading = false;
@@ -92,7 +92,7 @@ export class DialogEditPurchaseComponent {
     let dialog = this.dialog.open(DialogDeletePurchaseComponent);
     dialog.componentInstance.purchase = new Purchase(purchase);
     dialog.componentInstance.purchaseId = purchase.purchaseId;
-    dialog.componentInstance.userId = this.userId;
+    dialog.componentInstance.customerId = this.customerId;
 
     this.dialogRef.close();
   }

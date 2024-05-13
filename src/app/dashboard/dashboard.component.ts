@@ -17,8 +17,8 @@ import { ChartBarComponent } from '../chart-bar/chart-bar.component';
 })
 export class DashboardComponent {
 
-  allUser:string[] = [];
-  userCount: number;
+  allCustomer:string[] = [];
+  customerCount: number;
   allProducts:string[] =[];
   productsCount:number;
   allPurchases:any = [];
@@ -27,19 +27,17 @@ export class DashboardComponent {
   constructor(public db: Firestore) {}
 
   async ngOnInit(){
-    await this.getAllUser();
+    await this.getAllCustomer();
     await this.getAllProducts();
-    await this.getAllPurchases()
-    //this.calculateMonthlySales();
-   
+    await this.getAllPurchases();
   }
 
-  async getAllUser(){
-    const querySnapshot = await getDocs(collection(this.db, "users"));
+  async getAllCustomer(){
+    const querySnapshot = await getDocs(collection(this.db, "customers"));
     querySnapshot.forEach((doc) => {
-      const userId = doc.id;
-      this.allUser.push(userId)
-      this.userCount = this.allUser.length;
+      const customerId = doc.id;
+      this.allCustomer.push(customerId)
+      this.customerCount = this.allCustomer.length;
     });
   }
 

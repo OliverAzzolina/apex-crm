@@ -17,7 +17,7 @@ import {
   MatDialogClose,
 } from '@angular/material/dialog';
 import { DatabaseService } from '../services/database.service';
-import { User } from '../../models/user.class';
+import { Customer } from '../../models/customer.class';
 import { RouterLink } from '@angular/router';
 
 interface Status {
@@ -36,9 +36,9 @@ interface Status {
 })
 export class DialogAddTaskComponent {
 
-  userName:string;
-  userId: string;
-  user: User;
+  customerName:string;
+  customerId: string;
+  customer: Customer;
   task: Task = new Task();
   taskId: string;
   loading = false;
@@ -55,8 +55,8 @@ statusOpt: Status[] = [
 async saveTask() {
   
   const taskData = this.task.toJSON();
-  taskData.userId = this.userId;
-  taskData.userName = this.userName;
+  taskData.customerId = this.customerId;
+  taskData.customerName = this.customerName;
   this.loading = true;
   await this.database.saveNewTask(taskData).then((result: any) => {
     console.log('added task', taskData);

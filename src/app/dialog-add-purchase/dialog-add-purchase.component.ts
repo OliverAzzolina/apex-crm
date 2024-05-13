@@ -31,7 +31,7 @@ interface Product {
   styleUrl: './dialog-add-purchase.component.scss'
 })
 export class DialogAddPurchaseComponent {
-  userId: string;
+  customerId: string;
   purchase: Purchase = new Purchase();
   selectedStatus:string;
   selectedProduct:string;
@@ -88,7 +88,7 @@ export class DialogAddPurchaseComponent {
     this.orderDate = this.convertToDate(this.purchase.orderDate);
     this.purchase.orderdate = this.orderDate.toString().split(" ").splice(1,3).join(" ");
     const purchaseData = this.purchase.toJSON();
-    purchaseData.userId = this.userId;
+    purchaseData.customerId = this.customerId;
     this.loading = true;
     await this.database.saveNewPurchase(purchaseData).then((result: any) => {
       console.log('added purchase', purchaseData);

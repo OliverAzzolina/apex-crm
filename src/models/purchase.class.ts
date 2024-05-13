@@ -12,7 +12,7 @@ export class Purchase{
     ppu: number;
     totalPrice: number;
     purchaseId: string;
-    userId: string;
+    customerId: string;
 
     constructor(obj?: any){
         this.orderDate = obj ? obj.orderDate : '';
@@ -23,7 +23,7 @@ export class Purchase{
         this.ppu = obj ? obj.ppu : '';
         this.totalPrice = obj ? obj.totalPrice : '';
         this.purchaseId = obj ? obj.purchaseId : '';
-        this.userId = obj ? obj.userId : '';
+        this.customerId = obj ? obj.userId : '';
      
     }
     
@@ -37,7 +37,7 @@ export class Purchase{
             ppu: this.ppu,
             totalPrice: this.totalPrice,
             purchaseId: this.purchaseId,
-            userId: this.userId,
+            customerId: this.customerId,
         };
     }
 }

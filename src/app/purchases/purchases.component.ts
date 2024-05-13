@@ -23,7 +23,7 @@ export class PurchasesComponent {
 purchaseData: any;
 
 loading: boolean = false;
-userId: any;
+customerId: any;
 constructor(public db: Firestore, public dialog: MatDialog, public database: DatabaseService, public tabIndex: SetTabIndexService, public setHeader: SetHeaderService) {}
 
   async ngOnInit(): Promise<void>{
@@ -54,7 +54,7 @@ constructor(public db: Firestore, public dialog: MatDialog, public database: Dat
             product: purchaseData['product'],
             amount: purchaseData['amount'],
             totalPrice: purchaseData['totalPrice'],
-            userId: purchaseData['userId'],
+            customerId: purchaseData['customerId'],
           };
           
         });

@@ -16,31 +16,28 @@ import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import { provideNativeDateAdapter } from '@angular/material/core';
-import { User } from '../../models/user.class';
+import { Customer } from '../../models/customer.class';
 import { Firestore, addDoc, collection } from 'firebase/firestore';
 import { DatabaseService } from '../services/database.service';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-dialog-add-user',
+  selector: 'app-dialog-add-customer',
   standalone: true,
-  imports: [
-    CommonModule, MatDialogModule, MatDialogTitle, MatDialogContent, MatDialogActions, MatDialogClose, MatButtonModule, 
+  imports: [    CommonModule, MatDialogModule, MatDialogTitle, MatDialogContent, MatDialogActions, MatDialogClose, MatButtonModule, 
     FormsModule, MatInputModule, MatFormFieldModule, MatIconModule, MatDatepickerModule, MatProgressBarModule, FormsModule, ReactiveFormsModule
   ],
-  templateUrl: './dialog-add-user.component.html',
   providers: [provideNativeDateAdapter()],
-  styleUrl: './dialog-add-user.component.scss'
+  templateUrl: './dialog-add-customer.component.html',
+  styleUrl: './dialog-add-customer.component.scss'
 })
+export class DialogAddCustomerComponent {
+  constructor(private database: DatabaseService, public dialogRef: MatDialogRef<DialogAddCustomerComponent>){};
 
-export class DialogAddUserComponent {
-
-  constructor(private database: DatabaseService, public dialogRef: MatDialogRef<DialogAddUserComponent>){};
-
-  user: User = new User();
+  customer: Customer = new Customer();
   birthDate: Date;
-  userData: any;
+  customerData: any;
   loading: boolean = false;
 
   firstNameFormControl = new FormControl('', [Validators.required, Validators.minLength(2)]);
@@ -53,19 +50,15 @@ export class DialogAddUserComponent {
   zipCodeFormControl = new FormControl('', [Validators.required, Validators.minLength(1)]);
   cityFormControl = new FormControl('', [Validators.required, Validators.minLength(1)]);
 
-  async saveUser() {
-    this.user.birthDate = this.birthDate.getTime();
-    const userData = this.user.toJSON();
+  async saveCustomer() {
+    this.customer.birthDate = this.birthDate.getTime();
+    const customerData = this.customer.toJSON();
     this.loading = true;
-    await this.database.saveUser(userData).then((result: any) => {
-      console.log('added user', result);
+    await this.database.saveCustomer(customerData).then((result: any) => {
+      console.log('added Customer', result);
       this.loading = false;
       this.dialogRef.close();
     });
   }
 
-
 }
-
-    
-

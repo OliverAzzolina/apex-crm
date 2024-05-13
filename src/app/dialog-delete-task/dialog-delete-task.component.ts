@@ -21,7 +21,7 @@ export class DialogDeleteTaskComponent {
   deleteTask(){
 
       this.database.deleteSelectedTask(this.taskId).then((result:any) =>{
-        console.log('deleted user with ID: ', this.taskId, result);
+        console.log('deleted Task with ID: ', this.taskId, result);
         this.dialogRef.close();
       })
   }
