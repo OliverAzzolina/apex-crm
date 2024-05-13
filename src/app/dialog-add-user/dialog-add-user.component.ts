@@ -11,7 +11,7 @@ import {
   MatDialogClose,
 } from '@angular/material/dialog';
 import {MatButtonModule} from '@angular/material/button';
-import {FormsModule} from '@angular/forms';
+import {FormControl, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatDatepickerModule} from '@angular/material/datepicker';
@@ -27,7 +27,7 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [
     CommonModule, MatDialogModule, MatDialogTitle, MatDialogContent, MatDialogActions, MatDialogClose, MatButtonModule, 
-    FormsModule, MatInputModule, MatFormFieldModule, MatIconModule, MatDatepickerModule, MatProgressBarModule
+    FormsModule, MatInputModule, MatFormFieldModule, MatIconModule, MatDatepickerModule, MatProgressBarModule, FormsModule, ReactiveFormsModule
   ],
   templateUrl: './dialog-add-user.component.html',
   providers: [provideNativeDateAdapter()],
@@ -42,7 +42,17 @@ export class DialogAddUserComponent {
   birthDate: Date;
   userData: any;
   loading: boolean = false;
-  
+
+  firstNameFormControl = new FormControl('', [Validators.required, Validators.minLength(2)]);
+  lastNameFormControl = new FormControl('', [Validators.required, Validators.minLength(2)]);
+  birthdateFormControl = new FormControl('', [Validators.required, Validators.minLength(1)]);
+  emailFormControl = new FormControl('', [Validators.required, Validators.email]);
+  phoneFormControl = new FormControl('', [Validators.required, Validators.minLength(7)]);
+  streetFormControl = new FormControl('', [Validators.required, Validators.minLength(2)]);
+  numberFormControl = new FormControl('', [Validators.required, Validators.minLength(1)]);
+  zipCodeFormControl = new FormControl('', [Validators.required, Validators.minLength(1)]);
+  cityFormControl = new FormControl('', [Validators.required, Validators.minLength(1)]);
+
   async saveUser() {
     this.user.birthDate = this.birthDate.getTime();
     const userData = this.user.toJSON();

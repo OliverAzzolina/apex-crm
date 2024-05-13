@@ -1,26 +1,5 @@
-<mat-drawer-container class="mat-drawer-container">
-  <mat-drawer #drawer class="sidenav-container" opened="true" mode="side">
-    <div class="logo-container">
-      <img class="logo" src="assets/logo/logo.png" alt="">
-    </div>
+<router-outlet></router-outlet>
 
-    <ul>
-      <li routerLink="dashboard" (click)= "header = 'Dashboard'"><mat-icon>dashboard</mat-icon>Dashboard</li>
-      <li routerLink="user" (click)= "header = 'User'"><mat-icon>person</mat-icon>User</li>
-      <li routerLink="tasks" (click)= "header = 'Tasks'"><mat-icon>task</mat-icon>Tasks</li>
-      <li routerLink="products" (click)= "header = 'Products'"><mat-icon>inventory</mat-icon>Products</li>
-      <li routerLink="purchases" (click)= "header = 'Purchases'"><mat-icon>shopping_bag</mat-icon>Purchases</li>
-    </ul>
-  </mat-drawer>
 
-  <div class="example-sidenav-content">
-    <mat-toolbar color="primary">
-      <mat-icon (click)="drawer.toggle()" class="menu-icon">menu</mat-icon>
-      <span>{{ header }}</span>
-    </mat-toolbar>
 
-    <div class="routing-content">
-      <router-outlet></router-outlet>
-    </div>
-  </div>
-</mat-drawer-container>
+

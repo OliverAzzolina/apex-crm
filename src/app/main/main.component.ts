@@ -5,25 +5,20 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import { CommonModule } from '@angular/common';
 import { MatTableModule } from '@angular/material/table'  
-import { SetHeaderService } from './services/set-header.service';
-import { LoginComponent } from './login/login.component';
+import { SetHeaderService } from '../services/set-header.service';
+
+
 
 @Component({
-  selector: 'app-root',
+  selector: 'app-main',
   standalone: true,
-  imports: [RouterOutlet, MatToolbarModule, MatIconModule, MatSidenavModule, RouterLink, CommonModule, MatTableModule, LoginComponent],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  imports: [RouterOutlet, MatToolbarModule, MatIconModule, MatSidenavModule, RouterLink, CommonModule, MatTableModule],
+  templateUrl: './main.component.html',
+  styleUrl: './main.component.scss'
 })
-export class AppComponent {
-  loggedIn: boolean = true;
-  title = 'simple-crm';
-
-
+export class MainComponent {
   constructor(public setHeader: SetHeaderService){
   }
-
-
 
   async setNewHeader(newHeader:string){
     await this.setHeader.updateHeader(newHeader);

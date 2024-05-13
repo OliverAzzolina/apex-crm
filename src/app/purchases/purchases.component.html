@@ -3,14 +3,15 @@
         <table class="user-table">
             <tbody>
                 <tr>
-                    <th>Orderid</th>
+                    <th>Order-ID</th>
                     <th>Orderdate</th>
                     <th>Status</th>
                     <th>Product</th>
                     <th>Amount</th>
                     <th>Price</th>
                 </tr>
-                <tr *ngFor="let purchase of purchaseData" [routerLink]="['/user/' + purchase.userId]" (click)="setTabIndex(1)">
+                <tr *ngFor="let purchase of purchaseData" [routerLink]="['/user/' + purchase.userId]" (click)="setTabIndex(1); setNewHeader('User')"
+                #tooltip="matTooltip" matTooltip="Jump to Customer" [matTooltipPosition]="'above'" matTooltipHideDelay="0">
                     <td>{{purchase.purchaseId}}</td>
                     <td>{{purchase.orderdate}}</td>
                     <td>{{purchase.status}}</td>

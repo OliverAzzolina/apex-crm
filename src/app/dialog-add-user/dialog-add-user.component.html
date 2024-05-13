@@ -5,11 +5,11 @@
     <div>
       <mat-form-field class="mr-16" appearance="outline">
           <mat-label>Firstname</mat-label>
-          <input [(ngModel)]="user.firstName" matInput placeholder="Enter Firstname">
+          <input [(ngModel)]="user.firstName" matInput placeholder="Enter Firstname" [formControl]="firstNameFormControl">
         </mat-form-field>
         <mat-form-field appearance="outline">
           <mat-label>Lastname</mat-label>
-          <input [(ngModel)]="user.lastName" matInput placeholder="Enter Lastname">
+          <input [(ngModel)]="user.lastName" matInput placeholder="Enter Lastname" [formControl]="lastNameFormControl">
         </mat-form-field>
     </div>
     <div>
@@ -25,7 +25,7 @@
     <div>
       <mat-form-field class="full-width" appearance="outline">
           <mat-label>Birth Date</mat-label>
-          <input [(ngModel)]="birthDate" matInput [matDatepicker]="picker">
+          <input [(ngModel)]="birthDate" matInput [matDatepicker]="picker" [formControl]="birthdateFormControl">
           <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
           <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
@@ -33,38 +33,48 @@
     <div>
       <mat-form-field class="mr-16 full-width" appearance="outline">
         <mat-label>E-Mail</mat-label>
-        <input [(ngModel)]="user.email" matInput placeholder="Enter E-Mail">
+        <input [(ngModel)]="user.email" matInput placeholder="Enter E-Mail" [formControl]="emailFormControl">
       </mat-form-field>
     </div>
     <div>
       <mat-form-field class="mr-16 full-width" appearance="outline">
         <mat-label>Phone</mat-label>
-        <input [(ngModel)]="user.phone" matInput placeholder="Enter Phone Number">
+        <input [(ngModel)]="user.phone" type="number" matInput placeholder="Enter Phone Number" [formControl]="phoneFormControl">
       </mat-form-field>
     </div>
     <div>
       <mat-form-field class="mr-16" appearance="outline">
           <mat-label>Street</mat-label>
-          <input [(ngModel)]="user.street" matInput placeholder="Enter Street">
+          <input [(ngModel)]="user.street" type="text" matInput placeholder="Enter Street" [formControl]="streetFormControl">
         </mat-form-field>
         <mat-form-field appearance="outline">
           <mat-label>Number</mat-label>
-          <input [(ngModel)]="user.number" matInput placeholder="Enter House Number">
+          <input [(ngModel)]="user.number" type="number" matInput placeholder="Enter House Number" [formControl]="numberFormControl">
         </mat-form-field>
     </div>
     <div>
       <mat-form-field class="mr-16" appearance="outline">
           <mat-label>Zipcode</mat-label>
-          <input [(ngModel)]="user.zipCode" matInput placeholder="Enter City Zipcode">
+          <input [(ngModel)]="user.zipCode" type="number" matInput placeholder="Enter City Zipcode" [formControl]="zipCodeFormControl">
         </mat-form-field>
         <mat-form-field appearance="outline">
           <mat-label>City</mat-label>
-          <input [(ngModel)]="user.city" matInput placeholder="Enter City Name">
+          <input [(ngModel)]="user.city" matInput type="text" placeholder="Enter City Name" [formControl]="cityFormControl">
         </mat-form-field>
     </div>
   </mat-dialog-content>
   <mat-dialog-actions>
     <button mat-button (click)="this.dialogRef.close();">Cancel</button>
-    <button mat-button (click)="saveUser()"  cdkFocusInitial>Save</button>
+    <button mat-button (click)="saveUser()"  
+    [disabled]="
+        firstNameFormControl.invalid || 
+        lastNameFormControl.invalid ||
+        emailFormControl.invalid || 
+        phoneFormControl.invalid ||
+        streetFormControl.invalid ||
+        numberFormControl.invalid ||
+        zipCodeFormControl.invalid ||
+        cityFormControl.invalid"
+    >Save</button>
   </mat-dialog-actions>
 </div>

@@ -12,9 +12,10 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatCardModule} from '@angular/material/card';
 import {MatTableModule} from '@angular/material/table';
 import { DatabaseService } from '../services/database.service';
-import { collection, doc, onSnapshot, query } from 'firebase/firestore';
+import { collection, doc, getDocs, onSnapshot, query, where } from 'firebase/firestore';
 import { Firestore } from '@angular/fire/firestore';
 import { SetTabIndexService } from '../services/set-tab-index.service';
+import { SetHeaderService } from '../services/set-header.service';
 
 
 @Component({
@@ -26,11 +27,13 @@ import { SetTabIndexService } from '../services/set-tab-index.service';
 })
 export class TasksComponent {
   taskData:any;
+  userData:any;
   loading: boolean = false;
-  constructor(public db: Firestore, public dialog: MatDialog, public database: DatabaseService, public tabIndex: SetTabIndexService) {}
+  constructor(public db: Firestore, public dialog: MatDialog, public database: DatabaseService, public tabIndex: SetTabIndexService, public setHeader: SetHeaderService) {}
 
   async ngOnInit(): Promise<void>{
     await this.getAllTasks('tasks');
+
   }
 
   async getAllTasks(tasks: string) {
@@ -47,15 +50,16 @@ export class TasksComponent {
     onSnapshot(
       tasksCollectionRef,
       (snapshot: { docs: any[] }) => {
-        this.taskData = snapshot.docs.map((doc) => {
+        this.taskData = snapshot.docs.map( (doc) => {
           const taskData = doc.data();
-
           return {
             taskId: doc.id,
             status: taskData['status'],
             note: taskData['note'],
-            userId: taskData['userId']
+            userId: taskData['userId'],
+            userName: taskData['userName']
           };
+          
           
         });
         console.log(this.taskData)
@@ -71,6 +75,10 @@ export class TasksComponent {
 
   async setTabIndex(index: any){
     await this.tabIndex.setTabToIndex(index);
+  }
+
+  async setNewHeader(newHeader:string){
+    await this.setHeader.updateHeader(newHeader);
   }
 
 }

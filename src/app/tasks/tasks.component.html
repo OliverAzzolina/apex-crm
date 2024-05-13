@@ -5,12 +5,12 @@
                 <tr>
                     <th>Status</th>
                     <th>Task</th>
-                    <th>User</th>
+                    <th>for Customer</th>
                 </tr>
-                <tr *ngFor="let task of taskData" [routerLink]="['/user/' + task.userId]" (click)="setTabIndex(0)">
+                <tr *ngFor="let task of taskData" [routerLink]="['/user/' + task.userId]" (click)="setTabIndex(0); setNewHeader('User')">
                     <td>{{task.status}}</td>
                     <td>{{task.note}}</td>
-                    <td>{{task.userId}}</td>
+                    <td>{{task.userName}}</td>
                 </tr>
 
             </tbody>
@@ -18,8 +18,4 @@
         </table>
     </mat-card-content>
 </mat-card>
-
-<button class="add-user-button" mat-fab color="warn" #tooltip="matTooltip" matTooltip="Add a User" [matTooltipPosition]="'above'" matTooltipHideDelay="1000">
-    <mat-icon>add</mat-icon>
-</button>
 

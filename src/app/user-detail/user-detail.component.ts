@@ -57,7 +57,6 @@ export class UserDetailComponent {
  
   ngOnInit(){
     this.id = this.router.url.split('/').splice(2, 1).toString();
-    console.log(this.id);
     this.getUserData();
     this.getTasks();
     this.setNewTabIndex()
@@ -66,7 +65,6 @@ export class UserDetailComponent {
 
   setNewTabIndex(){
     this.actualTabIndex = this.tabIndex.tabIndex;
-    console.log(this.actualTabIndex, this.tabIndex.tabIndex)
     this.selectedTabIndex = new FormControl( this.actualTabIndex);
   }
 
@@ -103,18 +101,18 @@ export class UserDetailComponent {
       this.task = new Task(doc.data());
       this.task.taskId = doc.id;
       this.allTasks.push(this.task);
-      console.log(this.allTasks)
     });
   })}
 
     openDialogAddTask(){
       let dialog = this.dialog.open(DialogAddTaskComponent);
       dialog.componentInstance.userId = this.id;
+      dialog.componentInstance.userName = this.user.firstName + ' ' + this.user.lastName;
+      console.log(this.user.firstName + ' ' + this.user.lastName)
     }
 
     openDialogEditTask(task:any){
       let dialog = this.dialog.open(DialogEditTaskComponent);
-      console.log(task)
       dialog.componentInstance.task = new Task(task);
       dialog.componentInstance.taskId = task.taskId;
       dialog.componentInstance.userId = this.id;
@@ -130,7 +128,6 @@ export class UserDetailComponent {
       this.purchase = new Purchase(doc.data());
       this.purchase.purchaseId = doc.id;
       this.allPurchases.push(this.purchase);
-      console.log(this.allPurchases)
     });
   })}
 
@@ -141,7 +138,6 @@ export class UserDetailComponent {
 
   openDialogEditPurchase(purchase: any){
     let dialog = this.dialog.open(DialogEditPurchaseComponent);
-    console.log(purchase)
     dialog.componentInstance.purchase = new Purchase(purchase);
     dialog.componentInstance.purchaseId = purchase.purchaseId;
     dialog.componentInstance.userId = this.id;

@@ -2,29 +2,27 @@
     <mat-card class="small-container">
         <mat-card-header>
             <mat-card-title>Customer</mat-card-title>
-            <mat-card-subtitle>Anzahl</mat-card-subtitle>
+            <mat-card-subtitle>{{userCount}}</mat-card-subtitle>
           </mat-card-header>
     </mat-card>
     
     <mat-card class="small-container">
         <mat-card-header>
-            <mat-card-title>Revenue</mat-card-title>
-            <mat-card-subtitle>Anzahl€</mat-card-subtitle>
+            <mat-card-title>Revenue in total</mat-card-title>
+            <mat-card-subtitle>{{totalRev}} €</mat-card-subtitle>
           </mat-card-header>
     </mat-card>
     
     <mat-card class="small-container">
         <mat-card-header>
             <mat-card-title>Products for Sale</mat-card-title>
-            <mat-card-subtitle>Anzahl</mat-card-subtitle>
+            <mat-card-subtitle>{{productsCount}}</mat-card-subtitle>
           </mat-card-header>
     </mat-card>
 </div>
 
 
 <mat-card>
-    <div class="chart-sales-container">
-        <canvasjs-chart [options]="chartOptions"></canvasjs-chart>
-    </div>
-	
+    <app-chart-bar></app-chart-bar>
 </mat-card>
+

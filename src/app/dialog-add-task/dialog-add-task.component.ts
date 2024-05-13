@@ -28,19 +28,19 @@ interface Status {
 @Component({
   selector: 'app-dialog-add-task',
   standalone: true,
-  imports: [ MatMenuModule, RouterLink, MatButtonModule, MatFormField, MatLabel, MatInputModule, MatFormFieldModule, FormsModule, MatSelectModule, MatDialogActions
+  imports: [ MatMenuModule, RouterLink, MatButtonModule, MatFormField, MatLabel, MatInputModule, MatFormFieldModule, 
+    FormsModule, MatSelectModule, MatDialogActions
   ],
   templateUrl: './dialog-add-task.component.html',
   styleUrl: './dialog-add-task.component.scss'
 })
 export class DialogAddTaskComponent {
 
-
+  userName:string;
   userId: string;
   user: User;
   task: Task = new Task();
   taskId: string;
-  selectedStatus: string;
   loading = false;
   taskData: any;
 
@@ -56,6 +56,7 @@ async saveTask() {
   
   const taskData = this.task.toJSON();
   taskData.userId = this.userId;
+  taskData.userName = this.userName;
   this.loading = true;
   await this.database.saveNewTask(taskData).then((result: any) => {
     console.log('added task', taskData);

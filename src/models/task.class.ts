@@ -8,12 +8,14 @@ export class Task{
     userId: string;
     status: string;
     note: string;
+    userName: string;
 
     constructor(obj?: any){
         this.taskId = obj ? obj.taskId : '';
         this.userId = obj ? obj.userId : '';
         this.status = obj ? obj.status : '';
         this.note = obj ? obj.note : '';
+        this.userName = obj ? obj.userName : '';
     }
     
     public toJSON() {
@@ -22,6 +24,7 @@ export class Task{
             userId: this.userId,
             status: this.status,
             note: this.note,
+            userName: this.userName,
         };
     }
 }

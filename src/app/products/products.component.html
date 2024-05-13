@@ -7,7 +7,7 @@
                     <th>Price per unit</th>
                     <th>Type</th>
                 </tr>
-                <tr *ngFor="let product of productData">
+                <tr *ngFor="let product of productData" (click)="openDialogEditProduct(product)">
                     <td>{{product.name}}</td>
                     <td>{{product.ppu}}€</td>
                     <td>{{product.type}}</td>
@@ -19,6 +19,6 @@
     </mat-card-content>
 </mat-card>
 
-<button class="add-user-button" mat-fab color="warn" #tooltip="matTooltip" matTooltip="Add a User" [matTooltipPosition]="'above'" matTooltipHideDelay="1000">
+<button (click)="openDialogAddProduct()" class="add-user-button" mat-fab color="warn" #tooltip="matTooltip" matTooltip="Add a Product" [matTooltipPosition]="'above'" matTooltipHideDelay="1000">
     <mat-icon>add</mat-icon>
 </button>

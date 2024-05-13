@@ -1,0 +1,29 @@
+<div class="edit-task-container">
+    <h2>Edit Product</h2>
+
+    <mat-form-field class="example-full-width">
+        <mat-label>Product Name</mat-label>
+        <input type="text" matInput [(ngModel)]="product.name" value="{{product.name}}">
+    </mat-form-field>
+
+    <mat-form-field class="example-full-width">
+        <mat-label>Product Price (€)</mat-label>
+        <input type="number" matInput [(ngModel)]="product.ppu">
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Product Type</mat-label>
+      <mat-select [(ngModel)]="product.type" name="status">
+        @for (type of typeOpt; track type) {
+            <mat-option [value]="type.value">{{type.viewValue}}</mat-option>
+          }
+      </mat-select>
+    </mat-form-field>
+  
+    <mat-dialog-actions>
+      <button mat-button (click)="updateProduct()">Save</button>
+      <button mat-button (click)="this.dialogRef.close();">Cancel</button>
+      <button mat-button color="warn" (click)="openDialogDeleteProduct()">Delete</button>
+      
+    </mat-dialog-actions>
+  </div>

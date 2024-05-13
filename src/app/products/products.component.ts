@@ -14,6 +14,9 @@ import {MatTableModule} from '@angular/material/table';
 import { DatabaseService } from '../services/database.service';
 import { collection, doc, onSnapshot, query } from 'firebase/firestore';
 import { Firestore } from '@angular/fire/firestore';
+import { DialogAddProductComponent } from '../dialog-add-product/dialog-add-product.component';
+import { Product } from '../../models/product.class';
+import { DialogEditProductComponent } from '../dialog-edit-product/dialog-edit-product.component';
 
 @Component({
   selector: 'app-products',
@@ -24,6 +27,7 @@ import { Firestore } from '@angular/fire/firestore';
 })
 export class ProductsComponent {
   productData:any;
+  product:any;
   loading: boolean = false;
   constructor(public db: Firestore, public dialog: MatDialog, public database: DatabaseService) {}
 
@@ -47,11 +51,12 @@ export class ProductsComponent {
       (snapshot: { docs: any[] }) => {
         this.productData = snapshot.docs.map((doc) => {
           const productData = doc.data();
+          
 
           return {
             id: doc.id,
             name: productData['name'],
-            productId: productData['productId'],
+            productId: doc.id,
             ppu: productData['ppu'],
             type: productData['type'],
           };
@@ -66,6 +71,16 @@ export class ProductsComponent {
         this.loading = false;
       }
     );
-
   };
+
+  openDialogAddProduct(){
+    let dialog = this.dialog.open(DialogAddProductComponent);
+  }
+
+  openDialogEditProduct(product:any){
+    let dialog = this.dialog.open(DialogEditProductComponent);
+    dialog.componentInstance.product = new Product(product);
+    dialog.componentInstance.productId = product.productId;
+    console.log(product)
+  }
 }

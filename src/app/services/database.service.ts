@@ -89,4 +89,31 @@ async deleteSelectedPurchase(purchaseId: string){
 
   }
 }
+
+//PRODUCTS---------------------------------------------------------------------------------------------------------------------------
+async saveNewProduct(productData:any){
+  try {
+    await addDoc(collection(this.db, 'products'), productData);
+  }catch (error: any) {
+    console.error('Fehler beim erstellen des Produkts:', error);
+  }
+}
+
+async saveEditedProduct(productData:any, productId:string){
+  try{
+    console.log(productId)
+    await setDoc(doc(this.db, "products", productId), productData);
+  }catch(error:any){
+    console.error('Fehler beim updaten des Produkts:', error);
+  }
+}
+
+async deleteSelectedProduct(productId: string){
+  try{
+    await deleteDoc(doc(this.db, "products", productId));
+  }catch(error: any) {
+    console.error('Fehler beim löschen des Kaufs:', error);
+
+}
+}
 }

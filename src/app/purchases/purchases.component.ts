@@ -10,6 +10,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { DatabaseService } from '../services/database.service';
 import { RouterLink } from '@angular/router';
 import { SetTabIndexService } from '../services/set-tab-index.service';
+import { SetHeaderService } from '../services/set-header.service';
 
 @Component({
   selector: 'app-purchases',
@@ -23,7 +24,7 @@ purchaseData: any;
 
 loading: boolean = false;
 userId: any;
-constructor(public db: Firestore, public dialog: MatDialog, public database: DatabaseService, public tabIndex: SetTabIndexService) {}
+constructor(public db: Firestore, public dialog: MatDialog, public database: DatabaseService, public tabIndex: SetTabIndexService, public setHeader: SetHeaderService) {}
 
   async ngOnInit(): Promise<void>{
     await this.getAllPurchases('purchases');
@@ -57,8 +58,6 @@ constructor(public db: Firestore, public dialog: MatDialog, public database: Dat
           };
           
         });
-        console.log(this.purchaseData)
-        //this.filterUsers();
         this.loading = false;
       },
       (error) => {
@@ -70,5 +69,9 @@ constructor(public db: Firestore, public dialog: MatDialog, public database: Dat
 
   async setTabIndex(index: any){
     await this.tabIndex.setTabToIndex(index);
+  }
+
+  async setNewHeader(newHeader:string){
+    await this.setHeader.updateHeader(newHeader);
   }
 }

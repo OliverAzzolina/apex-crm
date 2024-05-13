@@ -2,48 +2,73 @@ import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import {MatCardModule} from '@angular/material/card';
 import { CanvasJSAngularChartsModule } from '@canvasjs/angular-charts';
+import { collection, getDocs, onSnapshot, query, where } from 'firebase/firestore';
+import { Firestore } from '@angular/fire/firestore';
+import { CommonModule } from '@angular/common';
+import {Chart} from 'chart.js';
+import { ChartBarComponent } from '../chart-bar/chart-bar.component';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [RouterLink, MatCardModule, CanvasJSAngularChartsModule],
+  imports: [RouterLink, MatCardModule, CanvasJSAngularChartsModule, CommonModule, ChartBarComponent],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss'
 })
 export class DashboardComponent {
 
-  chartOptions = {
-    title: {
-      text: 'Monthly Sales Data',
-    },
-    theme: 'light2',
-    animationEnabled: true,
-    exportEnabled: true,
-    axisY: {
-      includeZero: true,
-      valueFormatString: '$#,##0k',
-    },
-    data: [
-      {
-        type: 'column', //change type to bar, line, area, pie, etc
-        yValueFormatString: '$#,##0k',
-        color: '#3F51B5',
-        dataPoints: [
-          { label: 'Jan', y: 172 },
-          { label: 'Feb', y: 189 },
-          { label: 'Mar', y: 201 },
-          { label: 'Apr', y: 240 },
-          { label: 'May', y: 166 },
-          { label: 'Jun', y: 196 },
-          { label: 'Jul', y: 218 },
-          { label: 'Aug', y: 167 },
-          { label: 'Sep', y: 175 },
-          { label: 'Oct', y: 152 },
-          { label: 'Nov', y: 156 },
-          { label: 'Dec', y: 164 },
-        ],
-      },
-    ],
-  };
+  allUser:string[] = [];
+  userCount: number;
+  allProducts:string[] =[];
+  productsCount:number;
+  allPurchases:any = [];
+  totalRev: number;
 
+  constructor(public db: Firestore) {}
+
+  async ngOnInit(){
+    await this.getAllUser();
+    await this.getAllProducts();
+    await this.getAllPurchases()
+    //this.calculateMonthlySales();
+   
+  }
+
+  async getAllUser(){
+    const querySnapshot = await getDocs(collection(this.db, "users"));
+    querySnapshot.forEach((doc) => {
+      const userId = doc.id;
+      this.allUser.push(userId)
+      this.userCount = this.allUser.length;
+    });
+  }
+
+  async getAllProducts(){
+    const querySnapshot = await getDocs(collection(this.db, "products"));
+    querySnapshot.forEach((doc) => {
+      const productId = doc.id;
+      this.allProducts.push(productId)
+      this.productsCount = this.allProducts.length;
+    });
+  }
+
+  async getAllPurchases(){
+    const querySnapshot = await getDocs(collection(this.db, "purchases"));
+    querySnapshot.forEach((doc) => {
+      const purchaseData = doc.data();
+      this.allPurchases.push(purchaseData)
+    });
+    this.getTotalRevenue();
+  }
+
+  getTotalRevenue(){
+    this.totalRev = 0;
+    for (let i = 0; i < this.allPurchases.length; i++) {
+      const purchase = this.allPurchases[i];
+      const purchasePrice = purchase['totalPrice']
+      this.totalRev += purchasePrice;
+    }
+  }
+
+ 
 }

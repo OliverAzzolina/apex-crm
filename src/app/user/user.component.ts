@@ -35,7 +35,7 @@ export class UserComponent {
 
 
   openDialog(){
-    const dialogRef = this.dialog.open(DialogAddUserComponent, { panelClass: 'pd-top-16' });
+    const dialogRef = this.dialog.open(DialogAddUserComponent);
   }
 
   
