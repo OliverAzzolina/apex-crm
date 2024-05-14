@@ -8,7 +8,10 @@
             Order Date: {{purchase.orderdate}}
         </mat-card-content>
         <mat-card-content>
-            ID: {{purchase.purchaseId}}
+            Purchase-ID: {{purchase.purchaseId}}
+        </mat-card-content>
+        <mat-card-content>
+            Customer-ID: {{purchase.customerId}}
         </mat-card-content>
     </div>
 
@@ -28,13 +31,17 @@
             <mat-label>Product</mat-label>
             <mat-select [(ngModel)]="purchase.product" name="product">
               @for (product of allProducts; track product) {
-                  <mat-option [value]="product.name">{{product.name}}</mat-option>
+                  <mat-option [value]="product.name" (click)="getProductPrice(product.ppu)">{{product.name}}</mat-option>
                 }
             </mat-select>
         </mat-form-field>
     </mat-card-content>
 
     <mat-card-content>
+        <mat-form-field>
+            <mat-label>Price per unit (€)</mat-label>
+            <input matInput  value={{purchase.ppu}}  placeholder="Total Price" disabled type="number">
+          </mat-form-field>
         <mat-form-field class="margin-r-16">
             <mat-label>Amount</mat-label>
             <input matInput (change)="getTotalPrice()" [(ngModel)]="purchase.amount" placeholder="Amount" value={{purchase.amount}} min="1" type="number" >

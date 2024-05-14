@@ -6,7 +6,7 @@ import {MatSidenavModule} from '@angular/material/sidenav';
 import { CommonModule } from '@angular/common';
 import { MatTableModule } from '@angular/material/table'  
 import { SetHeaderService } from '../services/set-header.service';
-
+import { MatDialog } from '@angular/material/dialog';
 
 
 @Component({
@@ -17,10 +17,11 @@ import { SetHeaderService } from '../services/set-header.service';
   styleUrl: './main.component.scss'
 })
 export class MainComponent {
-  constructor(public setHeader: SetHeaderService){
-  }
+  constructor(public setHeader: SetHeaderService, public dialog: MatDialog){}
 
   async setNewHeader(newHeader:string){
     await this.setHeader.updateHeader(newHeader);
   }
+
+
 }

@@ -41,6 +41,7 @@ export class DialogAddPurchaseComponent {
   product: any;
   totalPrice: number;
   orderDate: Date;
+  productPrice: number = 0;
 
 
   constructor(private database: DatabaseService,public db: Firestore, public dialogRef: MatDialogRef<DialogAddPurchaseComponent>){};
@@ -73,16 +74,17 @@ export class DialogAddPurchaseComponent {
   ];
 
   getProductPrice(ppu: number){
+    this.productPrice = ppu;
     this.purchase.amount = 1;
-      this.totalPrice = ppu * this.purchase.amount;
+    this.totalPrice = this.productPrice  * this.purchase.amount;
   }
 
-  getTotalPrice(ppu: number){
-    this.totalPrice = ppu * this.purchase.amount;
-    this.purchase.ppu = ppu;
+  getTotalPrice(){
+    this.totalPrice = this.productPrice  * this.purchase.amount;
   }
 
   async savePurchase(){
+    this.purchase.ppu = this.productPrice;
     this.purchase.totalPrice = this.totalPrice;
     this.purchase.orderDate = this.orderDate.getTime();
     this.orderDate = this.convertToDate(this.purchase.orderDate);

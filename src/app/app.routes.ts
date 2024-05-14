@@ -8,6 +8,7 @@ import { MainComponent } from './main/main.component';
 import { CustomersComponent } from './customers/customers.component';
 import { CustomerDetailsComponent } from './customer-details/customer-details.component';
 import { RegisterComponent } from './register/register.component';
+import { SettingsComponent } from './settings/settings.component';
 
 export const routes: Routes = [
     {path: '', redirectTo:'/login' ,pathMatch:'full'},
@@ -21,6 +22,7 @@ export const routes: Routes = [
             {path: 'products', component: ProductsComponent},
             {path: 'tasks', component: TasksComponent},
             {path: 'purchases', component: PurchasesComponent},
+            {path: 'settings', component: SettingsComponent},
         ]
     },
 

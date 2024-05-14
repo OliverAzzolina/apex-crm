@@ -40,6 +40,7 @@ export class DialogEditPurchaseComponent {
   productData:any;
   allProducts:any = [];
   product: any;
+  productPrice: number;
   totalPrice: number;
   orderDate: Date;
 
@@ -58,6 +59,7 @@ export class DialogEditPurchaseComponent {
 
   async ngOnInit(){
     await this.loadAllProducts();
+    this.purchase.customerId = this.customerId;
   }
 
   async loadAllProducts(){
@@ -67,17 +69,23 @@ export class DialogEditPurchaseComponent {
       this.product = doc.data();
       this.product.productId = doc.id;
       this.allProducts.push(this.product)
-      console.log(this.allProducts);
     });
   }
 
+  getProductPrice(ppu: number){
+    this.purchase.ppu = ppu;
+    this.purchase.amount = 1;
+    this.totalPrice = this.productPrice  * this.purchase.amount;
+  }
+
   getTotalPrice(){
-    const ppu = this.product.ppu
-    this.purchase.totalPrice = ppu * this.purchase.amount;
-    console.log(ppu)
+    
+    this.totalPrice = this.purchase.ppu * this.purchase.amount;
+   
   }
 
   async updatePurchase(){
+    this.purchase.totalPrice = this.totalPrice;
     const purchaseData = this.purchase.toJSON();
     this.loading = true;
 

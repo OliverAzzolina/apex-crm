@@ -1,4 +1,4 @@
-import { Component, Injectable } from '@angular/core';
+import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
@@ -10,36 +10,49 @@ import { CommonModule } from '@angular/common';
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatCardModule} from '@angular/material/card';
-import {MatTableModule} from '@angular/material/table';
+import {MatTableDataSource, MatTableModule} from '@angular/material/table';
 import { DatabaseService } from '../services/database.service';
 import { collection, doc, onSnapshot } from 'firebase/firestore';
 import { Firestore } from '@angular/fire/firestore';
 import { SetTabIndexService } from '../services/set-tab-index.service';
 import { DialogAddCustomerComponent } from '../dialog-add-customer/dialog-add-customer.component';
+import { MatSort, MatSortModule, Sort } from '@angular/material/sort';
+import { LiveAnnouncer } from '@angular/cdk/a11y';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatPaginatorModule} from '@angular/material/paginator';
 
 @Component({
   selector: 'app-customers',
   standalone: true,
   imports: [RouterLink, MatIconModule, MatButtonModule, MatTooltipModule, MatDialogModule, FormsModule, MatFormFieldModule, 
-    MatInputModule, CommonModule, MatCardModule, MatTableModule],
+    MatInputModule, CommonModule, MatCardModule, MatTableModule, MatSortModule, MatPaginatorModule ],
   templateUrl: './customers.component.html',
   styleUrl: './customers.component.scss'
 })
-export class CustomersComponent {
-  customerData:any;
+
+export class CustomersComponent{
+  customerData:any = [];
   loading: boolean = false;
+  
+  dataSource = new MatTableDataSource(this.customerData);
+  displayedColumns: string[] = ['firstName', 'lastName', 'email', 'company', 'position'];
+  
   constructor(public db: Firestore, public dialog: MatDialog, public database: DatabaseService, public tabIndex: SetTabIndexService) {}
 
-
-  openDialog(){
-    const dialogRef = this.dialog.open(DialogAddCustomerComponent);
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
-  
   async ngOnInit(): Promise<void>{
     await this.getAllCustomers('customers');
+    this.dataSource.data = this.customerData;
   }
 
+  openDialog(){
+    this.dialog.open(DialogAddCustomerComponent);
+  }
+  
   async getAllCustomers(customers: string) {
     this.loading = true;
     try {
@@ -54,19 +67,23 @@ export class CustomersComponent {
     onSnapshot(
       customersCollectionRef,
       (snapshot: { docs: any[] }) => {
+        this.customerData = [];
         this.customerData = snapshot.docs.map((doc) => {
-          const customerData = doc.data();
+          const customer = doc.data();
 
           return {
             id: doc.id,
-            firstName: customerData['firstName'],
-            lastName: customerData['lastName'],
-            email: customerData['email'],
-            city: customerData['city'],
+            firstName: customer['firstName'],
+            lastName: customer['lastName'],
+            email: customer['email'],
+            company: customer['company'],
+            position: customer['position']
           };
           
         });
+        this.dataSource.data = this.customerData;
         console.log(this.customerData)
+   
         //this.filterUsers();
         this.loading = false;
       },

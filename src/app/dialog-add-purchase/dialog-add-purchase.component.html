@@ -29,11 +29,17 @@
     </mat-form-field>
   
     <mat-form-field>
-        <input matInput (change)="getTotalPrice(product.ppu)" [(ngModel)]="purchase.amount" placeholder="Amount" value={{purchase.amount}} min="1" type="number" >
+      <mat-label>Price per unit (€)</mat-label>
+      <input matInput  [(ngModel)]="productPrice"  placeholder="Total Price" disabled type="number">
     </mat-form-field>
 
     <mat-form-field>
-        <input matInput  [(ngModel)]="purchase.totalPrice" value="{{totalPrice}}" placeholder="Total Price" disabled type="number">
+      <mat-label>Amount</mat-label>
+        <input matInput (change)="getTotalPrice()" [(ngModel)]="purchase.amount" placeholder="Amount" value="{{purchase.amount}}" min="1" type="number" >
+    </mat-form-field>
+
+    <mat-form-field>
+        <input matInput  [(ngModel)]="totalPrice" value="{{totalPrice}}" placeholder="Total Price" disabled type="number">
     </mat-form-field>
 
     <mat-dialog-actions>
