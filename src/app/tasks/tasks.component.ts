@@ -18,22 +18,69 @@ import { SetTabIndexService } from '../services/set-tab-index.service';
 import { SetHeaderService } from '../services/set-header.service';
 
 
+
+
+
+
+import { MatTableDataSource } from '@angular/material/table';
+import { MatSort, MatSortModule, Sort } from '@angular/material/sort';
+import { LiveAnnouncer } from '@angular/cdk/a11y';
+
+import { ViewChild} from '@angular/core';
+import { DialogAddTaskComponent } from '../dialog-add-task/dialog-add-task.component';
+
 @Component({
   selector: 'app-tasks',
   standalone: true,
-  imports: [MatCardModule, MatTableModule, MatIconModule, MatButtonModule, MatTooltipModule, MatDialogModule, CommonModule, RouterLink],
+  imports: [MatCardModule, MatTableModule, MatIconModule, MatButtonModule, MatTooltipModule, MatDialogModule, CommonModule, RouterLink,
+    FormsModule, MatInputModule, MatFormFieldModule, MatSort, MatSortModule
+  ],
   templateUrl: './tasks.component.html',
   styleUrl: './tasks.component.scss'
 })
 export class TasksComponent {
-  taskData:any;
+
+  taskData:any = [];
   userData:any;
   loading: boolean = false;
-  constructor(public db: Firestore, public dialog: MatDialog, public database: DatabaseService, public tabIndex: SetTabIndexService, public setHeader: SetHeaderService) {}
+
+  dataSource = new MatTableDataSource(this.taskData);
+  displayedColumns: string[] = ['status', 'note', 'customerName'];
+
+  constructor(public db: Firestore, public dialog: MatDialog, public database: DatabaseService, public tabIndex: SetTabIndexService, 
+    public setHeader: SetHeaderService, private _liveAnnouncer: LiveAnnouncer) {}
+
+    applyFilter(event: Event) {
+      const filterValue = (event.target as HTMLInputElement).value;
+      this.dataSource.filter = filterValue.trim().toLowerCase();
+    }
+  
+    @ViewChild(MatSort) sort: MatSort;
+  
+    ngAfterViewInit() {
+      this.dataSource.sort = this.sort;
+    }
+  
+    /** Announce the change in sort state for assistive technology. */
+    announceSortChange(sortState: Sort) {
+      // This example uses English messages. If your application supports
+      // multiple language, you would internationalize these strings.
+      // Furthermore, you can customize the message to add additional
+      // details about the values being sorted.
+      if (sortState.direction) {
+        this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
+      } else {
+        this._liveAnnouncer.announce('Sorting cleared');
+      }
+    }
 
   async ngOnInit(): Promise<void>{
     await this.getAllTasks('tasks');
+    this.dataSource.data = this.taskData; 
+  }
 
+  openDialogAddTask(){
+    this.dialog.open(DialogAddTaskComponent);
   }
 
   async getAllTasks(tasks: string) {
@@ -50,6 +97,7 @@ export class TasksComponent {
     onSnapshot(
       tasksCollectionRef,
       (snapshot: { docs: any[] }) => {
+        this.taskData = [];
         this.taskData = snapshot.docs.map( (doc) => {
           const taskData = doc.data();
           return {
@@ -62,6 +110,7 @@ export class TasksComponent {
           
           
         });
+        this.dataSource.data = this.taskData;
         console.log(this.taskData)
         //this.filterUsers();
         this.loading = false;

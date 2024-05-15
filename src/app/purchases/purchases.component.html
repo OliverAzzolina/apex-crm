@@ -1,31 +1,55 @@
 <mat-card>
     <mat-card-content>
-        <table class="main-table">
-            <tbody>
-                <tr>
-                    <th>Order-ID</th>
-                    <th>Orderdate</th>
-                    <th>Status</th>
-                    <th>Product</th>
-                    <th>Amount</th>
-                    <th>Price</th>
-                </tr>
-                <tr *ngFor="let purchase of purchaseData" [routerLink]="['/main/customers/' + purchase.customerId]" (click)="setTabIndex(1); setNewHeader('Customer')"
-                #tooltip="matTooltip" matTooltip="Jump to Customer" [matTooltipPosition]="'above'" matTooltipHideDelay="0">
-                    <td>{{purchase.purchaseId}}</td>
-                    <td>{{purchase.orderdate}}</td>
-                    <td>{{purchase.status}}</td>
-                    <td>{{purchase.product}}</td>
-                    <td>{{purchase.amount}}</td>
-                    <td>{{purchase.totalPrice}} €</td>
-                </tr>
 
-            </tbody>
-            
-        </table>
-    </mat-card-content>
+<div class="table-top-container">
+    <mat-form-field>
+        <mat-label>Search</mat-label>
+        <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input>
+    </mat-form-field>
+    <button (click)="openDialogAddPurchase()" class="add-button" mat-fab color="warn" #tooltip="matTooltip" matTooltip="Add a Purchase" [matTooltipPosition]="'above'" matTooltipHideDelay="1000">
+        <mat-icon>add</mat-icon>
+    </button>
+</div>
+
+    <table mat-table [dataSource]="dataSource" class="main-table" matSort matSortDirection="asc" (matSortChange)="announceSortChange($event)">
+  
+      <ng-container matColumnDef="purchaseId">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Order-ID </th>
+        <td mat-cell *matCellDef="let purchase"> {{purchase.purchaseId}} </td>
+      </ng-container>
+  
+      <ng-container matColumnDef="orderdate">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Orderdate </th>
+        <td mat-cell *matCellDef="let purchase"> {{purchase.orderdate}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Status </th>
+        <td mat-cell *matCellDef="let purchase"> {{purchase.status}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="product">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Product </th>
+        <td mat-cell *matCellDef="let purchase"> {{purchase.product}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="amount">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Amount </th>
+        <td mat-cell *matCellDef="let purchase"> {{purchase.amount}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="totalPrice">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Price per Unit (€) </th>
+        <td mat-cell *matCellDef="let purchase"> {{purchase.totalPrice.toFixed(2)}} </td>
+      </ng-container>
+
+      <tr class="no-hover" mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let purchase; columns: displayedColumns;" [routerLink]="['/main/customers/' + purchase.customerId]" (click)="setTabIndex(1); setNewHeader('Customer')"></tr>
+  
+      <!-- Row shown when there is no matching data. -->
+      <tr class="mat-row" *matNoDataRow>
+        <td class="mat-cell" colspan="4">No data matching the search "{{input.value}}"</td>
+      </tr>
+    </table>
+</mat-card-content>
 </mat-card>
-
-<button class="add-button" mat-fab color="warn" #tooltip="matTooltip" matTooltip="Add a Purchase" [matTooltipPosition]="'above'" matTooltipHideDelay="1000">
-    <mat-icon>add</mat-icon>
-</button>

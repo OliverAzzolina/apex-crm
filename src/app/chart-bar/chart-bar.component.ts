@@ -1,8 +1,8 @@
 import { Component, HostListener } from '@angular/core';
 import { Firestore } from '@angular/fire/firestore';
-
 import {Chart} from 'chart.js/auto';
 import {collection, getDocs } from 'firebase/firestore';
+
 @Component({
   selector: 'app-chart-bar',
   standalone: true,
@@ -10,6 +10,7 @@ import {collection, getDocs } from 'firebase/firestore';
   templateUrl: './chart-bar.component.html',
   styleUrl: './chart-bar.component.scss'
 })
+
 export class ChartBarComponent {
   public chart: any;
   allPurchases:any = [];
@@ -17,10 +18,10 @@ export class ChartBarComponent {
   constructor(public db: Firestore) {}
   
   @HostListener('window:resize', ['$event'])
-sizeChange(event: any) {
-  this.chart.destroy();
-  this.createChart();
-}
+    sizeChange(event: any) {
+    this.chart.destroy();
+    this.createChart();
+  }
 
  async ngOnInit() {
     await this.getAllPurchases()
@@ -30,18 +31,18 @@ sizeChange(event: any) {
 
   chartData:any = [
     { month: 'Jan', y: 0 },
-  { month: 'Feb', y: 0 },
-  { month: 'Mar', y: 0 },
-  { month: 'Apr', y: 0 },
-  { month: 'May', y: 0 },
-  { month: 'Jun', y: 0 },
-  { month: 'Jul', y: 0 },
-  { month: 'Aug', y: 0 },
-  { month: 'Sep', y: 0 },
-  { month: 'Oct', y: 0 },
-  { month: 'Nov', y: 0 },
-  { month: 'Dec', y: 0 },
-];
+    { month: 'Feb', y: 0 },
+    { month: 'Mar', y: 0 },
+    { month: 'Apr', y: 0 },
+    { month: 'May', y: 0 },
+    { month: 'Jun', y: 0 },
+    { month: 'Jul', y: 0 },
+    { month: 'Aug', y: 0 },
+    { month: 'Sep', y: 0 },
+    { month: 'Oct', y: 0 },
+    { month: 'Nov', y: 0 },
+    { month: 'Dec', y: 0 },
+  ];
 
   async createChart(){
    
@@ -70,7 +71,6 @@ sizeChange(event: any) {
     querySnapshot.forEach((doc) => {
       const purchaseData = doc.data();
       this.allPurchases.push(purchaseData)
-      console.log(this.allPurchases)
     });
   }
 

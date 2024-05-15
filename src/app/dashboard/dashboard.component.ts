@@ -23,6 +23,7 @@ export class DashboardComponent {
   productsCount:number;
   allPurchases:any = [];
   totalRev: number;
+  totalRevFixed:string;
 
   constructor(public db: Firestore) {}
 
@@ -66,6 +67,7 @@ export class DashboardComponent {
       const purchasePrice = purchase['totalPrice']
       this.totalRev += purchasePrice;
     }
+    this.totalRevFixed = this.totalRev.toFixed(2);
   }
 
  

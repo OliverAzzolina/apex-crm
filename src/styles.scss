@@ -20,3 +20,53 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     padding-top: 16px !important;
 }
 
+/* Dark Theme Styles */
+.dark-theme {
+    .mat-drawer-container{
+        background-color: #404040;
+        color: #ffffff;
+    }    
+
+    .sidenav-container{
+        background-color: #484848;
+        color: #ffffff;
+    }
+
+    mat-toolbar{
+        background-color: #3b475eff;
+    }
+    
+    mat-card{
+        border-radius: 20px;
+        border-color: #484848;
+        background-color: #484848;
+    }
+
+    mat-card-content{
+        background-color: #484848;
+        color: #ffffff;
+        border-radius: 20px;
+    }
+
+    mat-form-field{
+        background-color: #484848 !important;
+        color: "warn";
+    }
+
+    table{
+        background-color: #484848;
+        color: #ffffff !important;
+        td{
+            color: #ffffff;
+        }
+    }
+
+    .mat-mdc-cell  {
+        border-bottom-color: #ffffff;
+    }
+
+    .mat-mdc-form-field{
+        background-color: #484848;
+    }
+
+  }

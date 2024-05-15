@@ -11,24 +11,75 @@ import { DatabaseService } from '../services/database.service';
 import { RouterLink } from '@angular/router';
 import { SetTabIndexService } from '../services/set-tab-index.service';
 import { SetHeaderService } from '../services/set-header.service';
+import {FormsModule} from '@angular/forms';
+import {MatInputModule} from '@angular/material/input';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatSort, MatSortModule, Sort } from '@angular/material/sort';
+import { LiveAnnouncer } from '@angular/cdk/a11y';
+import { ViewChild} from '@angular/core';
+import { DialogAddPurchaseComponent } from '../dialog-add-purchase/dialog-add-purchase.component';
 
 @Component({
   selector: 'app-purchases',
   standalone: true,
-  imports: [MatCardModule, CommonModule, MatTableModule, MatIconModule, MatTooltipModule, MatButtonModule, MatDialogModule, RouterLink],
+  imports: [MatCardModule, CommonModule, MatTableModule, MatIconModule, MatTooltipModule, MatButtonModule, MatDialogModule, RouterLink,
+    FormsModule, MatInputModule, MatFormFieldModule, MatSort, MatSortModule
+  ],
   templateUrl: './purchases.component.html',
   styleUrl: './purchases.component.scss'
 })
 export class PurchasesComponent {
-purchaseData: any;
-
+purchaseData: any = [];
 loading: boolean = false;
 customerId: any;
-constructor(public db: Firestore, public dialog: MatDialog, public database: DatabaseService, public tabIndex: SetTabIndexService, public setHeader: SetHeaderService) {}
+dataSource = new MatTableDataSource(this.purchaseData);
+displayedColumns: string[] = ['purchaseId', 'orderdate', 'status', 'product', 'amount', 'totalPrice'];
+
+constructor(public db: Firestore, public dialog: MatDialog, public database: DatabaseService, public tabIndex: SetTabIndexService, 
+  public setHeader: SetHeaderService, private _liveAnnouncer: LiveAnnouncer) {}
+
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+
+  @ViewChild(MatSort) sort: MatSort;
+
+  ngAfterViewInit() {
+
+    this.dataSource.sort = this.sort;
+    this.dataSource.sortingDataAccessor = (item:any, property) => {
+      switch (property) {
+        case 'fromDate': return new Date(item.fromDate);
+        default: return item[property];
+      }
+    };
+  }
+
+  /** Announce the change in sort state for assistive technology. */
+  announceSortChange(sortState: Sort) {
+    // This example uses English messages. If your application supports
+    // multiple language, you would internationalize these strings.
+    // Furthermore, you can customize the message to add additional
+    // details about the values being sorted.
+    if (sortState.direction) {
+      this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
+    } else {
+      this._liveAnnouncer.announce('Sorting cleared');
+    }
+  }
 
   async ngOnInit(): Promise<void>{
     await this.getAllPurchases('purchases');
+    this.dataSource.data = this.purchaseData; 
   }
+
+  openDialogAddPurchase(){
+      let dialog = this.dialog.open(DialogAddPurchaseComponent);
+      //dialog.componentInstance.customerId = this.id;
+    }
+  
 
   async getAllPurchases(purchases: string) {
     this.loading = true;
@@ -44,6 +95,7 @@ constructor(public db: Firestore, public dialog: MatDialog, public database: Dat
     onSnapshot(
       purchasesCollectionRef,
       (snapshot: { docs: any[] }) => {
+        this.purchaseData = []; 
         this.purchaseData = snapshot.docs.map((doc) => {
           const purchaseData = doc.data();
 
@@ -51,6 +103,7 @@ constructor(public db: Firestore, public dialog: MatDialog, public database: Dat
             purchaseId: doc.id,
             status: purchaseData['status'],
             orderdate: purchaseData['orderdate'],
+            orderDate: purchaseData['orderDate'],
             product: purchaseData['product'],
             amount: purchaseData['amount'],
             totalPrice: purchaseData['totalPrice'],
@@ -58,6 +111,7 @@ constructor(public db: Firestore, public dialog: MatDialog, public database: Dat
           };
           
         });
+        this.dataSource.data = this.purchaseData;
         this.loading = false;
       },
       (error) => {

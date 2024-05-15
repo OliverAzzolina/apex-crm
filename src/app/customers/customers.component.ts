@@ -20,12 +20,15 @@ import { MatSort, MatSortModule, Sort } from '@angular/material/sort';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatPaginatorModule} from '@angular/material/paginator';
+import {AfterViewInit, ViewChild} from '@angular/core';
+
+
 
 @Component({
   selector: 'app-customers',
   standalone: true,
   imports: [RouterLink, MatIconModule, MatButtonModule, MatTooltipModule, MatDialogModule, FormsModule, MatFormFieldModule, 
-    MatInputModule, CommonModule, MatCardModule, MatTableModule, MatSortModule, MatPaginatorModule ],
+    MatInputModule, CommonModule, MatCardModule, MatTableModule, MatSortModule, MatPaginatorModule],
   templateUrl: './customers.component.html',
   styleUrl: './customers.component.scss'
 })
@@ -37,11 +40,30 @@ export class CustomersComponent{
   dataSource = new MatTableDataSource(this.customerData);
   displayedColumns: string[] = ['firstName', 'lastName', 'email', 'company', 'position'];
   
-  constructor(public db: Firestore, public dialog: MatDialog, public database: DatabaseService, public tabIndex: SetTabIndexService) {}
+  constructor(public db: Firestore, public dialog: MatDialog, public database: DatabaseService, public tabIndex: SetTabIndexService, private _liveAnnouncer: LiveAnnouncer) {}
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+
+  @ViewChild(MatSort) sort: MatSort;
+
+  ngAfterViewInit() {
+    this.dataSource.sort = this.sort;
+  }
+
+  /** Announce the change in sort state for assistive technology. */
+  announceSortChange(sortState: Sort) {
+    // This example uses English messages. If your application supports
+    // multiple language, you would internationalize these strings.
+    // Furthermore, you can customize the message to add additional
+    // details about the values being sorted.
+    if (sortState.direction) {
+      this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
+    } else {
+      this._liveAnnouncer.announce('Sorting cleared');
+    }
   }
 
   async ngOnInit(): Promise<void>{

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogActions, MatDialogRef } from '@angular/material/dialog';
 import { MatFormField, MatFormFieldModule, MatLabel } from '@angular/material/form-field';
@@ -26,17 +26,22 @@ interface Product {
   selector: 'app-dialog-add-purchase',
   standalone: true,
   providers: [provideNativeDateAdapter()],
-  imports: [ MatMenuModule, ReactiveFormsModule, MatDatepickerModule, MatButtonModule, MatFormField, MatLabel, MatInputModule, MatFormFieldModule, FormsModule, MatSelectModule, MatDialogActions,],
+  imports: [ MatMenuModule, ReactiveFormsModule, MatDatepickerModule, MatButtonModule, MatFormField, MatLabel, MatInputModule, 
+    MatFormFieldModule, FormsModule, MatSelectModule, MatDialogActions, ReactiveFormsModule],
   templateUrl: './dialog-add-purchase.component.html',
   styleUrl: './dialog-add-purchase.component.scss'
 })
 export class DialogAddPurchaseComponent {
+  customer:any;
   customerId: string;
   purchase: Purchase = new Purchase();
   selectedStatus:string;
   selectedProduct:string;
+  selectedCustomer:any;
+  selectedCustomerName:string;
   loading = false;
   productData:any;
+  allCustomers:any = [];
   allProducts:any = [];
   product: any;
   totalPrice: number;
@@ -44,7 +49,13 @@ export class DialogAddPurchaseComponent {
   productPrice: number = 0;
 
 
-  constructor(private database: DatabaseService,public db: Firestore, public dialogRef: MatDialogRef<DialogAddPurchaseComponent>){};
+  customerFormControl = new FormControl('', [Validators.required, Validators.minLength(2)]);
+  dateFormControl = new FormControl('', [Validators.required, Validators.minLength(2)]);
+  statusFormControl = new FormControl('', [Validators.required, Validators.minLength(2)]);
+  productFormControl = new FormControl('', [Validators.required, Validators.minLength(2)]);
+  amountFormControl = new FormControl('', [Validators.required, Validators.minLength(1)]);
+
+  constructor(private database: DatabaseService, public db: Firestore, public dialogRef: MatDialogRef<DialogAddPurchaseComponent>){};
 
   date = new FormControl(new Date());
   serializedDate = new FormControl(new Date().toISOString());
@@ -52,19 +63,39 @@ export class DialogAddPurchaseComponent {
 
   async ngOnInit(){
     await this.loadAllProducts();
+    await this.loadAllCustomers();
+    await this.checkForCustomerId();
+  }
+
+  async checkForCustomerId(){
+    if(this.customerId){
+      this.selectedCustomer = this.allCustomers.find( (cust: { customerId: string; }) => this.customerId == cust.customerId );
+      this.selectedCustomerName = this.selectedCustomer.firstName + ' ' + this.selectedCustomer.lastName;
+      console.log(this.selectedCustomerName)
+    }
   }
 
   async loadAllProducts(){
     const querySnapshot = await getDocs(collection(this.db, "products"));
     querySnapshot.forEach((doc) => {
-      
       this.product = doc.data();
       this.product.productId = doc.id;
       this.allProducts.push(this.product)
-      console.log(this.allProducts);
     });
   }
 
+  async loadAllCustomers(){
+    const querySnapshot = await getDocs(collection(this.db, "customers"));
+    querySnapshot.forEach((doc) => {
+      this.customer = doc.data();
+      this.customer.customerId = doc.id;
+      this.allCustomers.push(this.customer)
+    });
+  }
+
+  getCustomerId(customerId:string){
+    this.customerId = customerId;
+  }
 
   statusOpt: Status[] = [
     {value: 'ordered', viewValue: 'ordered'},

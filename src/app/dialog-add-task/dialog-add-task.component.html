@@ -1,8 +1,18 @@
 <div class="edit-task-container">
     <h2>Add Task</h2>
+
+    <mat-form-field>
+      <mat-label>Select Customer</mat-label>
+      <mat-select [(ngModel)]="selectedCustomerName" name="customer" [formControl]="customerFormControl">
+        @for (customer of allCustomers; track customer) {
+            <mat-option [value]="customer.firstName + ' ' + customer.lastName" (click)="getCustomerId(customer.customerId)">{{customer.firstName + ' ' + customer.lastName}}</mat-option>
+          }
+      </mat-select>
+  </mat-form-field>
+
     <mat-form-field>
       <mat-label>Status</mat-label>
-      <mat-select [(ngModel)]="task.status" name="status">
+      <mat-select [(ngModel)]="task.status" name="status" [formControl]="statusFormControl">
         @for (status of statusOpt; track status) {
             <mat-option [value]="status.value">{{status.viewValue}}</mat-option>
           }
@@ -11,11 +21,14 @@
   
     <mat-form-field class="example-full-width">
       <mat-label>Task Note</mat-label>
-      <textarea [(ngModel)]="task.note" matInput placeholder="Enter Task Note"></textarea>
+      <textarea [(ngModel)]="task.note" matInput placeholder="Enter Task Note" [formControl]="noteFormControl"></textarea>
     </mat-form-field>
   
     <mat-dialog-actions>
       <button mat-button (click)="this.dialogRef.close();">Cancel</button>
-      <button mat-button (click)="saveTask()">Save</button>
+      <button mat-button (click)="saveTask()"[disabled]="
+      customerFormControl.invalid || 
+      statusFormControl.invalid ||
+      noteFormControl.invalid">Save</button>
     </mat-dialog-actions>
   </div>

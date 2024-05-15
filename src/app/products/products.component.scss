@@ -17,12 +17,6 @@
     tr{
         height: 56px;
         border-bottom: 1px solid rgba(0,0,0,0.04);
-            &:first-child{
-                &:hover{
-                    cursor:default;
-                    background-color: unset;
-                }
-            }
             &:last-child{
                     border-bottom: 0;
             }
@@ -39,8 +33,14 @@
 
 }
 
-.add-button{
-    position: absolute;
-    right: 56px;
-    bottom: 56px;
+.no-hover{
+    &:hover{
+        background-color: unset !important;
+        cursor: unset !important;
+    }
+}
+
+.table-top-container{
+    display: flex;
+    justify-content: space-between;
 }

@@ -2,8 +2,17 @@
     <h2>Add Purchase</h2>
 
     <mat-form-field>
+      <mat-label>Select Customer</mat-label>
+      <mat-select [(ngModel)]="selectedCustomerName" name="customer" [formControl]="customerFormControl">
+        @for (customer of allCustomers; track customer) {
+            <mat-option [value]="customer.firstName + ' ' + customer.lastName" (click)="getCustomerId(customer.customerId)">{{customer.firstName + ' ' + customer.lastName}}</mat-option>
+          }
+      </mat-select>
+  </mat-form-field>
+
+    <mat-form-field>
         <mat-label>Order Date</mat-label>
-        <input matInput [matDatepicker]="picker1" [(ngModel)]="orderDate">
+        <input matInput [matDatepicker]="picker1" [(ngModel)]="orderDate" [formControl]="dateFormControl">
         <mat-hint>MM/DD/YYYY</mat-hint>
         <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
         <mat-datepicker #picker1></mat-datepicker>
@@ -12,7 +21,7 @@
 
     <mat-form-field>
       <mat-label>Status</mat-label>
-      <mat-select [(ngModel)]="purchase.status" name="status">
+      <mat-select [(ngModel)]="purchase.status" name="status" [formControl]="statusFormControl">
         @for (status of statusOpt; track status) {
             <mat-option [value]="status.value">{{status.viewValue}}</mat-option>
           }
@@ -21,7 +30,7 @@
 
     <mat-form-field>
         <mat-label>Product</mat-label>
-        <mat-select [(ngModel)]="purchase.product" name="product">
+        <mat-select [(ngModel)]="purchase.product" name="product" [formControl]="productFormControl">
           @for (product of allProducts; track product) {
               <mat-option [value]="product.name" (click)="getProductPrice(product.ppu)">{{product.name}}</mat-option>
             }
@@ -35,7 +44,7 @@
 
     <mat-form-field>
       <mat-label>Amount</mat-label>
-        <input matInput (change)="getTotalPrice()" [(ngModel)]="purchase.amount" placeholder="Amount" value="{{purchase.amount}}" min="1" type="number" >
+        <input matInput (change)="getTotalPrice()" [formControl]="amountFormControl" [(ngModel)]="purchase.amount" placeholder="Amount" value="{{purchase.amount}}" min="1" type="number" >
     </mat-form-field>
 
     <mat-form-field>
@@ -44,6 +53,12 @@
 
     <mat-dialog-actions>
       <button mat-button (click)="this.dialogRef.close();">Cancel</button>
-      <button mat-button (click)="savePurchase()">Save</button>
+      <button mat-button (click)="savePurchase()"
+      [disabled]="
+      customerFormControl.invalid ||
+      dateFormControl.invalid ||
+      statusFormControl.invalid ||
+      productFormControl.invalid ||
+      amountFormControl.invalid">Save</button>
     </mat-dialog-actions>
   </div>
