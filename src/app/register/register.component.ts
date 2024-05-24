@@ -16,10 +16,12 @@ import { Firestore, collection, query, where } from '@angular/fire/firestore';
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [RouterLink, MatCardModule, MatInputModule, FormsModule, ReactiveFormsModule, MatButtonModule, MatDividerModule, CommonModule, RegisterComponent, MatIconModule],
+  imports: [RouterLink, MatCardModule, MatInputModule, FormsModule, ReactiveFormsModule, MatButtonModule, MatDividerModule, CommonModule, 
+    RegisterComponent, MatIconModule],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss'
 })
+
 export class RegisterComponent {
   constructor(private database: DatabaseService, public db: Firestore, private router: Router){}
   loading = false;

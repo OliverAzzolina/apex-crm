@@ -1,30 +1,47 @@
 <div class="full-width-height">
     <mat-card class="login-container">
       <div class="logo-login-container"><img src="/assets/logo/logo_light.png" alt=""></div>
+
       <mat-divider></mat-divider>
+
       <mat-card-header class="header-container">
         <mat-card-title>Login</mat-card-title>
       </mat-card-header>
+
       <mat-card-content>
         <form class="login-form">
+
           <mat-form-field class="full-width">
             <mat-label>Email</mat-label>
             <input type="email" [(ngModel)]="email" matInput [formControl]="emailFormControl" placeholder="Ex. pat@example.com">
           </mat-form-field>
+
           <mat-form-field class="full-width">
             <mat-label>Password</mat-label>
-            <input type="password" [(ngModel)]="password" matInput [formControl]="passwordFormControl">
+            <input [type]="hide ? 'password' : 'text'" type="password" [(ngModel)]="password" matInput [formControl]="passwordFormControl">
+            <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+              <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </button>
+            
           </mat-form-field>
+
         </form>
       </mat-card-content>
+
       <mat-card-actions class="login-btn-container">
         <button class="login-btn" mat-raised-button color="primary"
         [disabled]="emailFormControl.invalid || passwordFormControl.invalid"
         (click)="checkUser()">LOGIN</button>
       </mat-card-actions>
+
       <mat-card-content  class="user-not-found-note" *ngIf="userNotFound">
         User not found!
       </mat-card-content>
+
+      <mat-card-content  class="user-not-found-note" *ngIf="wrongPassword">
+        Wrong Password!
+      </mat-card-content>
+
       <mat-card-content class="register">
         <mat-card-subtitle>You don't have an Account? </mat-card-subtitle>
         <mat-card-subtitle class="register-link" routerLink="/register">Sign up here!</mat-card-subtitle>

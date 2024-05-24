@@ -13,11 +13,13 @@ import { Firestore, collection, query, where } from '@angular/fire/firestore';
 import { DatabaseService } from '../services/database.service';
 import { TranslationService } from '../services/translation.service';
 import { ThemeService } from '../services/theme.service';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [RouterLink, MatCardModule, MatInputModule, FormsModule, ReactiveFormsModule, MatButtonModule, MatDividerModule, CommonModule, RegisterComponent
+  imports: [RouterLink, MatCardModule, MatInputModule, FormsModule, ReactiveFormsModule, MatButtonModule, MatDividerModule, CommonModule, 
+    RegisterComponent, MatIconModule
    ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
@@ -30,42 +32,48 @@ export class LoginComponent {
   userIsLoggedIn = false;
   emailFormControl = new FormControl('', [Validators.required, Validators.email]);
   passwordFormControl = new FormControl('', [Validators.required, Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}')]);
-  userNotFound: boolean;
+  hide = true;
   user: User;
   userData: any;
   email:string;
   password:string;
   userId: string;
+  wrongPassword = false;
+  userNotFound: boolean = false;
 
   translate = inject(TranslationService);
   darkmode = inject(ThemeService);
 
   async checkUser(){
-    //userIsLoggedIn = true; 
+    this.wrongPassword = false;
+    this.loading = true;
 
+    const q = query(collection(this.db, "users"), where("email", "==", this.email));
+    const querySnapshot = await getDocs(q);
+
+    if(querySnapshot.empty){
       this.userNotFound = true;
-      this.loading = true;
-  
-      const q = query(collection(this.db, "users"), where("email", "==", this.email));
-      const querySnapshot = await getDocs(q);
-  
+    }else{
+      this.userNotFound = false;
       querySnapshot.forEach((doc) => {
         const userData = doc.data();
         if (this.password == userData['password']) {
           userData['userId'] = doc.id;
           this.setUserId(userData);
-          this.userNotFound = false;
+          
           this.checkUserSettings(userData)
+          this.loading = false;
           this.router.navigateByUrl('/main/dashboard');
+        }else{
+          this.wrongPassword = true;
         }
       });
+    }
   }
 
   async setUserId(userData: DocumentData) {
-   const userId = userData['userId'];
-    this.loading = true;
-    await this.database.saveEditedUser(userData, userId).then((result: any) => {
-      this.loading = false;
+    const userId = userData['userId'];
+      await this.database.saveEditedUser(userData, userId).then((result: any) => {
     });
     this.saveData('User', userId)
   };
