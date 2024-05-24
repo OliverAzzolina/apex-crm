@@ -61,6 +61,7 @@ export class MainComponent {
   logoutUser(){
     localStorage.removeItem('User');
     this.darkmode.setDarkMode(false);
+    this.translate.translationOn = false;
   }
 
 }
