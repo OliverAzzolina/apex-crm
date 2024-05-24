@@ -1,3 +1,40 @@
-<button mat-icon-button (click)="toggleTheme()">
+<mat-card>
+<div class="pd-top-16 pd-btm-16">
+  <mat-card-title>{{ "settings.dark-mode-header" | translate }}</mat-card-title>
+  <button class="pd-top-16 button-theme" mat-icon-button (click)="toggleTheme()">
     <mat-icon>{{ isDarkMode ? 'wb_sunny' : 'nights_stay' }}</mat-icon>
   </button>
+</div>
+
+<mat-divider></mat-divider>
+
+<div class="pd-top-16 pd-btm-16">
+  <mat-card-title>{{ "settings.language-header" | translate }}</mat-card-title>
+  <mat-form-field  class="pd-top-16">
+    <mat-select [(value)]="selectedLanguage">
+        <mat-option [value]="false" (click)="translate.switchLanguage(translate.translationOn = false)">{{ "settings.language-option-en" | translate }}</mat-option>
+        <mat-option [value]="true" (click)="translate.switchLanguage(translate.translationOn = true)">{{ "settings.language-option-de" | translate }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
+
+<mat-divider></mat-divider>
+
+<div class="pd-top-16 pd-btm-16">
+  <button mat-flat-button color="primary" (click)="saveSettings()">
+    <mat-icon color="white">save</mat-icon> {{ "settings.save-button" | translate }} </button>
+</div>
+
+<mat-divider></mat-divider>
+
+<div class="pd-top-16 pd-btm-16">
+  <mat-card-title>{{ "settings.delete-user-header" | translate }}</mat-card-title>
+  <button  class="mr-top-16" mat-flat-button color="warn" (click)="openDialogDeleteUser()">
+    <mat-icon color="white">delete</mat-icon>
+    <span> {{ "settings.delete-button" | translate }} </span>
+  </button>
+</div>
+
+
+
+</mat-card>

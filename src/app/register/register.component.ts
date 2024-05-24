@@ -56,13 +56,14 @@ export class RegisterComponent {
         console.log("User already exists:", userExists);
         this.userExistsNote = true;
       }
-    });
 
+    });
     if(this.userExistsNote == false){
       const userData = this.user.toJSON();
       this.registerUser(userData);
       this.router.navigateByUrl('/login')
     }
+
   }   
 }
 

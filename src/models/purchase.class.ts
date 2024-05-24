@@ -13,6 +13,7 @@ export class Purchase{
     totalPrice: number;
     purchaseId: string;
     customerId: string;
+    translatedStatus: string;
 
     constructor(obj?: any){
         this.orderDate = obj ? obj.orderDate : '';
@@ -24,6 +25,7 @@ export class Purchase{
         this.totalPrice = obj ? obj.totalPrice : '';
         this.purchaseId = obj ? obj.purchaseId : '';
         this.customerId = obj ? obj.userId : '';
+        this.translatedStatus = obj ? obj.translatedStatus : '';
      
     }
     
@@ -38,6 +40,7 @@ export class Purchase{
             totalPrice: this.totalPrice,
             purchaseId: this.purchaseId,
             customerId: this.customerId,
+            translatedStatus: this.translatedStatus,
         };
     }
 }

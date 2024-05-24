@@ -44,7 +44,8 @@ export class Customer{
           company: this.company,
           position: this.position,
           phone: this.phone,
-          birthdate: this.birthdate
+          birthdate: this.birthdate,
+          number: this.number
         };
       }
     }

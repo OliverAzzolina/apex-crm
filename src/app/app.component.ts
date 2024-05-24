@@ -7,11 +7,12 @@ import { CommonModule } from '@angular/common';
 import { MatTableModule } from '@angular/material/table'  
 import { SetHeaderService } from './services/set-header.service';
 import { LoginComponent } from './login/login.component';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, MatToolbarModule, MatIconModule, MatSidenavModule, RouterLink, CommonModule, MatTableModule, LoginComponent],
+  imports: [RouterOutlet, MatToolbarModule, MatIconModule, MatSidenavModule, RouterLink, CommonModule, MatTableModule, LoginComponent, TranslateModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
@@ -20,10 +21,12 @@ export class AppComponent {
   title = 'simple-crm';
 
 
-  constructor(public setHeader: SetHeaderService){
+  constructor(public setHeader: SetHeaderService, public translate: TranslateService){
   }
 
-
+  ngOnInit(){
+    
+  }
 
   async setNewHeader(newHeader:string){
     await this.setHeader.updateHeader(newHeader);

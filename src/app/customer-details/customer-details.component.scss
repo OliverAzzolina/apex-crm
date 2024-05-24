@@ -1,14 +1,14 @@
-.user-detail-container{
+.customer-detail-container{
     display: flex;
     flex-direction: row;
 }
 
-.user-detail-card{
+.customer-detail-card{
     width: 30%;
     margin-right: 16px;
 }
 
-.user-header{
+.customer-header{
     display: flex;
     justify-content: center;
     align-items: center;
@@ -20,29 +20,34 @@
     }
 }
 
-.user-job-info{
+.customer-job-info{
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
 }
 
-.user-action-btn-container{
+.customer-action-btn-container{
     display: flex;
     gap: 16px;
     padding-top: 16px;
 }
 
-.user-contact-info{
+.customer-contact-info{
    width: max-content;
     padding-top: 16px;
 }
 
-.user-contact-detail{
+.customer-contact-detail{
     display: flex;
     flex-direction: column;
     padding-top: 16px;
     width: max-content;
+    a{
+        text-decoration: none;
+        font-weight: 500;
+        color: #3F51B5;
+    }
 }
 
 .adress-link{
@@ -50,7 +55,7 @@
     flex-direction: column;
 }
 
-.user-dashboard{
+.customer-dashboard{
     width: 100%;
 }
 

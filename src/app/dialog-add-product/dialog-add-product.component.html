@@ -1,30 +1,29 @@
-<div class="add-product-container">
-    <h2>Add Product</h2>
+<div class="add-product-container dialog-container">
+    <h2>{{ "product-dialog.header-add" | translate }}</h2>
 
     <mat-form-field class="example-full-width">
-        <mat-label>Product Name</mat-label>
+        <mat-label>{{ "product-dialog.product-name" | translate }}</mat-label>
         <input type="text" matInput [(ngModel)]="product.name" [formControl]="productNameFormControl">
     </mat-form-field>
 
     <mat-form-field class="example-full-width">
-        <mat-label>Product Price (€)</mat-label>
+        <mat-label>{{ "product-dialog.product-price" | translate }}</mat-label>
         <input type="number" matInput min="0" [(ngModel)]="product.ppu" [formControl]="productPriceFormControl">
     </mat-form-field>
 
     <mat-form-field>
-      <mat-label>Product Type</mat-label>
+      <mat-label>{{ "product-dialog.product-type" | translate }}</mat-label>
       <mat-select [(ngModel)]="product.type" name="status" [formControl]="productTypeFormControl">
-        @for (type of typeOpt; track type) {
-            <mat-option [value]="type.value">{{type.viewValue}}</mat-option>
-          }
+            <mat-option value="Product">{{ "product-dialog.type-option-product" | translate }}</mat-option>
+            <mat-option value="Service">{{ "product-dialog.type-option-service" | translate }}</mat-option>
       </mat-select>
     </mat-form-field>
   
-    <mat-dialog-actions>
-      <button mat-button (click)="this.dialogRef.close();">Cancel</button>
+    <mat-dialog-actions class="items-center">
       <button mat-button (click)="addProduct()" 
       [disabled]="productNameFormControl.invalid || 
         	        productPriceFormControl.invalid ||
-                  productTypeFormControl.invalid ">Save</button>
+                  productTypeFormControl.invalid ">{{ "product-dialog.save-button" | translate }}</button>
+      <button mat-button (click)="this.dialogRef.close();">{{ "product-dialog.cancel-button" | translate }}</button>
     </mat-dialog-actions>
   </div>

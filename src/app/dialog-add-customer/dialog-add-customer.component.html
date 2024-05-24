@@ -1,72 +1,81 @@
-<div class="add-user-container">
+<div class="dialog-container">
     <mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
-    <h2 mat-dialog-title>Add Customer</h2>
+      <h2 mat-dialog-title> {{ "customer-dialog.header-add" | translate }} </h2>
     <mat-dialog-content class="pd-top-16">
       <div>
         <mat-form-field class="mr-16" appearance="outline">
-            <mat-label>Firstname</mat-label>
-            <input [(ngModel)]="customer.firstName" matInput placeholder="Enter Firstname" [formControl]="firstNameFormControl">
+            <mat-label> {{ "customer-dialog.firstname" | translate }} </mat-label>
+            <input [(ngModel)]="customer.firstName" matInput [formControl]="firstNameFormControl">
           </mat-form-field>
           <mat-form-field appearance="outline">
-            <mat-label>Lastname</mat-label>
-            <input [(ngModel)]="customer.lastName" matInput placeholder="Enter Lastname" [formControl]="lastNameFormControl">
+            <mat-label> {{ "customer-dialog.lastname" | translate }} </mat-label>
+            <input [(ngModel)]="customer.lastName" matInput [formControl]="lastNameFormControl">
           </mat-form-field>
       </div>
+
       <div>
         <mat-form-field class="mr-16" appearance="outline">
-            <mat-label>Company</mat-label>
-            <input [(ngModel)]="customer.company" matInput placeholder="Enter Company">
+            <mat-label> {{ "customer-dialog.company" | translate }} </mat-label>
+            <input [(ngModel)]="customer.company" matInput>
           </mat-form-field>
+
           <mat-form-field appearance="outline">
-            <mat-label>Position</mat-label>
-            <input [(ngModel)]="customer.position" matInput placeholder="Enter Position at Company">
+            <mat-label> {{ "customer-dialog.position" | translate }} </mat-label>
+            <input [(ngModel)]="customer.position" matInput>
           </mat-form-field>
       </div>
+
       <div>
         <mat-form-field class="full-width" appearance="outline">
-            <mat-label>Birth Date</mat-label>
+            <mat-label> {{ "customer-dialog.birthdate" | translate }} </mat-label>
             <input [(ngModel)]="birthDate" matInput [matDatepicker]="picker" [formControl]="birthdateFormControl">
             <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
           </mat-form-field>
       </div>
+
       <div>
         <mat-form-field class="mr-16 full-width" appearance="outline">
           <mat-label>E-Mail</mat-label>
-          <input [(ngModel)]="customer.email" matInput placeholder="Enter E-Mail" [formControl]="emailFormControl">
+          <input [(ngModel)]="customer.email" matInput [formControl]="emailFormControl">
         </mat-form-field>
       </div>
+
       <div>
         <mat-form-field class="mr-16 full-width" appearance="outline">
-          <mat-label>Phone</mat-label>
-          <input [(ngModel)]="customer.phone" type="number" matInput placeholder="Enter Phone Number" [formControl]="phoneFormControl">
+          <mat-label> {{ "customer-dialog.phone" | translate }} </mat-label>
+          <input [(ngModel)]="customer.phone" type="number" matInput [formControl]="phoneFormControl">
         </mat-form-field>
       </div>
+
       <div>
         <mat-form-field class="mr-16" appearance="outline">
-            <mat-label>Street</mat-label>
-            <input [(ngModel)]="customer.street" type="text" matInput placeholder="Enter Street" [formControl]="streetFormControl">
+            <mat-label> {{ "customer-dialog.street" | translate }} </mat-label>
+            <input [(ngModel)]="customer.street" type="text" matInput [formControl]="streetFormControl">
           </mat-form-field>
+
           <mat-form-field appearance="outline">
-            <mat-label>Number</mat-label>
-            <input [(ngModel)]="customer.number" type="number" matInput placeholder="Enter House Number" [formControl]="numberFormControl">
+            <mat-label> {{ "customer-dialog.number" | translate }} </mat-label>
+            <input [(ngModel)]="customer.number" type="number" matInput [formControl]="numberFormControl">
           </mat-form-field>
       </div>
+
       <div>
         <mat-form-field class="mr-16" appearance="outline">
-            <mat-label>Zipcode</mat-label>
-            <input [(ngModel)]="customer.zipCode" type="number" matInput placeholder="Enter City Zipcode" [formControl]="zipCodeFormControl">
+            <mat-label> {{ "customer-dialog.zipcode" | translate }} </mat-label>
+            <input [(ngModel)]="customer.zipCode" type="number" matInput [formControl]="zipCodeFormControl">
           </mat-form-field>
+
           <mat-form-field appearance="outline">
-            <mat-label>City</mat-label>
-            <input [(ngModel)]="customer.city" matInput type="text" placeholder="Enter City Name" [formControl]="cityFormControl">
+            <mat-label> {{ "customer-dialog.city" | translate }} </mat-label>
+            <input [(ngModel)]="customer.city" matInput type="text" [formControl]="cityFormControl">
           </mat-form-field>
       </div>
     </mat-dialog-content>
+
     <mat-dialog-actions>
-      <button mat-button (click)="this.dialogRef.close();">Cancel</button>
       <button mat-button (click)="saveCustomer()"  
-      [disabled]="
+        [disabled]="
           firstNameFormControl.invalid || 
           lastNameFormControl.invalid ||
           emailFormControl.invalid || 
@@ -75,7 +84,8 @@
           numberFormControl.invalid ||
           zipCodeFormControl.invalid ||
           cityFormControl.invalid"
-      >Save</button>
+      > {{ "customer-dialog.save-button" | translate }} </button>
+      <button mat-button (click)="this.dialogRef.close();"> {{ "customer-dialog.cancel-button" | translate }} </button>
     </mat-dialog-actions>
   </div>
   

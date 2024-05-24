@@ -1,27 +1,24 @@
-<div class="edit-task-container">
-  <h2>Edit Task</h2>
-  <mat-form-field>
-    <mat-label>Status</mat-label>
-    <mat-select [(ngModel)]="task.status" name="status">
-      @for (status of statusOpt; track status) {
-        <mat-option [value]="status.value">{{status.viewValue}}</mat-option>
-      }
+<div class="edit-task-container dialog-container">
+  <h2>{{ "task-dialog.header-edit" | translate }}</h2>
+
+  <mat-form-field appearance="outline">
+    <mat-label>{{ "task-dialog.select-status-label" | translate }}</mat-label>
+    <mat-select [(ngModel)]="task.status" name="status" [formControl]="statusFormControl">    
+      <mat-option value ="open">{{"task-dialog.status-option-open" | translate}}</mat-option>
+      <mat-option value ="closed">{{"task-dialog.status-option-closed" | translate}}</mat-option> 
     </mat-select>
   </mat-form-field>
 
-  <mat-form-field class="example-full-width">
-    <mat-label>Task Note</mat-label>
-    <textarea [(ngModel)]="task.note" matInput value="{{task.note}}"></textarea>
+  <mat-form-field class="example-full-width" appearance="outline">
+    <mat-label>{{ "task-dialog.note-label" | translate }}</mat-label>
+    <textarea [(ngModel)]="task.note" matInput value="{{task.note}}" [formControl]="noteFormControl"></textarea>
   </mat-form-field>
 
-  <mat-dialog-actions>
-    <button class="full-width" mat-button (click)="updateTask()" [routerLink]="['/user/' + customerId]">Save</button>
-  </mat-dialog-actions>
-  <mat-dialog-actions >
-    <button class="full-width" mat-button (click)="this.dialogRef.close();">Cancel</button>
-  </mat-dialog-actions>
-  <mat-dialog-actions>
-    <button class="full-width" mat-button color="warn" (click)="openDialogDeleteTask()">Delete</button>
+  <mat-dialog-actions class="items-center" appearance="outline">
+    <button class="full-width" mat-button (click)="updateTask()" [routerLink]="['/main/customers/' + customerId]"
+    [disabled]="statusFormControl.invalid || noteFormControl.invalid">{{ "task-dialog.save-button" | translate }}</button>
+    <button class="full-width" mat-button (click)="this.dialogRef.close();">{{ "task-dialog.cancel-button" | translate }}</button>
+    <button class="full-width" mat-button color="warn" (click)="openDialogDeleteTask()">{{ "task-dialog.delete-button" | translate }}</button>
   </mat-dialog-actions>
 </div>
 

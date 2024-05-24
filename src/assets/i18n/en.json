@@ -1,0 +1,180 @@
+{
+    "main":{
+        "header-dashboard":"Dashboard",
+        "header-customers":"Customers",
+        "header-tasks":"Tasks",
+        "header-products":"Products",
+        "header-purchases":"Purchases",
+        "header-settings":"Settings",
+        "header-logout":"Logout"
+    },
+
+    "dashboard": {
+        "card-customers": "Customers",
+        "card-revenue": "Revenue in total",
+        "card-products": "Products for Sale"
+    },
+
+    "customers": {
+        "search-label": "Search",
+        "table-header1": "Firstname",
+        "table-header2": "Lastname",
+        "table-header3": "E-Mail",
+        "table-header4": "Company",
+        "table-header5": "Position",
+        "tooltip-open": "Click to open Customer",
+        "tooltip-add": "Add Customer",
+        "search-not-found": "No data matching the search"
+    },
+
+    "customer-detail": {
+        "tooltip-options": "Customer Options",
+        "header-edit": "Edit",
+        "header-delete": "Delete",
+        "tooltip-mail": "Send Mail",
+        "tooltip-call": "Call",
+        "detail-header": "Contact Information",
+        "birthdate-header": "Birthdate",
+        "phone-header": "Phone",
+        "adress-header": "Adress",
+        "tooltip-maps": "Open in Google Maps"
+    },
+
+    "customer-dialog": {
+        "header-add": "Add Customer",
+        "header-edit": "Edit Customer",
+        "firstname": "Firstname",
+        "lastname": "Lastname",
+        "company": "Company",
+        "position": "Position",
+        "birthdate": "Birthdate",
+        "phone": "Phone",
+        "street": "Street",
+        "number": "Number",
+        "zipcode": "Zipcode",
+        "city": "City",
+        "cancel-button": "Cancel",
+        "save-button": "Save",
+        "delete-button": "Delete",
+        "header-delete": "Delete Customer",
+        "text-delete": "Are you sure, you want to delete the selected Customer?",
+        "checkbox-text-delete": "I am sure!"
+    },
+
+    "tasks": {
+        "search-label": "Search",
+        "table-header1": "Status",
+        "table-header2": "Task",
+        "table-header3": "for Customer",
+        "table-header4": "Task-ID",
+        "tooltip-open": "Click to open Customer",
+        "tooltip-add": "Add Task",
+        "search-not-found": "No data matching the search",
+        "tab-header1": "Tasks",
+        "tooltip-edit": "Click to Edit"
+    },
+
+    "task-dialog": {
+        "header-add": "Add Task",
+        "header-edit": "Edit Task",
+        "select-customer-label": "Select Customer",
+        "select-status-label": "Select Status",
+        "note-label": "Write Task",
+        "cancel-button": "Cancel",
+        "save-button": "Save",
+        "delete-button": "Delete",
+        "status-option-open":"open",
+        "status-option-closed":"closed",
+        "header-delete": "Delete Task",
+        "text-delete": "Are you sure, you want to delete the selected Task?",
+        "checkbox-text-delete": "I am sure!"
+    },
+
+    "products": {
+        "search-label": "Search",
+        "table-header1": "Name",
+        "table-header2": "Type",
+        "table-header3": "Price per Unit (€)",
+        "tooltip-open": "Click to edit Product",
+        "tooltip-add": "Add Product",
+        "search-not-found": "No data matching the search"
+    },
+
+    "product-dialog": {
+        "header-add": "Add Product",
+        "header-edit": "Edit Product",
+        "product-name": "Product Name",
+        "product-price": "Product Price (€)",
+        "product-type": "Product Type",
+        "cancel-button": "Cancel",
+        "save-button": "Save",
+        "delete-button": "Delete",
+        "type-option-product":"Product",
+        "type-option-service":"Service",
+        "header-delete": "Delete Product",
+        "text-delete": "Are you sure, you want to delete the selected Product?",
+        "checkbox-text-delete": "I am sure!"
+    },
+
+    "purchases": {
+        "search-label": "Search",
+        "table-header1": "Order-ID",
+        "table-header2": "Orderdate",
+        "table-header3": "Status",
+        "table-header4": "Product",
+        "table-header5": "Amount",
+        "table-header6": "Price per Unit (€)",
+        "table-header7": "Price (€)",
+        "tooltip-open": "Click to open Customer",
+        "tooltip-add": "Add Purchase",
+        "tooltip-edit": "Click to Edit",
+        "search-not-found": "No data matching the search",
+        "tab-header1": "Purchases"
+    },
+
+    "purchase-dialog": {
+        "header-add": "Add Purchase",
+        "header-edit": "Edit Purchase",
+        "select-customer": "Select Customer",
+        "orderdate": "Orderdate",
+        "status-option-ordered": "ordered",
+        "status-option-inprocess": "in process",
+        "status-option-shipped": "shipped",
+        "status-option-delivered": "delivered",
+        "status": "Status",
+        "ppu": "Price per Unit (€)",
+        "product": "Product",
+        "totalprice": "Price Total (€)",
+        "amount": "Amount",
+        "cancel-button": "Cancel",
+        "save-button": "Save",
+        "delete-button": "Delete",
+        "header-delete": "Delete Purchase",
+        "text-delete": "Are you sure, you want to delete the selected Purchase?",
+        "checkbox-text-delete": "I am sure!"
+    },
+
+    "set-tab":{
+        "customer":"customer"
+    },
+    
+    "settings":{
+        "dark-mode-header":"Dark or Light Mode:",
+        "language-header":"Select Language:",
+        "language-input-label":"Language",
+        "language-option-en":"English",
+        "language-option-de":"German",
+        "save-button": "Save Settings",
+        "delete-user-header": "Delete User Account",
+        "delete-button": "Delete"
+    },
+
+    "delete-user-dialog":{
+        "header-delete": "Delete User Account",
+        "text-delete": "Are you sure, you want to delete your Account?",
+        "checkbox-text-delete": "I am sure!",
+        "delete-button": "Delete",
+        "cancel-button": "Cancel"
+    }
+
+}

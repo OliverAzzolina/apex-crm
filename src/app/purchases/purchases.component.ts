@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Firestore, collection, onSnapshot } from '@angular/fire/firestore';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -19,25 +19,31 @@ import { MatSort, MatSortModule, Sort } from '@angular/material/sort';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { ViewChild} from '@angular/core';
 import { DialogAddPurchaseComponent } from '../dialog-add-purchase/dialog-add-purchase.component';
+import { TranslationService } from '../services/translation.service';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-purchases',
   standalone: true,
   imports: [MatCardModule, CommonModule, MatTableModule, MatIconModule, MatTooltipModule, MatButtonModule, MatDialogModule, RouterLink,
-    FormsModule, MatInputModule, MatFormFieldModule, MatSort, MatSortModule
+    FormsModule, MatInputModule, MatFormFieldModule, MatSort, MatSortModule, TranslateModule
   ],
   templateUrl: './purchases.component.html',
   styleUrl: './purchases.component.scss'
 })
+
 export class PurchasesComponent {
 purchaseData: any = [];
 loading: boolean = false;
 customerId: any;
+tranlate = inject(TranslationService);
 dataSource = new MatTableDataSource(this.purchaseData);
 displayedColumns: string[] = ['purchaseId', 'orderdate', 'status', 'product', 'amount', 'totalPrice'];
 
 constructor(public db: Firestore, public dialog: MatDialog, public database: DatabaseService, public tabIndex: SetTabIndexService, 
   public setHeader: SetHeaderService, private _liveAnnouncer: LiveAnnouncer) {}
+  setheader = inject(SetHeaderService);
+  translate = inject(TranslationService);
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
@@ -108,6 +114,7 @@ constructor(public db: Firestore, public dialog: MatDialog, public database: Dat
             amount: purchaseData['amount'],
             totalPrice: purchaseData['totalPrice'],
             customerId: purchaseData['customerId'],
+            translatedStatus: purchaseData['translatedStatus']
           };
           
         });

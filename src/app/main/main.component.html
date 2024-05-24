@@ -7,20 +7,20 @@
       </div>
   
       <ul>
-        <li routerLink="dashboard" (click)="setNewHeader('Dashboard')"><mat-icon>dashboard</mat-icon>Dashboard</li>
-        <li routerLink="customers" (click)="setNewHeader('Customers')"><mat-icon>person</mat-icon>Customers</li>
-        <li routerLink="tasks" (click)="setNewHeader('Tasks')"><mat-icon>task</mat-icon>Tasks</li>
-        <li routerLink="products" (click)="setNewHeader('Products')"><mat-icon>inventory</mat-icon>Products</li>
-        <li routerLink="purchases" (click)="setNewHeader('Purchases')"><mat-icon>shopping_bag</mat-icon>Purchases</li>
-        <li routerLink="settings" (click)="setNewHeader('Settings')"><mat-icon>settings</mat-icon>Settings</li>
-        <li routerLink="/login"><mat-icon>logout</mat-icon>Logout</li>
+        <li routerLink="dashboard" (click)="setNewHeader('main.header-dashboard')"><mat-icon>dashboard</mat-icon>{{ "main.header-dashboard" | translate }}</li>
+        <li routerLink="customers" (click)="setNewHeader('main.header-customers')"><mat-icon>person</mat-icon>{{ 'main.header-customers' | translate }}</li>
+        <li routerLink="tasks" (click)="setNewHeader('main.header-tasks')"><mat-icon>task</mat-icon>{{ 'main.header-tasks' | translate }}</li>
+        <li routerLink="products" (click)="setNewHeader('main.header-products')"><mat-icon>inventory</mat-icon>{{ 'main.header-products' | translate }}</li>
+        <li routerLink="purchases" (click)="setNewHeader('main.header-purchases')"><mat-icon>shopping_bag</mat-icon>{{ 'main.header-purchases' | translate }}</li>
+        <li [routerLink]="['/main/settings/']" (click)="setNewHeader('main.header-settings')"><mat-icon>settings</mat-icon>{{ 'main.header-settings' | translate }}</li>
+        <li routerLink="/login" (click)="logoutUser()"><mat-icon>logout</mat-icon>{{ 'main.header-logout' | translate }}</li>
       </ul>
     </mat-drawer>
   
     <div class="example-sidenav-content">
       <mat-toolbar color="primary">
         <mat-icon (click)="drawer.toggle()" class="menu-icon">menu</mat-icon>
-        <span>{{ this.setHeader.header }}</span>
+        <span>{{ this.setHeader.header | translate }}</span>
       </mat-toolbar>
   
       <div class="routing-content">

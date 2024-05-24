@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogActions, MatDialogRef } from '@angular/material/dialog';
@@ -11,26 +11,18 @@ import { Purchase } from '../../models/purchase.class';
 import { Firestore, collection, getDocs, onSnapshot } from '@angular/fire/firestore';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-
-interface Status {
-  value: string;
-  viewValue: string;
-}
-
-interface Product {
-  value: string;
-  viewValue: string;
-}
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-dialog-add-purchase',
   standalone: true,
   providers: [provideNativeDateAdapter()],
   imports: [ MatMenuModule, ReactiveFormsModule, MatDatepickerModule, MatButtonModule, MatFormField, MatLabel, MatInputModule, 
-    MatFormFieldModule, FormsModule, MatSelectModule, MatDialogActions, ReactiveFormsModule],
+    MatFormFieldModule, FormsModule, MatSelectModule, MatDialogActions, ReactiveFormsModule, TranslateModule],
   templateUrl: './dialog-add-purchase.component.html',
   styleUrl: './dialog-add-purchase.component.scss'
 })
+
 export class DialogAddPurchaseComponent {
   customer:any;
   customerId: string;
@@ -47,7 +39,7 @@ export class DialogAddPurchaseComponent {
   totalPrice: number;
   orderDate: Date;
   productPrice: number = 0;
-
+  translatedStatus:string;
 
   customerFormControl = new FormControl('', [Validators.required, Validators.minLength(2)]);
   dateFormControl = new FormControl('', [Validators.required, Validators.minLength(2)]);
@@ -57,6 +49,7 @@ export class DialogAddPurchaseComponent {
 
   constructor(private database: DatabaseService, public db: Firestore, public dialogRef: MatDialogRef<DialogAddPurchaseComponent>){};
 
+  translate = inject(TranslateService);
   date = new FormControl(new Date());
   serializedDate = new FormControl(new Date().toISOString());
   
@@ -97,13 +90,6 @@ export class DialogAddPurchaseComponent {
     this.customerId = customerId;
   }
 
-  statusOpt: Status[] = [
-    {value: 'ordered', viewValue: 'ordered'},
-    {value: 'in process', viewValue: 'in process'},
-    {value: 'shipped', viewValue: 'shipped'},
-    {value: 'delivered', viewValue: 'delivered'},
-  ];
-
   getProductPrice(ppu: number){
     this.productPrice = ppu;
     this.purchase.amount = 1;
@@ -115,6 +101,7 @@ export class DialogAddPurchaseComponent {
   }
 
   async savePurchase(){
+    await this.generateTranslatedStatus(this.purchase.status);
     this.purchase.ppu = this.productPrice;
     this.purchase.totalPrice = this.totalPrice;
     this.purchase.orderDate = this.orderDate.getTime();
@@ -122,6 +109,7 @@ export class DialogAddPurchaseComponent {
     this.purchase.orderdate = this.orderDate.toString().split(" ").splice(1,3).join(" ");
     const purchaseData = this.purchase.toJSON();
     purchaseData.customerId = this.customerId;
+    purchaseData.translatedStatus = this.translatedStatus;
     this.loading = true;
     await this.database.saveNewPurchase(purchaseData).then((result: any) => {
       console.log('added purchase', purchaseData);
@@ -131,5 +119,20 @@ export class DialogAddPurchaseComponent {
 
   convertToDate(orderdate: number){
     return new Date(orderdate);
+  };
+
+  async generateTranslatedStatus(status:string){
+    if(status == 'ordered'){
+      this.translatedStatus = 'bestellt'
+    }
+    if(status == 'in process'){
+      this.translatedStatus = 'in Bearbeitung'
+    }
+    if(status == 'shipped'){
+      this.translatedStatus = 'versendet'
+    }
+    if(status == 'delivered'){
+      this.translatedStatus = 'geliefert'
+    };
   };
 }

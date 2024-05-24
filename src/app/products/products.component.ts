@@ -1,4 +1,4 @@
-import { Component, Injectable } from '@angular/core';
+import { Component, Injectable, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
@@ -20,14 +20,15 @@ import { DialogEditProductComponent } from '../dialog-edit-product/dialog-edit-p
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort, MatSortModule, Sort } from '@angular/material/sort';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
-
 import { ViewChild} from '@angular/core';
+import { TranslationService } from '../services/translation.service';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-products',
   standalone: true,
   imports: [MatCardModule, MatTableModule, MatIconModule, MatButtonModule, MatTooltipModule, MatDialogModule, CommonModule, 
-    FormsModule, MatInputModule, MatFormFieldModule, RouterLink, MatSortModule],
+    FormsModule, MatInputModule, MatFormFieldModule, RouterLink, MatSortModule, TranslateModule],
   templateUrl: './products.component.html',
   styleUrl: './products.component.scss'
 })
@@ -35,7 +36,7 @@ export class ProductsComponent {
   productData:any = [];
   product:any;
   loading: boolean = false;
-
+  translate = inject(TranslationService);
   dataSource = new MatTableDataSource(this.productData);
   displayedColumns: string[] = ['name', 'type', 'ppu'];
 
@@ -88,19 +89,17 @@ export class ProductsComponent {
         this.productData = snapshot.docs.map((doc) => {
           const productData = doc.data();
           
-
           return {
             id: doc.id,
             name: productData['name'],
             productId: doc.id,
             ppu: productData['ppu'],
             type: productData['type'],
+            translatedType: productData['translatedType'],
           };
           
         });
         this.dataSource.data = this.productData;
-        console.log(this.productData)
-        //this.filterUsers();
         this.loading = false;
       },
       (error) => {

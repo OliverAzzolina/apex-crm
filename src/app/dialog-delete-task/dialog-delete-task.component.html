@@ -1,10 +1,13 @@
-<h2 mat-dialog-title>Delete Task</h2>
-<mat-dialog-content>
-  <p>Are you sure, you want to delete the selected Task?</p>
-  <mat-checkbox color="warn" [(ngModel)] ="checked" class="example-margin">I am sure</mat-checkbox>
-
-</mat-dialog-content>
-<mat-dialog-actions>
-  <button mat-button (click)="this.dialogRef.close();" >Cancel</button>
-  <button mat-button color="warn" [disabled]="!checked" (click)="deleteTask()" routerLink="/user">Delete</button>
-</mat-dialog-actions>
+<div class="dialog-container">
+  <h2 mat-dialog-title> {{ "task-dialog.header-delete" | translate }} </h2>
+  <mat-dialog-content>
+    <p> {{ "task-dialog.text-delete" | translate }} </p>
+    <mat-checkbox color="warn" [(ngModel)] ="checked" class="example-margin">{{ "task-dialog.checkbox-text-delete" | translate }}</mat-checkbox>
+  
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button mat-button (click)="this.dialogRef.close();" > {{ "task-dialog.cancel-button" | translate }} </button>
+    <button mat-button color="warn" [disabled]="!checked" (click)="deleteTask()" routerLink="/user"> {{ "task-dialog.delete-button" | translate }} </button>
+  </mat-dialog-actions>
+  
+</div>

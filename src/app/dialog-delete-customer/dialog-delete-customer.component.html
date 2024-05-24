@@ -1,10 +1,12 @@
-<h2 mat-dialog-title>Delete Customer</h2>
-<mat-dialog-content>
-  <p>Are you sure, you want to delete the selected Customer?</p>
-  <mat-checkbox color="warn" [(ngModel)] ="checked" class="example-margin">I am sure</mat-checkbox>
-
-</mat-dialog-content>
-<mat-dialog-actions>
-  <button mat-button (click)="this.dialogRef.close();" >Cancel</button>
-  <button mat-button color="warn" [disabled]="!checked" (click)="deleteCustomer()" routerLink="/main/customers">Delete</button>
-</mat-dialog-actions>
+<div class="dialog-container">
+  <h2 mat-dialog-title> {{ "customer-dialog.header-delete" | translate }} </h2>
+  <mat-dialog-content>
+    <p> {{ "customer-dialog.text-delete" | translate }} </p>
+    <mat-checkbox color="warn" [(ngModel)] ="checked" class="example-margin"> {{ "customer-dialog.checkbox-text-delete" | translate }} </mat-checkbox>
+  
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button mat-button (click)="this.dialogRef.close();" > {{ "customer-dialog.cancel-button" | translate }} </button>
+    <button mat-button color="warn" [disabled]="!checked" (click)="deleteCustomer()" routerLink="/main/customers"> {{ "customer-dialog.delete-button" | translate }} </button>
+  </mat-dialog-actions>
+</div>

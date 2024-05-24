@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import {MatCardModule} from '@angular/material/card';
 import { CanvasJSAngularChartsModule } from '@canvasjs/angular-charts';
@@ -7,11 +7,13 @@ import { Firestore } from '@angular/fire/firestore';
 import { CommonModule } from '@angular/common';
 import {Chart} from 'chart.js';
 import { ChartBarComponent } from '../chart-bar/chart-bar.component';
+import { TranslationService } from '../services/translation.service';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [RouterLink, MatCardModule, CanvasJSAngularChartsModule, CommonModule, ChartBarComponent],
+  imports: [RouterLink, MatCardModule, CanvasJSAngularChartsModule, CommonModule, ChartBarComponent, TranslateModule],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss'
 })
@@ -26,6 +28,8 @@ export class DashboardComponent {
   totalRevFixed:string;
 
   constructor(public db: Firestore) {}
+
+  translate = inject(TranslationService);
 
   async ngOnInit(){
     await this.getAllCustomer();

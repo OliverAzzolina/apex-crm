@@ -1,40 +1,29 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Task } from '../../models/task.class';
-import {MatMenuModule} from '@angular/material/menu';
-import {MatButtonModule} from '@angular/material/button';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatButtonModule } from '@angular/material/button';
 import { MatFormField, MatLabel } from '@angular/material/form-field';
-import {MatInputModule} from '@angular/material/input';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {FormControl, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
-import {
-  MatDialog,
-  MAT_DIALOG_DATA,
-  MatDialogRef,
-  MatDialogTitle,
-  MatDialogContent,
-  MatDialogActions,
-  MatDialogClose,
-} from '@angular/material/dialog';
+import { MatDialogRef, MatDialogActions } from '@angular/material/dialog';
 import { DatabaseService } from '../services/database.service';
-import { Customer } from '../../models/customer.class';
 import { RouterLink } from '@angular/router';
 import { Firestore, collection, getDocs } from '@angular/fire/firestore';
-
-interface Status {
-  value: string;
-  viewValue: string;
-}
+import { TranslationService } from '../services/translation.service';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-dialog-add-task',
   standalone: true,
   imports: [ MatMenuModule, RouterLink, MatButtonModule, MatFormField, MatLabel, MatInputModule, MatFormFieldModule, 
-    FormsModule, MatSelectModule, MatDialogActions, ReactiveFormsModule
+    FormsModule, MatSelectModule, MatDialogActions, ReactiveFormsModule, TranslateModule
   ],
   templateUrl: './dialog-add-task.component.html',
   styleUrl: './dialog-add-task.component.scss'
 })
+
 export class DialogAddTaskComponent {
 
   customerName:string;
@@ -47,59 +36,60 @@ export class DialogAddTaskComponent {
   selectedCustomer:any;
   selectedCustomerName:string;
   allCustomers:any = [];
-
-  constructor(private database: DatabaseService, public db: Firestore, public dialogRef: MatDialogRef<DialogAddTaskComponent>){};
+  translatedStatus: string;
 
   customerFormControl = new FormControl('', [Validators.required, Validators.minLength(2)]);
   statusFormControl = new FormControl('', [Validators.required, Validators.minLength(2)]);
   noteFormControl = new FormControl('', [Validators.required, Validators.minLength(2)]);
 
-statusOpt: Status[] = [
-  {value: 'open', viewValue: 'open'},
-  {value: 'closed', viewValue: 'closed'},
-];
+  constructor(private database: DatabaseService, public db: Firestore, public dialogRef: MatDialogRef<DialogAddTaskComponent>){};
 
-async ngOnInit(){
-  await this.loadAllCustomers();
-  await this.checkForCustomerId();
-}
+  translate = inject(TranslationService);
 
-async loadAllCustomers(){
-  const querySnapshot = await getDocs(collection(this.db, "customers"));
-  querySnapshot.forEach((doc) => {
-    this.customer = doc.data();
-    this.customer.customerId = doc.id;
-    this.allCustomers.push(this.customer)
-  });
-}
+  async ngOnInit(){
+    await this.loadAllCustomers();
+    await this.checkForCustomerId();
+  };
 
-async checkForCustomerId(){
-  if(this.customerId){
-    this.selectedCustomer = this.allCustomers.find( (cust: { customerId: string; }) => this.customerId == cust.customerId );
-    this.selectedCustomerName = this.selectedCustomer.firstName + ' ' + this.selectedCustomer.lastName;
-    console.log(this.selectedCustomerName)
-  }
-}
+  async loadAllCustomers(){
+    const querySnapshot = await getDocs(collection(this.db, "customers"));
+    querySnapshot.forEach((doc) => {
+      this.customer = doc.data();
+      this.customer.customerId = doc.id;
+      this.allCustomers.push(this.customer)
+    });
+  };
 
-getCustomerId(customerId:string){
-  this.customerId = customerId;
-}
+  async checkForCustomerId(){
+    if(this.customerId){
+      this.selectedCustomer = this.allCustomers.find( (cust: { customerId: string; }) => this.customerId == cust.customerId );
+      this.selectedCustomerName = this.selectedCustomer.firstName + ' ' + this.selectedCustomer.lastName;
+    };
+  };
 
-async saveTask() {
-  
-  const taskData = this.task.toJSON();
-  taskData.customerId = this.customerId;
-  taskData.customerName = this.selectedCustomerName;
-  this.loading = true;
-  await this.database.saveNewTask(taskData).then((result: any) => {
-    console.log('added task', taskData);
-    this.loading = false;
-    this.dialogRef.close();
-  });
-}
+  getCustomerId(customerId:string){
+    this.customerId = customerId;
+  };
 
-async generateTaskId(){
-  const id = "id" + Math.random().toString(16).slice(2);
-  return id;
-}
-}
+  async saveTask() {
+    await this.generateTranslatedStatus(this.task.status);
+    const taskData = this.task.toJSON();
+    taskData.customerId = this.customerId;
+    taskData.customerName = this.selectedCustomerName;
+    taskData.translatedStatus = this.translatedStatus;
+    this.loading = true;
+    await this.database.saveNewTask(taskData).then((result: any) => {
+      console.log('added task', taskData);
+      this.loading = false;
+      this.dialogRef.close();
+    });
+  };
+
+  async generateTranslatedStatus(status:string){
+    if(status == 'open'){
+      this.translatedStatus = 'offen'
+    }else{
+      this.translatedStatus = 'geschlossen'
+    };
+  };
+};

@@ -1,8 +1,8 @@
-<div class="add-purchase-container">
-    <h2>Add Purchase</h2>
+<div class="add-purchase-container dialog-container">
+    <h2> {{ "purchase-dialog.header-add" | translate }} </h2>
 
     <mat-form-field>
-      <mat-label>Select Customer</mat-label>
+      <mat-label> {{ "purchase-dialog.select-customer" | translate }} </mat-label>
       <mat-select [(ngModel)]="selectedCustomerName" name="customer" [formControl]="customerFormControl">
         @for (customer of allCustomers; track customer) {
             <mat-option [value]="customer.firstName + ' ' + customer.lastName" (click)="getCustomerId(customer.customerId)">{{customer.firstName + ' ' + customer.lastName}}</mat-option>
@@ -11,7 +11,7 @@
   </mat-form-field>
 
     <mat-form-field>
-        <mat-label>Order Date</mat-label>
+        <mat-label> {{ "purchase-dialog.orderdate" | translate }} </mat-label>
         <input matInput [matDatepicker]="picker1" [(ngModel)]="orderDate" [formControl]="dateFormControl">
         <mat-hint>MM/DD/YYYY</mat-hint>
         <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
@@ -20,16 +20,17 @@
       
 
     <mat-form-field>
-      <mat-label>Status</mat-label>
+      <mat-label> {{ "purchase-dialog.status" | translate }} </mat-label>
       <mat-select [(ngModel)]="purchase.status" name="status" [formControl]="statusFormControl">
-        @for (status of statusOpt; track status) {
-            <mat-option [value]="status.value">{{status.viewValue}}</mat-option>
-          }
+          <mat-option value="ordered"> {{ "purchase-dialog.status-option-ordered" | translate }} </mat-option>
+          <mat-option value="in process"> {{ "purchase-dialog.status-option-inprocess" | translate }} </mat-option>
+          <mat-option value="shipped"> {{ "purchase-dialog.status-option-shipped" | translate }} </mat-option>
+          <mat-option value="delivered"> {{ "purchase-dialog.status-option-delivered" | translate }} </mat-option>
       </mat-select>
     </mat-form-field>
 
     <mat-form-field>
-        <mat-label>Product</mat-label>
+        <mat-label> {{ "purchase-dialog.product" | translate }} </mat-label>
         <mat-select [(ngModel)]="purchase.product" name="product" [formControl]="productFormControl">
           @for (product of allProducts; track product) {
               <mat-option [value]="product.name" (click)="getProductPrice(product.ppu)">{{product.name}}</mat-option>
@@ -38,27 +39,27 @@
     </mat-form-field>
   
     <mat-form-field>
-      <mat-label>Price per unit (€)</mat-label>
+      <mat-label> {{ "purchase-dialog.ppu" | translate }} </mat-label>
       <input matInput  [(ngModel)]="productPrice"  placeholder="Total Price" disabled type="number">
     </mat-form-field>
 
     <mat-form-field>
-      <mat-label>Amount</mat-label>
+      <mat-label> {{ "purchase-dialog.amount" | translate }} </mat-label>
         <input matInput (change)="getTotalPrice()" [formControl]="amountFormControl" [(ngModel)]="purchase.amount" placeholder="Amount" value="{{purchase.amount}}" min="1" type="number" >
     </mat-form-field>
 
     <mat-form-field>
-        <input matInput  [(ngModel)]="totalPrice" value="{{totalPrice}}" placeholder="Total Price" disabled type="number">
+        <input matInput  [(ngModel)]="totalPrice" value="{{totalPrice}}" placeholder=" {{ 'purchase-dialog.totalprice' | translate }} " disabled type="number">
     </mat-form-field>
 
-    <mat-dialog-actions>
-      <button mat-button (click)="this.dialogRef.close();">Cancel</button>
+    <mat-dialog-actions class="items-center">
       <button mat-button (click)="savePurchase()"
       [disabled]="
       customerFormControl.invalid ||
       dateFormControl.invalid ||
       statusFormControl.invalid ||
       productFormControl.invalid ||
-      amountFormControl.invalid">Save</button>
+      amountFormControl.invalid"> {{ "purchase-dialog.save-button" | translate }} </button>
+      <button mat-button (click)="this.dialogRef.close();"> {{ "purchase-dialog.cancel-button" | translate }} </button>
     </mat-dialog-actions>
-  </div>
+</div>

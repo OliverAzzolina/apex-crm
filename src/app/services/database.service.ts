@@ -9,7 +9,7 @@ import { Firestore } from '@angular/fire/firestore';
 export class DatabaseService {
 
   constructor(public db: Firestore) { }
-
+  userId:string;
   customerData: any = [];
   loading:boolean = false;
 
@@ -17,9 +17,25 @@ export class DatabaseService {
   async saveNewUser(userData:any){
     try {
       await addDoc(collection(this.db, 'users'), userData);
-  }catch (error: any) {
-    console.error('Fehler beim erstellen des Nutzers:', error);
+    }catch (error: any) {
+      console.error('Fehler beim erstellen des Nutzers:', error);
+    }
   }
+
+  async saveEditedUser(userData:any, id:string){
+    try {
+        await setDoc(doc(this.db, "users", id), userData);
+    }catch (error: any) {
+        console.error('Fehler beim Aktualisieren des Nutzers:', error);
+    }
+  }
+
+  async deleteSelectedUser(id:string){
+    try{
+      await deleteDoc(doc(this.db, "users", id));
+    }catch (error: any) {
+      console.error('Fehler beim Löschen des Nutzers:', error);
+    }
   }
 
   //CUSTOMER-----------------------------------------------------------------------------------------------------------------------

@@ -1,4 +1,4 @@
-/* You can add global styles to this file, and also import other style files */
+
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
@@ -19,6 +19,28 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .pd-top-16{
     padding-top: 16px !important;
 }
+
+.pd-btm-16{
+    padding-bottom: 16px !important;
+}
+
+.mr-top-16{
+    margin-top: 16px !important;
+}
+
+.divider{
+    padding: 0 !important;
+    margin-top: 8px !important;
+    margin-bottom: 8px !important;
+}
+
+.dis-flex-dir-row-center{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 16px;
+}
+
 
 /* Dark Theme Styles */
 .dark-theme {
@@ -69,4 +91,81 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
         background-color: #484848;
     }
 
+    .mat-mdc-card-subtitle{
+        color: #ffffff;
+    }
+
+    #MyChart{
+       color: #ffffff;
+    }
+
+    .dialog-container{
+        background-color: #484848;
+        color: #ffffff !important;
+    }
+
+    .mdc-text-field--filled:not(.mdc-text-field--disabled){
+        background-color: #484848;
+    }
+
+    .mat-mdc-dialog-container .mdc-dialog__title{
+        color: #ffffff !important;  
+    }
+
+    mat-label{
+        color: darkgray !important;
+    }
+
+    .mat-datepicker-toggle-default-icon .ng-star-inserted{
+        color: darkgray !important;
+    }
+
+    mat-calendar{
+        background-color: #484848;
+    }
+
+    mat-dialog-actions{
+        button{
+            color: #ffffff !important;
+        }
+        button:disabled{
+            color: darkgrey !important;
+        }
+   
+    }
+
+    .mat-mdc-tab.mdc-tab--active .mdc-tab__text-label{
+        color: #ffffff !important;
+    }
+
+    .mat-mdc-tab .mdc-tab__text-label{
+        color: darkgrey !important;
+    }
+
+    p{
+        color: #ffffff;
+    }
+
+    .mdc-label{
+        color: #ffffff;
+    }
+
+    .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-text-field__input{
+        color: #ffffff;
+    }
+
+    .customer-contact-detail{
+        a{
+            color: darkgrey !important;
+        }
+        
+    }
+
+    .mat-mdc-select{
+        color:#ffffff ;
+    }
+
+    .mdc-text-field--outlined.mdc-text-field--disabled .mdc-text-field__input{
+        color: darkgray;
+    }
   }

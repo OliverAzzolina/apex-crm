@@ -8,12 +8,14 @@ export class Product{
     productId: string;
     ppu: number;
     type: string;
+    translatedType: string;
 
     constructor(obj?: any){
         this.name = obj ? obj.name : '';
         this.productId = obj ? obj.productId : '';
         this.ppu = obj ? obj.ppu : '';
         this.type = obj ? obj.type : '';
+        this.translatedType = obj ? obj.translatedType : '';
     }
     
     public toJSON() {
@@ -22,6 +24,7 @@ export class Product{
             productId: this.productId,
             ppu: this.ppu,
             type: this.type,
+            translatedType: this.translatedType,
         };
     }
 }

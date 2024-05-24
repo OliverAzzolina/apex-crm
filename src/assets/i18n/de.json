@@ -1,0 +1,182 @@
+
+{
+    "main": {
+        "header-dashboard": "Übersicht",
+        "header-customers": "Kunden",
+        "header-tasks": "Aufgaben",
+        "header-products": "Produkte",
+        "header-purchases": "Verkäufe",
+        "header-settings": "Einstellungen",
+        "header-logout": "Abmelden"
+    },
+
+    "dashboard": {
+        "card-customers": "Kunden",
+        "card-revenue": "Umsatz Total",
+        "card-products": "Produkte im Verkauf"
+    },
+
+    "customers": {
+        "search-label": "Suche",
+        "table-header1": "Vorname",
+        "table-header2": "Nachname",
+        "table-header3": "E-Mail",
+        "table-header4": "Unternehmen",
+        "table-header5": "Position",
+        "tooltip-open": "Klicke um Kunden zu öffnen",
+        "tooltip-add": "Kunde hinzufügen",
+        "search-not-found": "Keine Übereinstimmung der Suche"
+    },
+
+    "customer-detail": {
+        "tooltip-options": "Kundenoptionen",
+        "header-edit": "Bearbeiten",
+        "header-delete": "Löschen",
+        "tooltip-mail": "E-Mail senden",
+        "tooltip-call": "Anrufen",
+        "detail-header": "Kontaktinformationen",
+        "birthdate-header": "Geburtstag",
+        "phone-header": "Telefonnummer",
+        "adress-header": "Adresse",
+        "tooltip-maps": "In Google Maps öffnen"
+    },
+
+    "customer-dialog": {
+        "header-add": "Kunde hinzufügen",
+        "header-edit": "Kunde bearbeiten",
+        "firstname": "Vorname",
+        "lastname": "Nachname",
+        "company": "Unternehmen",
+        "position": "Position",
+        "birthdate": "Geburtstag",
+        "phone": "Telefonnummer",
+        "street": "Strasse",
+        "number": "Hausnummer",
+        "zipcode": "Postleitzahl",
+        "city": "Stadt",
+        "cancel-button": "Abbrechen",
+        "save-button": "Speichern",
+        "delete-button": "Löschen",
+        "header-delete": "Lösche Kunden",
+        "text-delete": "Sind Sie sicher, dass Sie den ausgewählten Kunden löschen möchten?",
+        "checkbox-text-delete": "Ich bin mir sicher!"
+    },
+
+    "tasks": {
+        "search-label": "Suche",
+        "table-header1": "Status",
+        "table-header2": "Aufgabe",
+        "table-header3": "für Kunde",
+        "table-header4": "Aufgaben-ID",
+        "tooltip-open": "Klicke um Kunden zu öffnen",
+        "tooltip-add": "Aufgabe hinzufügen",
+        "search-not-found": "Keine Übereinstimmung der Suche",
+        "tab-header1": "Aufgaben",
+        "tooltip-edit": "Klicke zum Bearbeiten"
+    },
+
+    "task-dialog": {
+        "header-add": "Aufgabe hinzufügen",
+        "header-edit": "Aufgabe bearbeiten",
+        "select-customer-label": "Wähle Kunde",
+        "select-status-label": "Wähle Status",
+        "note-label": "Beschreibe Aufgabe",
+        "cancel-button": "Abbrechen",
+        "save-button": "Speichern",
+        "delete-button": "Löschen",
+        "status-option-open":"offen",
+        "status-option-closed":"geschlossen",
+        "header-delete": "Lösche Aufgabe",
+        "text-delete": "Sind Sie sicher, dass Sie die ausgewählte Aufgabe löschen möchten?",
+        "checkbox-text-delete": "Ich bin mir sicher!"
+    },
+
+    "products": {
+        "search-label": "Suche",
+        "table-header1": "Name",
+        "table-header2": "Typ",
+        "table-header3": "Preis pro Stück (€)",
+        "tooltip-open": "Klicke um Produkt zu bearbeiten",
+        "tooltip-add": "Produkt hinzufügen",
+        "search-not-found": "Keine Übereinstimmung der Suche"
+    },
+
+    "product-dialog": {
+        "header-add": "Produkt hinzufügen",
+        "header-edit": "Produkt bearbeiten",
+        "product-name": "Produktname",
+        "product-price": "Preis (€)",
+        "product-type": "Produkttyp",
+        "cancel-button": "Abbrechen",
+        "save-button": "Speichern",
+        "delete-button": "Löschen",
+        "type-option-product":"Produkt",
+        "type-option-service":"Service",
+        "header-delete": "Lösche Produkt",
+        "text-delete": "Sind Sie sicher, dass Sie das ausgewählte Produkt löschen möchten?",
+        "checkbox-text-delete": "Ich bin mir sicher!"
+    },
+
+    "purchases": {
+        "search-label": "Suche",
+        "table-header1": "Bestell-ID",
+        "table-header2": "Bestelldatum",
+        "table-header3": "Status",
+        "table-header4": "Produkt",
+        "table-header5": "Menge",
+        "table-header6": "Preis pro Stück (€)",
+        "table-header7": "Preis (€)",
+        "tooltip-open": "Klicke um Kunden zu öffnen",
+        "tooltip-add": "Bestellung hinzufügen",
+        "tooltip-edit": "Klicke zum Bearbeiten",
+        "search-not-found": "Keine Übereinstimmung der Suche",
+        "tab-header1": "Bestellungen"
+    },
+
+    "purchase-dialog": {
+        "header-add": "Verkauf hinzufügen",
+        "header-edit": "Verkauf bearbeiten",
+        "select-customer": "Wähle Kunde",
+        "orderdate": "Bestelldatum",
+        "status-option-ordered": "bestellt",
+        "status-option-inprocess": "in Bearbeitung",
+        "status-option-shipped": "verschickt",
+        "status-option-delivered": "geliefert",
+        "status": "Bestellstatus",
+        "ppu": "Preis pro Stück (€)",
+        "product": "Produkt",
+        "totalprice": "Endpreis",
+        "amount": "Menge",
+        "cancel-button": "Abbrechen",
+        "save-button": "Speichern",
+        "delete-button": "Löschen",
+        "header-delete": "Lösche Verkauf",
+        "text-delete": "Sind Sie sicher, dass Sie den ausgewähltes Verkauf löschen möchten?",
+        "checkbox-text-delete": "Ich bin mir sicher!"
+    },
+
+    "set-tab":{
+        "customer":"customer"
+    },
+
+    "settings":{
+        "dark-mode-header":"Dunkles oder helles Design",
+        "language-header":"Sprache wählen:",
+        "language-input-label":"Sprache",
+        "language-option-en":"Englisch",
+        "language-option-de":"Deutsch",
+        "save-button": "Einstellungen Speichern",
+        "delete-user-header": "Benutzeraccount löschen",
+        "delete-button": "Löschen"
+    },
+
+    "delete-user-dialog":{
+        "header-delete": "Lösche Benutzeraccount",
+        "text-delete": "Sind Sie sicher, dass Sie Ihren Benutzer löschen möchten?",
+        "checkbox-text-delete": "Ich bin mir sicher!",
+        "delete-button": "Löschen",
+        "cancel-button": "Abbrechen"
+    }
+
+
+}

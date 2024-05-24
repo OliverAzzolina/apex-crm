@@ -7,7 +7,7 @@ export class ThemeService {
 
   constructor() { }
 
-  private darkMode = false;
+  darkMode = false;
   logo:string = 'assets/logo/logo_light.png';
 
   isDarkMode() {
@@ -23,6 +23,5 @@ export class ThemeService {
       document.body.classList.remove('dark-theme');
       this.logo = 'assets/logo/logo_light.png'
     }
-    console.log(this.logo)
   }
 }

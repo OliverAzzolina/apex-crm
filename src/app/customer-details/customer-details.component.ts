@@ -1,4 +1,4 @@
-import { Component, Input, ViewChild, forwardRef } from '@angular/core';
+import { Component, Input, ViewChild, forwardRef, inject } from '@angular/core';
 import {MatCardModule} from '@angular/material/card';
 import { Router } from '@angular/router';
 import { doc, onSnapshot } from "firebase/firestore";
@@ -29,15 +29,18 @@ import { CustomersComponent } from '../customers/customers.component';
 import { Customer } from '../../models/customer.class';
 import { DialogEditCustomerComponent } from '../dialog-edit-customer/dialog-edit-customer.component';
 import { DialogDeleteCustomerComponent } from '../dialog-delete-customer/dialog-delete-customer.component';
+import { TranslationService } from '../services/translation.service';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-customer-details',
   standalone: true,
   imports: [MatCardModule, CommonModule, CustomersComponent, MatIconModule, MatButtonModule, MatTooltipModule, MatTabsModule, MatMenuModule, 
-    MatTableModule, MatFormField, MatLabel, MatCheckboxModule, MatInputModule, MatFormFieldModule, FormsModule, ReactiveFormsModule],
+    MatTableModule, MatFormField, MatLabel, MatCheckboxModule, MatInputModule, MatFormFieldModule, FormsModule, ReactiveFormsModule, TranslateModule],
   templateUrl: './customer-details.component.html',
   styleUrl: './customer-details.component.scss'
 })
+
 export class CustomerDetailsComponent {
   constructor(private router: Router, public db: Firestore, public dialog: MatDialog, public tabIndex: SetTabIndexService ) {}
 
@@ -53,6 +56,8 @@ export class CustomerDetailsComponent {
   actualTabIndex:any = 0;
   selectedTabIndex = new FormControl( this.actualTabIndex);
  
+  translate = inject(TranslationService);
+
   ngOnInit(){
     this.id = this.router.url.split('/').splice(3, 1).toString();
     this.getCustomerData();

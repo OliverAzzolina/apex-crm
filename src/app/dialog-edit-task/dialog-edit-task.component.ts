@@ -1,71 +1,69 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Task } from '../../models/task.class';
-import {MatMenuModule} from '@angular/material/menu';
-import {MatButtonModule} from '@angular/material/button';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatButtonModule } from '@angular/material/button';
 import { MatFormField, MatLabel } from '@angular/material/form-field';
-
-import {MatInputModule} from '@angular/material/input';
-
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {FormsModule} from '@angular/forms';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { FormControl, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
-import {
-  MatDialog,
-  MAT_DIALOG_DATA,
-  MatDialogRef,
-  MatDialogTitle,
-  MatDialogContent,
-  MatDialogActions,
-  MatDialogClose,
-} from '@angular/material/dialog';
+import { MatDialog, MatDialogRef, MatDialogActions } from '@angular/material/dialog';
 import { DatabaseService } from '../services/database.service';
 import { Customer } from '../../models/customer.class';
-import { Router, RouterLink } from '@angular/router';
+import { RouterLink } from '@angular/router';
 import { Firestore } from '@angular/fire/firestore';
 import { DialogDeleteTaskComponent } from '../dialog-delete-task/dialog-delete-task.component';
-
-
-interface Status {
-  value: string;
-  viewValue: string;
-}
+import { TranslationService } from '../services/translation.service';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-dialog-edit-task',
   standalone: true,
-  imports: [MatMenuModule, RouterLink, MatButtonModule, MatFormField, MatLabel, MatInputModule, MatFormFieldModule, FormsModule, MatSelectModule, MatDialogActions],
+  imports: [MatMenuModule, RouterLink, MatButtonModule, MatFormField, MatLabel, MatInputModule, MatFormFieldModule, FormsModule, 
+    MatSelectModule, MatDialogActions, ReactiveFormsModule, TranslateModule],
   templateUrl: './dialog-edit-task.component.html',
   styleUrl: './dialog-edit-task.component.scss'
 })
+
 export class DialogEditTaskComponent {
   customerId: string;
   customer: Customer;
   task: Task;
   taskId: string;
   loading = false;
+  translatedStatus: string;
 
-constructor(private database: DatabaseService, public dialog: MatDialog, public db: Firestore, public dialogRef: MatDialogRef<DialogEditTaskComponent>){};
+  statusFormControl = new FormControl('', [Validators.required, Validators.minLength(2)]);
+  noteFormControl = new FormControl('', [Validators.required, Validators.minLength(2)]);
 
-statusOpt: Status[] = [
-  {value: 'open', viewValue: 'open'},
-  {value: 'closed', viewValue: 'closed'},
-];
+  constructor(private database: DatabaseService, public dialog: MatDialog, public db: Firestore, public dialogRef: MatDialogRef<DialogEditTaskComponent>){};
 
-async updateTask(){
+  translate = inject(TranslationService);
+
+  async updateTask(){
+    await this.generateTranslatedStatus(this.task.status);
     const taskData = this.task.toJSON();
     this.loading = true;
-
+    taskData.translatedStatus = this.translatedStatus;
     await this.database.saveEditedTask(taskData, this.taskId).then((result: any) => {
       console.log('updated task', taskData);
       this.loading = false;
       this.dialogRef.close();
     });
-  }
+  };
 
   openDialogDeleteTask(){
     let dialog = this.dialog.open(DialogDeleteTaskComponent);
     dialog.componentInstance.taskId = this.taskId;
     this.dialogRef.close();
-  }
+  };
+
+  async generateTranslatedStatus(status:string){
+    if(status == 'open'){
+      this.translatedStatus = 'offen'
+    }else{
+      this.translatedStatus = 'geschlossen'
+    }
+  };
 }
 

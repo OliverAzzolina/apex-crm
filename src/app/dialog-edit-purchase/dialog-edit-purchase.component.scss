@@ -1,19 +1,25 @@
-.margin-r-16{
-    margin-right: 16px;
-}
-
-.full-width{
-    width: 100%;
-}
-
-.half-width{
-    width: 50%;
-}
-
 .items-center{
     display: flex;
     flex-direction: column;
     justify-content: center !important;
-    align-items: center;
+    align-items: center !important;
     width: 100%;
+    button{
+        width: 100%;
+        justify-content: center !important;
+        align-items: center !important;
+        margin: 0;
+        margin-bottom: 8px;
+    }
+}
+
+.add-purchase-container{
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+}
+
+mat-card-header{
+    padding: 0;
+    padding-bottom: 8px;
 }

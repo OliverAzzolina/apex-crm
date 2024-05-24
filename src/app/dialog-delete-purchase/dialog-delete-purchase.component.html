@@ -1,10 +1,12 @@
-<h2 mat-dialog-title>Delete Purchase</h2>
-<mat-dialog-content>
-  <p>Are you sure, you want to delete the selected Purchase?</p>
-  <mat-checkbox color="warn" [(ngModel)] ="checked" class="example-margin">I am sure</mat-checkbox>
+<div class="dialog-container">
+  <h2 mat-dialog-title> {{ "purchase-dialog.header-delete" | translate }} </h2>
+  <mat-dialog-content>
+    <p> {{ "purchase-dialog.text-delete" | translate }} </p>
+    <mat-checkbox color="warn" [(ngModel)] ="checked" class="example-margin"> {{ "purchase-dialog.checkbox-text-delete" | translate }} </mat-checkbox>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button mat-button (click)="this.dialogRef.close();" > {{ "purchase-dialog.cancel-button" | translate }} </button>
+    <button mat-button color="warn" [disabled]="!checked" (click)="deletePurchase()" routerLink="/main/customers"> {{ "purchase-dialog.delete-button" | translate }} </button>
+  </mat-dialog-actions>
+</div>
 
-</mat-dialog-content>
-<mat-dialog-actions>
-  <button mat-button (click)="this.dialogRef.close();" >Cancel</button>
-  <button mat-button color="warn" [disabled]="!checked" (click)="deletePurchase()" routerLink="/main/customers">Delete</button>
-</mat-dialog-actions>

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
@@ -21,6 +21,9 @@ import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatPaginatorModule} from '@angular/material/paginator';
 import {AfterViewInit, ViewChild} from '@angular/core';
+import { TranslationService } from '../services/translation.service';
+import { TranslateModule } from '@ngx-translate/core';
+import { SetHeaderService } from '../services/set-header.service';
 
 
 
@@ -28,7 +31,7 @@ import {AfterViewInit, ViewChild} from '@angular/core';
   selector: 'app-customers',
   standalone: true,
   imports: [RouterLink, MatIconModule, MatButtonModule, MatTooltipModule, MatDialogModule, FormsModule, MatFormFieldModule, 
-    MatInputModule, CommonModule, MatCardModule, MatTableModule, MatSortModule, MatPaginatorModule],
+    MatInputModule, CommonModule, MatCardModule, MatTableModule, MatSortModule, MatPaginatorModule, TranslateModule],
   templateUrl: './customers.component.html',
   styleUrl: './customers.component.scss'
 })
@@ -41,6 +44,8 @@ export class CustomersComponent{
   displayedColumns: string[] = ['firstName', 'lastName', 'email', 'company', 'position'];
   
   constructor(public db: Firestore, public dialog: MatDialog, public database: DatabaseService, public tabIndex: SetTabIndexService, private _liveAnnouncer: LiveAnnouncer) {}
+  translate = inject(TranslationService);
+  setheader = inject(SetHeaderService);
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
@@ -104,9 +109,6 @@ export class CustomersComponent{
           
         });
         this.dataSource.data = this.customerData;
-        console.log(this.customerData)
-   
-        //this.filterUsers();
         this.loading = false;
       },
       (error) => {

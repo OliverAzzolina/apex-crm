@@ -1,50 +1,45 @@
-import { Component, Injectable } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import {MatIconModule} from '@angular/material/icon';
-import {MatButtonModule} from '@angular/material/button';
-import {MatTooltipModule} from '@angular/material/tooltip';
-import {MatDialogModule} from '@angular/material/dialog';
-import {MatDialog,} from '@angular/material/dialog';
-import {FormsModule} from '@angular/forms';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
+import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import {MatInputModule} from '@angular/material/input';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatCardModule} from '@angular/material/card';
-import {MatTableModule} from '@angular/material/table';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatCardModule } from '@angular/material/card';
+import { MatTableModule } from '@angular/material/table';
 import { DatabaseService } from '../services/database.service';
-import { collection, doc, getDocs, onSnapshot, query, where } from 'firebase/firestore';
+import { collection, onSnapshot } from 'firebase/firestore';
 import { Firestore } from '@angular/fire/firestore';
 import { SetTabIndexService } from '../services/set-tab-index.service';
 import { SetHeaderService } from '../services/set-header.service';
-
-
-
-
-
-
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort, MatSortModule, Sort } from '@angular/material/sort';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
-
 import { ViewChild} from '@angular/core';
 import { DialogAddTaskComponent } from '../dialog-add-task/dialog-add-task.component';
+import { TranslateModule } from '@ngx-translate/core';
+import { TranslationService } from '../services/translation.service';
 
 @Component({
   selector: 'app-tasks',
   standalone: true,
   imports: [MatCardModule, MatTableModule, MatIconModule, MatButtonModule, MatTooltipModule, MatDialogModule, CommonModule, RouterLink,
-    FormsModule, MatInputModule, MatFormFieldModule, MatSort, MatSortModule
+    FormsModule, MatInputModule, MatFormFieldModule, MatSort, MatSortModule, TranslateModule
   ],
   templateUrl: './tasks.component.html',
   styleUrl: './tasks.component.scss'
 })
-export class TasksComponent {
 
-  taskData:any = [];
+export class TasksComponent {
+  allTasks:any = [];
   userData:any;
   loading: boolean = false;
-
-  dataSource = new MatTableDataSource(this.taskData);
+  translate = inject(TranslationService);
+  dataSource = new MatTableDataSource(this.allTasks);
   displayedColumns: string[] = ['status', 'note', 'customerName'];
 
   constructor(public db: Firestore, public dialog: MatDialog, public database: DatabaseService, public tabIndex: SetTabIndexService, 
@@ -60,6 +55,11 @@ export class TasksComponent {
     ngAfterViewInit() {
       this.dataSource.sort = this.sort;
     }
+
+    async ngOnInit(): Promise<void>{
+      await this.getAllTasks('tasks');
+      this.dataSource.data = this.allTasks; 
+    }
   
     /** Announce the change in sort state for assistive technology. */
     announceSortChange(sortState: Sort) {
@@ -73,11 +73,6 @@ export class TasksComponent {
         this._liveAnnouncer.announce('Sorting cleared');
       }
     }
-
-  async ngOnInit(): Promise<void>{
-    await this.getAllTasks('tasks');
-    this.dataSource.data = this.taskData; 
-  }
 
   openDialogAddTask(){
     this.dialog.open(DialogAddTaskComponent);
@@ -97,22 +92,21 @@ export class TasksComponent {
     onSnapshot(
       tasksCollectionRef,
       (snapshot: { docs: any[] }) => {
-        this.taskData = [];
-        this.taskData = snapshot.docs.map( (doc) => {
+        this.allTasks = [];
+        this.allTasks = snapshot.docs.map( (doc) => {
           const taskData = doc.data();
           return {
             taskId: doc.id,
             status: taskData['status'],
+            translatedStatus: taskData['translatedStatus'],
             note: taskData['note'],
             customerId: taskData['customerId'],
             customerName: taskData['customerName']
           };
           
-          
         });
-        this.dataSource.data = this.taskData;
-        console.log(this.taskData)
-        //this.filterUsers();
+        this.dataSource.data = this.allTasks;
+        
         this.loading = false;
       },
       (error) => {

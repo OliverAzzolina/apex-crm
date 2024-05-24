@@ -4,6 +4,17 @@
     flex-direction: column;
 }
 
-.full-width{
-    width: 100% !important;
+.items-center{
+    display: flex;
+    flex-direction: column;
+    justify-content: center !important;
+    align-items: center !important;
+    width: 100%;
+    button{
+        width: 100%;
+        justify-content: center !important;
+        align-items: center !important;
+        margin: 0;
+        margin-bottom: 8px;
+    }
 }

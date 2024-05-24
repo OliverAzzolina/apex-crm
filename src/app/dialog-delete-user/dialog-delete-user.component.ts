@@ -10,25 +10,24 @@ import { TranslateModule } from '@ngx-translate/core';
 import { TranslationService } from '../services/translation.service';
 
 @Component({
-  selector: 'app-dialog-delete-customer',
+  selector: 'app-dialog-delete-user',
   standalone: true,
-  imports: [MatDialogModule, MatCheckboxModule, CommonModule, FormsModule, MatButtonModule, RouterLink, TranslateModule],
-  templateUrl: './dialog-delete-customer.component.html',
-  styleUrl: './dialog-delete-customer.component.scss'
+  imports: [MatDialogModule, MatCheckboxModule, CommonModule, FormsModule, MatButtonModule, TranslateModule],
+  templateUrl: './dialog-delete-user.component.html',
+  styleUrl: './dialog-delete-user.component.scss'
 })
-
-export class DialogDeleteCustomerComponent {
+export class DialogDeleteUserComponent {
   router: any;
-  id:string;
+  userId:string;
   checked = false;
 
-  constructor(private database: DatabaseService, public dialogRef: MatDialogRef<DialogDeleteCustomerComponent>){};
+  constructor(private database: DatabaseService, public dialogRef: MatDialogRef<DialogDeleteUserComponent>){};
 
   translate = inject(TranslationService);
 
-  async deleteCustomer(){
-    this.database.deleteSelectedCustomer(this.id).then((result:any) =>{
-      console.log('deleted Customer with ID: ', this.id, result);
+  async deleteUser(){
+    this.database.deleteSelectedUser(this.userId).then((result:any) =>{
+      console.log('deleted Customer with ID: ', this.userId, result);
       this.dialogRef.close();
     });
   };
