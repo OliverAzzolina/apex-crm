@@ -14,20 +14,19 @@ import { DatabaseService } from '../services/database.service';
 import { TranslationService } from '../services/translation.service';
 import { ThemeService } from '../services/theme.service';
 import { MatIconModule } from '@angular/material/icon';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-login',
   standalone: true,
   imports: [RouterLink, MatCardModule, MatInputModule, FormsModule, ReactiveFormsModule, MatButtonModule, MatDividerModule, CommonModule, 
-    RegisterComponent, MatIconModule
+    RegisterComponent, MatIconModule, TranslateModule
    ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })
 
 export class LoginComponent {
-  constructor(private database: DatabaseService, public db: Firestore, private router: Router){}
-  
   loading = false;
   userIsLoggedIn = false;
   emailFormControl = new FormControl('', [Validators.required, Validators.email]);
@@ -40,9 +39,18 @@ export class LoginComponent {
   userId: string;
   wrongPassword = false;
   userNotFound: boolean = false;
-
+  
   translate = inject(TranslationService);
   darkmode = inject(ThemeService);
+
+  constructor(
+    private database: DatabaseService, 
+    public db: Firestore, 
+    private router: Router){}
+
+  ngOnInit(){
+    this.translate.switchLanguage(this.translate.translationOn)
+  };
 
   async checkUser(){
     this.wrongPassword = false;
@@ -68,8 +76,8 @@ export class LoginComponent {
           this.wrongPassword = true;
         }
       });
-    }
-  }
+    };
+  };
 
   async setUserId(userData: DocumentData) {
     const userId = userData['userId'];
@@ -86,9 +94,9 @@ export class LoginComponent {
     if(userData['darkmode'] == true){
       this.darkmode.setDarkMode(true);
     }
-  }
+  };
 
   public saveData(key: string, value: string) {
     localStorage.setItem(key, value);
-  }
-}
+  };
+};

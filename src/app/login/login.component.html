@@ -5,19 +5,19 @@
       <mat-divider></mat-divider>
 
       <mat-card-header class="header-container">
-        <mat-card-title>Login</mat-card-title>
+        <mat-card-title> {{ "login.header-login" | translate }} </mat-card-title>
       </mat-card-header>
 
       <mat-card-content>
         <form class="login-form">
 
           <mat-form-field class="full-width">
-            <mat-label>Email</mat-label>
+            <mat-label> {{ "login.header-email" | translate }} </mat-label>
             <input type="email" [(ngModel)]="email" matInput [formControl]="emailFormControl" placeholder="Ex. pat@example.com">
           </mat-form-field>
 
           <mat-form-field class="full-width">
-            <mat-label>Password</mat-label>
+            <mat-label> {{ "login.header-password" | translate }} </mat-label>
             <input [type]="hide ? 'password' : 'text'" type="password" [(ngModel)]="password" matInput [formControl]="passwordFormControl">
             <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
               <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
@@ -31,20 +31,24 @@
       <mat-card-actions class="login-btn-container">
         <button class="login-btn" mat-raised-button color="primary"
         [disabled]="emailFormControl.invalid || passwordFormControl.invalid"
-        (click)="checkUser()">LOGIN</button>
+        (click)="checkUser()"> {{ "login.login-button" | translate }} </button>
       </mat-card-actions>
 
       <mat-card-content  class="user-not-found-note" *ngIf="userNotFound">
-        User not found!
+        {{ "login.msg-no-user" | translate }} 
       </mat-card-content>
 
       <mat-card-content  class="user-not-found-note" *ngIf="wrongPassword">
-        Wrong Password!
+        {{ "login.msg-wrong-password" | translate }} 
       </mat-card-content>
 
       <mat-card-content class="register">
-        <mat-card-subtitle>You don't have an Account? </mat-card-subtitle>
-        <mat-card-subtitle class="register-link" routerLink="/register">Sign up here!</mat-card-subtitle>
+        <mat-card-subtitle> {{ "login.register-text" | translate }} </mat-card-subtitle>
+        <mat-card-subtitle class="register-link" routerLink="/register"> {{ "login.register-link-text" | translate }} </mat-card-subtitle>
       </mat-card-content>
+
+      <button mat-icon-button color="primary" (click)="translate.switchLogRegTranslation()">
+        <mat-icon><img class="flag" src= {{translate.flag}} alt=""></mat-icon>
+      </button>
     </mat-card>
   </div>

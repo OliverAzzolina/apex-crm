@@ -27,10 +27,12 @@ export class MainComponent {
   constructor(public setHeader: SetHeaderService, public db: Firestore,  public dialog: MatDialog, private database: DatabaseService){}
   setLogo = inject(ThemeService);
   darkmode = inject(ThemeService);
-  translate = inject(TranslationService)
+  translate = inject(TranslationService);
+  header: string = '';
 
   async ngOnInit(){
     await this.checkUser();
+    await this.setHeader.setFirstHeader()
   }
 
   async checkUser(){

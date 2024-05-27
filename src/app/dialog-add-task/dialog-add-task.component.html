@@ -13,8 +13,8 @@
   <mat-form-field>
     <mat-label>{{ "task-dialog.select-status-label" | translate }}</mat-label>
     <mat-select [(ngModel)]="task.status" name="status" [formControl]="statusFormControl">
-          <mat-option value ="open">{{"add-task-dialog.status-option-open" | translate}}</mat-option>
-          <mat-option value ="closed">{{"add-task-dialog.status-option-closed" | translate}}</mat-option>      
+          <mat-option value ="open">{{"task-dialog.status-option-open" | translate}}</mat-option>
+          <mat-option value ="closed">{{"task-dialog.status-option-closed" | translate}}</mat-option>      
     </mat-select>
   </mat-form-field>
 
@@ -24,7 +24,7 @@
   </mat-form-field>
 
   <mat-dialog-actions class="items-center">
-    <button mat-button (click)="saveTask()" 
+    <button mat-button (click)='saveTask()'
     [disabled]="
     customerFormControl.invalid || 
     statusFormControl.invalid || 

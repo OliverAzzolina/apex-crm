@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -11,13 +11,15 @@ import { User } from '../../models/user.class';
 import { DatabaseService } from '../services/database.service';
 import { doc, getDoc, getDocs } from "firebase/firestore";
 import { Firestore, collection, query, where } from '@angular/fire/firestore';
+import { TranslateModule } from '@ngx-translate/core';
+import { TranslationService } from '../services/translation.service';
 
 
 @Component({
   selector: 'app-register',
   standalone: true,
   imports: [RouterLink, MatCardModule, MatInputModule, FormsModule, ReactiveFormsModule, MatButtonModule, MatDividerModule, CommonModule, 
-    RegisterComponent, MatIconModule],
+    RegisterComponent, MatIconModule, TranslateModule],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss'
 })
@@ -36,6 +38,12 @@ export class RegisterComponent {
   userData: any;
   userExistsNote = false;
   
+  translate = inject(TranslationService);
+
+  ngOnInit(){
+    this.translate.switchLanguage(this.translate.translationOn)
+  }
+
   async registerUser(userData:any){
     await this.database.saveNewUser(userData).then((result: any) => {
       console.log('added new User', result);

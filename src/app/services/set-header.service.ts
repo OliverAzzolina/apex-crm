@@ -6,13 +6,21 @@ import { TranslationService } from './translation.service';
 })
 export class SetHeaderService {
 
-  header:string = 'Dashboard';
+  header:string = '';
   translate = inject(TranslationService);
 
   constructor() { }
 
   async updateHeader(newHeader:string){
     this.header = newHeader;
+  }
+
+  async setFirstHeader(){
+    if(this.translate.translationOn){
+      this.header = 'Übersicht'
+    }else{
+      this.header = 'Dashboard'
+    }
   }
 
   async updateCustomerHeader(){

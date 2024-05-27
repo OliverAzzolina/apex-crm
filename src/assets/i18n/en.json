@@ -175,6 +175,40 @@
         "checkbox-text-delete": "I am sure!",
         "delete-button": "Delete",
         "cancel-button": "Cancel"
-    }
+    },
 
+    "login":{
+        "header-login": "Login",
+        "header-email": "Email",
+        "header-password": "Password",
+        "login-button": "LOGIN",
+        "register-text": "You don't have an Account?",
+        "register-link-text": "Sign up here!",
+        "msg-no-user": "User not found!",
+        "msg-wrong-password": "Wrong Password!"
+    },
+
+    "register":{
+        "header-register": "Register",
+        "header-firstname": "Firstname",
+        "header-lastname": "Lastname",
+        "header-email": "Email",
+        "header-password": "Password",
+        "register-button": "REGISTER",
+        "login-text": "You already have an Account?",
+        "login-link-text": "Sign in here!",
+        "msg-user-exists": "User already exists!"
+    },
+
+    "sheet":{
+        "settings": "Settings saved",
+        "customer-save": "Customer saved",
+        "task-save": "Task saved",
+        "product-save": "Product saved",
+        "purchase-save": "Purchase saved",
+        "customer-deleted": "Customer deleted",
+        "task-deleted": "Task deleted",
+        "product-deleted": "Product deleted",
+        "purchase-deleted": "Purchase deleted"   
+    }
 }

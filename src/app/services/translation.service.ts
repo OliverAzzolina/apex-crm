@@ -6,7 +6,7 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 })
 export class TranslationService {
   translationOn: boolean = false;
-
+  flag: string = "assets/icons/de.png";
   constructor(public translate: TranslateService){
 
     //translate.setDefaultLang('en');
@@ -22,4 +22,19 @@ export class TranslationService {
       this.translate.use('en');
     }
   }
+
+  switchLogRegTranslation(){
+      console.log(this.translationOn)
+      if(this.translationOn){
+        this.switchLanguage(false);
+        this.translationOn = false;
+        this.flag = "assets/icons/de.png";
+      }
+      else{
+        this.switchLanguage(true);
+        this.translationOn = true;
+        this.flag = "assets/icons/en.png";
+      }
+    }
+  
 }

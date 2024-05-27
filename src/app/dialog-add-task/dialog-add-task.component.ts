@@ -13,12 +13,19 @@ import { RouterLink } from '@angular/router';
 import { Firestore, collection, getDocs } from '@angular/fire/firestore';
 import { TranslationService } from '../services/translation.service';
 import { TranslateModule } from '@ngx-translate/core';
+import { MatBottomSheet, MatBottomSheetModule, MatBottomSheetRef } from '@angular/material/bottom-sheet';
+import { FeedbackBottomSheetComponent } from '../feedback-bottom-sheet/feedback-bottom-sheet.component';
+import { BottomSheetService } from '../services/bottom-sheet.service';
+
 
 @Component({
   selector: 'app-dialog-add-task',
   standalone: true,
   imports: [ MatMenuModule, RouterLink, MatButtonModule, MatFormField, MatLabel, MatInputModule, MatFormFieldModule, 
     FormsModule, MatSelectModule, MatDialogActions, ReactiveFormsModule, TranslateModule
+  ],
+  providers: [
+    { provide: MatBottomSheetRef, useValue: { dismiss: () => {} } }
   ],
   templateUrl: './dialog-add-task.component.html',
   styleUrl: './dialog-add-task.component.scss'
@@ -42,10 +49,12 @@ export class DialogAddTaskComponent {
   statusFormControl = new FormControl('', [Validators.required, Validators.minLength(2)]);
   noteFormControl = new FormControl('', [Validators.required, Validators.minLength(2)]);
 
-  constructor(private database: DatabaseService, public db: Firestore, public dialogRef: MatDialogRef<DialogAddTaskComponent>){};
+  constructor(private database: DatabaseService, public db: Firestore, public dialogRef: MatDialogRef<DialogAddTaskComponent>, 
+    private _bottomSheet: MatBottomSheet,
+    private _bottomSheetRef: MatBottomSheetRef<FeedbackBottomSheetComponent>){};
 
   translate = inject(TranslationService);
-
+  sheetService = inject(BottomSheetService);
   async ngOnInit(){
     await this.loadAllCustomers();
     await this.checkForCustomerId();
@@ -82,6 +91,7 @@ export class DialogAddTaskComponent {
       console.log('added task', taskData);
       this.loading = false;
       this.dialogRef.close();
+      this.openBottomSheet()
     });
   };
 
@@ -92,4 +102,14 @@ export class DialogAddTaskComponent {
       this.translatedStatus = 'geschlossen'
     };
   };
+
+ 
+
+  openBottomSheet(): void {
+    this.sheetService.message = "sheet.task-save";
+    this._bottomSheet.open(FeedbackBottomSheetComponent);
+    setTimeout(() =>{
+      this._bottomSheet.dismiss();
+    }, 2000)
+  }
 };
