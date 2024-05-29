@@ -8,6 +8,9 @@ import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { TranslationService } from '../services/translation.service';
 import { TranslateModule } from '@ngx-translate/core';
+import { MatBottomSheet } from '@angular/material/bottom-sheet';
+import { BottomSheetService } from '../services/bottom-sheet.service';
+import { FeedbackBottomSheetComponent } from '../feedback-bottom-sheet/feedback-bottom-sheet.component';
 
 @Component({
   selector: 'app-dialog-delete-purchase',
@@ -23,14 +26,25 @@ export class DialogDeletePurchaseComponent {
   customerId:string;
   checked = false;
 
-  constructor(private database: DatabaseService, public dialogRef: MatDialogRef<DialogDeletePurchaseComponent>){};
-
+  constructor(private database: DatabaseService, public dialogRef: MatDialogRef<DialogDeletePurchaseComponent>, 
+    private _bottomSheet: MatBottomSheet){};
+    
+  sheetService = inject(BottomSheetService);
   translate = inject(TranslationService);
 
   deletePurchase(){
     this.database.deleteSelectedPurchase(this.purchaseId).then((result:any) =>{
       console.log('deleted purchase with ID: ', this.purchaseId, result);
       this.dialogRef.close();
+      this.openBottomSheet();
     })
   }
+
+  openBottomSheet(){
+    this.sheetService.message = "sheet.purchase-deleted";
+    this._bottomSheet.open(FeedbackBottomSheetComponent);
+    setTimeout(() =>{
+      this._bottomSheet.dismiss();
+    }, 2000)
+  };
 }

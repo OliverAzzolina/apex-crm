@@ -209,6 +209,10 @@
         "customer-deleted": "Customer deleted",
         "task-deleted": "Task deleted",
         "product-deleted": "Product deleted",
-        "purchase-deleted": "Purchase deleted"   
+        "purchase-deleted": "Purchase deleted",
+        "user-deleted": "User deleted",
+        "user-registered": "User registered",
+        "user-login": "User login successful",
+        "user-logout": "Logout successful"
     }
 }

@@ -11,6 +11,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { RouterLink } from '@angular/router';
 import { DialogDeleteProductComponent } from '../dialog-delete-product/dialog-delete-product.component';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { MatBottomSheet } from '@angular/material/bottom-sheet';
+import { BottomSheetService } from '../services/bottom-sheet.service';
+import { FeedbackBottomSheetComponent } from '../feedback-bottom-sheet/feedback-bottom-sheet.component';
 
 @Component({
   selector: 'app-dialog-edit-product',
@@ -31,7 +34,10 @@ export class DialogEditProductComponent {
   productPriceFormControl = new FormControl('', [Validators.required, Validators.minLength(1)]);
   productTypeFormControl = new FormControl('', [Validators.required, Validators.minLength(1)]);
 
-  constructor(private database: DatabaseService,  public dialog: MatDialog, public dialogRef: MatDialogRef<DialogEditProductComponent>){};
+  constructor(private database: DatabaseService,  public dialog: MatDialog, public dialogRef: MatDialogRef<DialogEditProductComponent>, 
+    private _bottomSheet: MatBottomSheet){};
+    
+  sheetService = inject(BottomSheetService);
 
   translate = inject(TranslateService);
 
@@ -45,6 +51,7 @@ export class DialogEditProductComponent {
       console.log('updated product', productData);
       this.loading = false;
       this.dialogRef.close();
+      this.openBottomSheet();
     });
   };
 
@@ -60,5 +67,13 @@ export class DialogEditProductComponent {
     }else{
       this.translatedType = 'Service'
     };
+  };
+
+  openBottomSheet(){
+    this.sheetService.message = "sheet.product-save";
+    this._bottomSheet.open(FeedbackBottomSheetComponent);
+    setTimeout(() =>{
+      this._bottomSheet.dismiss();
+    }, 2000)
   };
 };

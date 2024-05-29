@@ -13,6 +13,9 @@ import { DatabaseService } from '../services/database.service';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import { CommonModule } from '@angular/common'
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { FeedbackBottomSheetComponent } from '../feedback-bottom-sheet/feedback-bottom-sheet.component';
+import { MatBottomSheet } from '@angular/material/bottom-sheet';
+import { BottomSheetService } from '../services/bottom-sheet.service';
 
 @Component({
   selector: 'app-dialog-edit-customer',
@@ -43,8 +46,10 @@ export class DialogEditCustomerComponent {
   zipCodeFormControl = new FormControl('', [Validators.required, Validators.minLength(1)]);
   cityFormControl = new FormControl('', [Validators.required, Validators.minLength(1)]);
 
-  constructor(private database: DatabaseService, public dialogRef: MatDialogRef<DialogEditCustomerComponent>){};
-  
+  constructor(private database: DatabaseService, public dialogRef: MatDialogRef<DialogEditCustomerComponent>, 
+    private _bottomSheet: MatBottomSheet){};
+    
+  sheetService = inject(BottomSheetService);
   translate = inject(TranslateService);
 
   private convertToDate(birthDate: number){
@@ -64,6 +69,15 @@ export class DialogEditCustomerComponent {
       console.log('updated Customer', result);
       this.loading = false;
       this.dialogRef.close();
+      this.openBottomSheet();
     });
+  };
+
+  openBottomSheet(){
+    this.sheetService.message = "sheet.customer-save";
+    this._bottomSheet.open(FeedbackBottomSheetComponent);
+    setTimeout(() =>{
+      this._bottomSheet.dismiss();
+    }, 2000)
   };
 }

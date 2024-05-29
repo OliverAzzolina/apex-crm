@@ -13,6 +13,9 @@ import { DatabaseService } from '../services/database.service';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { CommonModule } from '@angular/common';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { MatBottomSheet } from '@angular/material/bottom-sheet';
+import { BottomSheetService } from '../services/bottom-sheet.service';
+import { FeedbackBottomSheetComponent } from '../feedback-bottom-sheet/feedback-bottom-sheet.component';
 
 @Component({
   selector: 'app-dialog-add-customer',
@@ -42,8 +45,10 @@ export class DialogAddCustomerComponent {
   zipCodeFormControl = new FormControl('', [Validators.required, Validators.minLength(1)]);
   cityFormControl = new FormControl('', [Validators.required, Validators.minLength(1)]);
 
-  constructor(private database: DatabaseService, public dialogRef: MatDialogRef<DialogAddCustomerComponent>){};
-
+  constructor(private database: DatabaseService, public dialogRef: MatDialogRef<DialogAddCustomerComponent>,
+              private _bottomSheet: MatBottomSheet
+  ){};
+  sheetService = inject(BottomSheetService);
   translate = inject(TranslateService);
 
   async saveCustomer() {
@@ -54,7 +59,16 @@ export class DialogAddCustomerComponent {
       console.log('added Customer', result);
       this.loading = false;
       this.dialogRef.close();
+      this.openBottomSheet();
     });
+  };
+
+  openBottomSheet(){
+    this.sheetService.message = "sheet.customer-save";
+    this._bottomSheet.open(FeedbackBottomSheetComponent);
+    setTimeout(() =>{
+      this._bottomSheet.dismiss();
+    }, 2000)
   };
 
 }

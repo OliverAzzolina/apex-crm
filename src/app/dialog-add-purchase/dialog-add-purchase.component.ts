@@ -12,6 +12,9 @@ import { Firestore, collection, getDocs, onSnapshot } from '@angular/fire/firest
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { FeedbackBottomSheetComponent } from '../feedback-bottom-sheet/feedback-bottom-sheet.component';
+import { BottomSheetService } from '../services/bottom-sheet.service';
+import { MatBottomSheet } from '@angular/material/bottom-sheet';
 
 @Component({
   selector: 'app-dialog-add-purchase',
@@ -47,7 +50,10 @@ export class DialogAddPurchaseComponent {
   productFormControl = new FormControl('', [Validators.required, Validators.minLength(2)]);
   amountFormControl = new FormControl('', [Validators.required, Validators.minLength(1)]);
 
-  constructor(private database: DatabaseService, public db: Firestore, public dialogRef: MatDialogRef<DialogAddPurchaseComponent>){};
+  constructor(private database: DatabaseService, public db: Firestore, public dialogRef: MatDialogRef<DialogAddPurchaseComponent>,     
+    private _bottomSheet: MatBottomSheet
+  ){};
+  sheetService = inject(BottomSheetService);
 
   translate = inject(TranslateService);
   date = new FormControl(new Date());
@@ -115,6 +121,7 @@ export class DialogAddPurchaseComponent {
       console.log('added purchase', purchaseData);
       this.loading = false;
       this.dialogRef.close();
+      this.openBottomSheet();
   })}
 
   convertToDate(orderdate: number){
@@ -134,5 +141,13 @@ export class DialogAddPurchaseComponent {
     if(status == 'delivered'){
       this.translatedStatus = 'geliefert'
     };
+  };
+
+  openBottomSheet(){
+    this.sheetService.message = "sheet.purchase-save";
+    this._bottomSheet.open(FeedbackBottomSheetComponent);
+    setTimeout(() =>{
+      this._bottomSheet.dismiss();
+    }, 2000)
   };
 }

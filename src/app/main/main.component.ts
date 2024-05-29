@@ -13,6 +13,9 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { DatabaseService } from '../services/database.service';
 import { Firestore, collection, getDocs, query, where } from '@angular/fire/firestore';
 import { TranslationService } from '../services/translation.service';
+import { FeedbackBottomSheetComponent } from '../feedback-bottom-sheet/feedback-bottom-sheet.component';
+import { MatBottomSheet } from '@angular/material/bottom-sheet';
+import { BottomSheetService } from '../services/bottom-sheet.service';
 
 
 @Component({
@@ -24,7 +27,16 @@ import { TranslationService } from '../services/translation.service';
 })
 
 export class MainComponent {
-  constructor(public setHeader: SetHeaderService, public db: Firestore,  public dialog: MatDialog, private database: DatabaseService){}
+
+  constructor(
+    public setHeader: SetHeaderService, 
+    public db: Firestore,  
+    public dialog: MatDialog, 
+    private _bottomSheet: MatBottomSheet,
+    private router: Router
+  ){};
+  
+  sheetService = inject(BottomSheetService);
   setLogo = inject(ThemeService);
   darkmode = inject(ThemeService);
   translate = inject(TranslationService);
@@ -33,7 +45,7 @@ export class MainComponent {
   async ngOnInit(){
     await this.checkUser();
     await this.setHeader.setFirstHeader()
-  }
+  };
 
   async checkUser(){
     const userId = localStorage.getItem('User') as string;
@@ -62,8 +74,17 @@ export class MainComponent {
 
   logoutUser(){
     localStorage.removeItem('User');
+    this.openBottomSheet();
     this.darkmode.setDarkMode(false);
     this.translate.translationOn = false;
   }
+
+  openBottomSheet(){
+    this.sheetService.message = "sheet.user-logout";
+    this._bottomSheet.open(FeedbackBottomSheetComponent);
+    setTimeout(() =>{
+      this._bottomSheet.dismiss();
+    }, 2000)
+  };
 
 }

@@ -50,11 +50,11 @@ export class DialogAddTaskComponent {
   noteFormControl = new FormControl('', [Validators.required, Validators.minLength(2)]);
 
   constructor(private database: DatabaseService, public db: Firestore, public dialogRef: MatDialogRef<DialogAddTaskComponent>, 
-    private _bottomSheet: MatBottomSheet,
-    private _bottomSheetRef: MatBottomSheetRef<FeedbackBottomSheetComponent>){};
-
-  translate = inject(TranslationService);
+              private _bottomSheet: MatBottomSheet){};
+              
   sheetService = inject(BottomSheetService);
+  translate = inject(TranslationService);
+  
   async ngOnInit(){
     await this.loadAllCustomers();
     await this.checkForCustomerId();
@@ -91,7 +91,7 @@ export class DialogAddTaskComponent {
       console.log('added task', taskData);
       this.loading = false;
       this.dialogRef.close();
-      this.openBottomSheet()
+      this.openBottomSheet();
     });
   };
 
@@ -103,13 +103,12 @@ export class DialogAddTaskComponent {
     };
   };
 
- 
 
-  openBottomSheet(): void {
+  openBottomSheet(){
     this.sheetService.message = "sheet.task-save";
     this._bottomSheet.open(FeedbackBottomSheetComponent);
     setTimeout(() =>{
       this._bottomSheet.dismiss();
     }, 2000)
-  }
+  };
 };

@@ -202,15 +202,19 @@
     },
 
     "sheet":{
-        "settings": "Settings saved",
-        "customer-save": "Customer saved",
+        "settings": "Enstellungen gespeichert",
+        "customer-save": "Kunde gespeichert",
         "task-save": "Aufgabe gespeichert",
-        "product-save": "Product saved",
-        "purchase-save": "Purchase saved",
-        "customer-deleted": "Customer deleted",
-        "task-deleted": "Task deleted",
-        "product-deleted": "Product deleted",
-        "purchase-deleted": "Purchase deleted"   
+        "product-save": "Produkt gespeichert",
+        "purchase-save": "Verkauf gespeichert",
+        "customer-deleted": "Kunde gelöscht",
+        "task-deleted": "Aufgabe gelöscht",
+        "product-deleted": "Produkt gelöscht",
+        "purchase-deleted": "Verkauf gelöscht",
+        "user-deleted": "Benutzer gelöscht",
+        "user-registered": "Benutzer registriert",
+        "user-login": "Erfolgreich angemeldet",
+        "user-logout": "Erfolgreich abgemeldet"
     }
 
 

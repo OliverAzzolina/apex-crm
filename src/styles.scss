@@ -45,6 +45,22 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     gap: 16px;
 }
 
+mat-bottom-sheet-container{
+    border-top-right-radius: 24px !important;
+    border-top-left-radius: 24px !important;
+}
+
+.mdc-list{
+    padding: 24px !important;
+    display: flex !important;
+    justify-content: center !important;
+
+    span{
+        font-size: 20px;
+        font-weight: 400;
+    }
+}
+
 
 /* Dark Theme Styles */
 .dark-theme {
@@ -112,14 +128,23 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
         background-color: #484848;
     }
 
+    .mdc-text-field--filled:not(.mdc-text-field--disabled) .mdc-text-field__input {
+        color: #ffffff !important; 
+    }
+
     .mat-mdc-dialog-container .mdc-dialog__title{
         color: #ffffff !important;  
     }
 
     mat-label{
         color: darkgray !important;
+
     }
 
+    .mdc-floating-label {
+        color: darkgray !important;
+    }
+    
     .mat-datepicker-toggle-default-icon .ng-star-inserted{
         color: darkgray !important;
     }

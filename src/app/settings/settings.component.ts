@@ -13,6 +13,9 @@ import { Firestore, collection, doc, getDocs, onSnapshot, query, where } from '@
 import { DialogDeleteUserComponent } from '../dialog-delete-user/dialog-delete-user.component';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { FormsModule } from '@angular/forms';
+import { FeedbackBottomSheetComponent } from '../feedback-bottom-sheet/feedback-bottom-sheet.component';
+import { BottomSheetService } from '../services/bottom-sheet.service';
+import { MatBottomSheet } from '@angular/material/bottom-sheet';
 
 
 
@@ -37,23 +40,27 @@ export class SettingsComponent {
   translation:boolean;
   userSettings:any = [];
 
-  constructor(private themeService: ThemeService, private database: DatabaseService, public db: Firestore, public dialog: MatDialog) {
-    this.isDarkMode = this.themeService.isDarkMode();
-  }
+  constructor(private themeService: ThemeService, private database: DatabaseService, public db: Firestore, public dialog: MatDialog, 
+    private _bottomSheet: MatBottomSheet){
+      this.isDarkMode = this.themeService.isDarkMode();
+    };
+    
+  sheetService = inject(BottomSheetService);
+    
 
   async ngOnInit(){
     await this.getUserId();
     await this.getUserData('users');
-  }
+  };
 
   async getUserId(){
     this.userId = localStorage.getItem('User') as string;
-  }
+  };
 
   toggleTheme() {
     this.isDarkMode = !this.isDarkMode;
     this.themeService.setDarkMode(this.isDarkMode);
-  }
+  };
 
   saveSettings(){
     this.user.darkmode = this.isDarkMode;
@@ -61,20 +68,25 @@ export class SettingsComponent {
     const userData = this.user.toJSON();
     this.database.saveEditedUser(userData, this.userId)
     console.log(userData)
-  }
+    this.openBottomSheet();
+  };
 
   async getUserData(users:string){
     onSnapshot(doc(this.db, users, this.userId), (doc) => {
       this.user = new User(doc.data());
     });
-  }
+  };
 
   openDialogDeleteUser(){
-
       let dialog = this.dialog.open(DialogDeleteUserComponent);
       dialog.componentInstance.userId = this.userId;
-    
-  }
+  };
 
-
+  openBottomSheet(){
+    this.sheetService.message = "sheet.settings";
+    this._bottomSheet.open(FeedbackBottomSheetComponent);
+    setTimeout(() =>{
+      this._bottomSheet.dismiss();
+    }, 2000)
+  };
 }

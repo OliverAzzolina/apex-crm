@@ -15,6 +15,9 @@ import { Firestore } from '@angular/fire/firestore';
 import { DialogDeleteTaskComponent } from '../dialog-delete-task/dialog-delete-task.component';
 import { TranslationService } from '../services/translation.service';
 import { TranslateModule } from '@ngx-translate/core';
+import { MatBottomSheet } from '@angular/material/bottom-sheet';
+import { BottomSheetService } from '../services/bottom-sheet.service';
+import { FeedbackBottomSheetComponent } from '../feedback-bottom-sheet/feedback-bottom-sheet.component';
 
 @Component({
   selector: 'app-dialog-edit-task',
@@ -36,8 +39,13 @@ export class DialogEditTaskComponent {
   statusFormControl = new FormControl('', [Validators.required, Validators.minLength(2)]);
   noteFormControl = new FormControl('', [Validators.required, Validators.minLength(2)]);
 
-  constructor(private database: DatabaseService, public dialog: MatDialog, public db: Firestore, public dialogRef: MatDialogRef<DialogEditTaskComponent>){};
-
+  constructor(
+    private database: DatabaseService, 
+    public dialog: MatDialog, public db: Firestore, 
+    public dialogRef: MatDialogRef<DialogEditTaskComponent>, 
+    private _bottomSheet: MatBottomSheet){};
+    
+  sheetService = inject(BottomSheetService);
   translate = inject(TranslationService);
 
   async updateTask(){
@@ -49,6 +57,7 @@ export class DialogEditTaskComponent {
       console.log('updated task', taskData);
       this.loading = false;
       this.dialogRef.close();
+      this.openBottomSheet();
     });
   };
 
@@ -64,6 +73,14 @@ export class DialogEditTaskComponent {
     }else{
       this.translatedStatus = 'geschlossen'
     }
+  };
+
+  openBottomSheet(){
+    this.sheetService.message = "sheet.task-save";
+    this._bottomSheet.open(FeedbackBottomSheetComponent);
+    setTimeout(() =>{
+      this._bottomSheet.dismiss();
+    }, 2000)
   };
 }
 

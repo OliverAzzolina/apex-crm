@@ -10,6 +10,9 @@ import { FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angu
 import { MatButtonModule } from '@angular/material/button';
 import { RouterLink } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { MatBottomSheet } from '@angular/material/bottom-sheet';
+import { BottomSheetService } from '../services/bottom-sheet.service';
+import { FeedbackBottomSheetComponent } from '../feedback-bottom-sheet/feedback-bottom-sheet.component';
 
 @Component({
   selector: 'app-dialog-add-product',
@@ -30,7 +33,10 @@ export class DialogAddProductComponent {
   productPriceFormControl = new FormControl('', [Validators.required, Validators.minLength(1)]);
   productTypeFormControl = new FormControl('', [Validators.required, Validators.minLength(1)]);
 
-  constructor(private database: DatabaseService, public dialogRef: MatDialogRef<DialogAddProductComponent>){};
+  constructor(private database: DatabaseService, public dialogRef: MatDialogRef<DialogAddProductComponent>,     
+    private _bottomSheet: MatBottomSheet
+  ){};
+  sheetService = inject(BottomSheetService);
 
   translate = inject(TranslateService);
   
@@ -43,6 +49,7 @@ export class DialogAddProductComponent {
       console.log('added task', productData);
       this.loading = false;
       this.dialogRef.close();
+      this.openBottomSheet();
     });
   }
 
@@ -52,6 +59,14 @@ export class DialogAddProductComponent {
     }else{
       this.translatedType = 'Service'
     };
+  };
+
+  openBottomSheet(){
+    this.sheetService.message = "sheet.product-save";
+    this._bottomSheet.open(FeedbackBottomSheetComponent);
+    setTimeout(() =>{
+      this._bottomSheet.dismiss();
+    }, 2000)
   };
 }
 

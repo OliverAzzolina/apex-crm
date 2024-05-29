@@ -15,6 +15,9 @@ import { TranslationService } from '../services/translation.service';
 import { ThemeService } from '../services/theme.service';
 import { MatIconModule } from '@angular/material/icon';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { FeedbackBottomSheetComponent } from '../feedback-bottom-sheet/feedback-bottom-sheet.component';
+import { MatBottomSheet } from '@angular/material/bottom-sheet';
+import { BottomSheetService } from '../services/bottom-sheet.service';
 
 @Component({
   selector: 'app-login',
@@ -40,13 +43,16 @@ export class LoginComponent {
   wrongPassword = false;
   userNotFound: boolean = false;
   
+  sheetService = inject(BottomSheetService);
   translate = inject(TranslationService);
   darkmode = inject(ThemeService);
 
   constructor(
     private database: DatabaseService, 
     public db: Firestore, 
-    private router: Router){}
+    private router: Router, 
+    private _bottomSheet: MatBottomSheet
+  ){};
 
   ngOnInit(){
     this.translate.switchLanguage(this.translate.translationOn)
@@ -72,6 +78,7 @@ export class LoginComponent {
           this.checkUserSettings(userData)
           this.loading = false;
           this.router.navigateByUrl('/main/dashboard');
+          this.openBottomSheet();
         }else{
           this.wrongPassword = true;
         }
@@ -98,5 +105,13 @@ export class LoginComponent {
 
   public saveData(key: string, value: string) {
     localStorage.setItem(key, value);
+  };
+
+  openBottomSheet(){
+    this.sheetService.message = "sheet.user-login";
+    this._bottomSheet.open(FeedbackBottomSheetComponent);
+    setTimeout(() =>{
+      this._bottomSheet.dismiss();
+    }, 2000)
   };
 };

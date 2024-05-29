@@ -16,6 +16,9 @@ import { DialogDeletePurchaseComponent } from '../dialog-delete-purchase/dialog-
 import {MatCardModule} from '@angular/material/card';
 import { TranslateModule } from '@ngx-translate/core';
 import { TranslationService } from '../services/translation.service';
+import { FeedbackBottomSheetComponent } from '../feedback-bottom-sheet/feedback-bottom-sheet.component';
+import { MatBottomSheet } from '@angular/material/bottom-sheet';
+import { BottomSheetService } from '../services/bottom-sheet.service';
 
 @Component({
   selector: 'app-dialog-edit-purchase',
@@ -43,7 +46,10 @@ export class DialogEditPurchaseComponent {
   orderDate: Date;
   translatedStatus:string;
 
-  constructor(private database: DatabaseService,public db: Firestore, public dialogRef: MatDialogRef<DialogEditPurchaseComponent>, public dialog: MatDialog){};
+  constructor(private database: DatabaseService,public db: Firestore, public dialogRef: MatDialogRef<DialogEditPurchaseComponent>, 
+    public dialog: MatDialog, private _bottomSheet: MatBottomSheet){};
+    
+  sheetService = inject(BottomSheetService);
 
   translate = inject(TranslationService);
   date = new FormControl(new Date());
@@ -85,6 +91,7 @@ export class DialogEditPurchaseComponent {
       console.log('updated task', purchaseData);
       this.loading = false;
       this.dialogRef.close();
+      this.openBottomSheet();
     });
   }
 
@@ -106,5 +113,13 @@ export class DialogEditPurchaseComponent {
     }else if(status == 'delivered'){
       this.translatedStatus = 'geliefert'
     };
+  };
+
+  openBottomSheet(){
+    this.sheetService.message = "sheet.purchase-save";
+    this._bottomSheet.open(FeedbackBottomSheetComponent);
+    setTimeout(() =>{
+      this._bottomSheet.dismiss();
+    }, 2000)
   };
 }
