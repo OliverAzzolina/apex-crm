@@ -1,7 +1,7 @@
 <div class="add-purchase-container dialog-container">
     <h2> {{ "purchase-dialog.header-add" | translate }} </h2>
 
-    <mat-form-field>
+    <mat-form-field appearance="outline">
       <mat-label> {{ "purchase-dialog.select-customer" | translate }} </mat-label>
       <mat-select [(ngModel)]="selectedCustomerName" name="customer" [formControl]="customerFormControl">
         @for (customer of allCustomers; track customer) {
@@ -10,7 +10,7 @@
       </mat-select>
   </mat-form-field>
 
-    <mat-form-field>
+    <mat-form-field appearance="outline">
         <mat-label> {{ "purchase-dialog.orderdate" | translate }} </mat-label>
         <input matInput [matDatepicker]="picker1" [(ngModel)]="orderDate" [formControl]="dateFormControl">
         <mat-hint>MM/DD/YYYY</mat-hint>
@@ -19,7 +19,7 @@
       </mat-form-field>
       
 
-    <mat-form-field>
+    <mat-form-field appearance="outline">
       <mat-label> {{ "purchase-dialog.status" | translate }} </mat-label>
       <mat-select [(ngModel)]="purchase.status" name="status" [formControl]="statusFormControl">
           <mat-option value="ordered"> {{ "purchase-dialog.status-option-ordered" | translate }} </mat-option>
@@ -29,7 +29,7 @@
       </mat-select>
     </mat-form-field>
 
-    <mat-form-field>
+    <mat-form-field appearance="outline">
         <mat-label> {{ "purchase-dialog.product" | translate }} </mat-label>
         <mat-select [(ngModel)]="purchase.product" name="product" [formControl]="productFormControl">
           @for (product of allProducts; track product) {
@@ -38,17 +38,17 @@
         </mat-select>
     </mat-form-field>
   
-    <mat-form-field>
+    <mat-form-field appearance="outline">
       <mat-label> {{ "purchase-dialog.ppu" | translate }} </mat-label>
       <input matInput  [(ngModel)]="productPrice"  placeholder="Total Price" disabled type="number">
     </mat-form-field>
 
-    <mat-form-field>
+    <mat-form-field appearance="outline">
       <mat-label> {{ "purchase-dialog.amount" | translate }} </mat-label>
         <input matInput (change)="getTotalPrice()" [formControl]="amountFormControl" [(ngModel)]="purchase.amount" placeholder="Amount" value="{{purchase.amount}}" min="1" type="number" >
     </mat-form-field>
 
-    <mat-form-field>
+    <mat-form-field appearance="outline">
         <input matInput  [(ngModel)]="totalPrice" value="{{totalPrice}}" placeholder=" {{ 'purchase-dialog.totalprice' | translate }} " disabled type="number">
     </mat-form-field>
 

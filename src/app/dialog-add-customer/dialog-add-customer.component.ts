@@ -56,7 +56,6 @@ export class DialogAddCustomerComponent {
     const customerData = this.customer.toJSON();
     this.loading = true;
     await this.database.saveCustomer(customerData).then((result: any) => {
-      console.log('added Customer', result);
       this.loading = false;
       this.dialogRef.close();
       this.openBottomSheet();

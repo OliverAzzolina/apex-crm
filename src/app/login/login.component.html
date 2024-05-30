@@ -13,12 +13,12 @@
 
           <mat-form-field class="full-width">
             <mat-label> {{ "login.header-email" | translate }} </mat-label>
-            <input type="email" [(ngModel)]="email" matInput [formControl]="emailFormControl" placeholder="Ex. pat@example.com">
+            <input type="email" id="email" matInput [formControl]="email" placeholder="Ex. pat@example.com">
           </mat-form-field>
 
           <mat-form-field class="full-width">
             <mat-label> {{ "login.header-password" | translate }} </mat-label>
-            <input [type]="hide ? 'password' : 'text'" type="password" [(ngModel)]="password" matInput [formControl]="passwordFormControl">
+            <input [type]="hide ? 'password' : 'text'" type="password" matInput [formControl]="password">
             <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
               <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
             </button>
@@ -30,7 +30,7 @@
 
       <mat-card-actions class="login-btn-container">
         <button class="login-btn" mat-raised-button color="primary"
-        [disabled]="emailFormControl.invalid || passwordFormControl.invalid"
+        [disabled]="email.invalid || password.invalid"
         (click)="checkUser()"> {{ "login.login-button" | translate }} </button>
       </mat-card-actions>
 

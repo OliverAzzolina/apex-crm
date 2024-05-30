@@ -32,6 +32,10 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     margin-top: 16px !important;
 }
 
+.pd-8{
+    padding: 8px !important;
+}
+
 .divider{
     padding: 0 !important;
     margin-top: 8px !important;
@@ -49,6 +53,8 @@ mat-bottom-sheet-container{
     border-top-right-radius: 24px !important;
     border-top-left-radius: 24px !important;
 }
+
+
 
 .mdc-list{
     padding: 24px !important;

@@ -36,7 +36,6 @@ export class PurchasesComponent {
 purchaseData: any = [];
 loading: boolean = false;
 customerId: any;
-tranlate = inject(TranslationService);
 dataSource = new MatTableDataSource(this.purchaseData);
 displayedColumns: string[] = ['purchaseId', 'orderdate', 'status', 'product', 'amount', 'totalPrice'];
 
@@ -55,10 +54,10 @@ constructor(public db: Firestore, public dialog: MatDialog, public database: Dat
   ngAfterViewInit() {
 
     this.dataSource.sort = this.sort;
-    this.dataSource.sortingDataAccessor = (item:any, property) => {
-      switch (property) {
-        case 'fromDate': return new Date(item.fromDate);
-        default: return item[property];
+    this.dataSource.sortingDataAccessor = (purchaseData:any, orderdate) => {
+      switch (orderdate) {
+        case 'orderdate': return new Date(purchaseData.orderdate);
+        default: return purchaseData[orderdate];
       }
     };
   }
@@ -76,7 +75,7 @@ constructor(public db: Firestore, public dialog: MatDialog, public database: Dat
     }
   }
 
-  async ngOnInit(): Promise<void>{
+  async ngOnInit(){
     await this.getAllPurchases('purchases');
     this.dataSource.data = this.purchaseData; 
   }
@@ -118,6 +117,7 @@ constructor(public db: Firestore, public dialog: MatDialog, public database: Dat
           };
           
         });
+        this.sortPurchases();
         this.dataSource.data = this.purchaseData;
         this.loading = false;
       },
@@ -127,6 +127,12 @@ constructor(public db: Firestore, public dialog: MatDialog, public database: Dat
       }
     );
   };
+
+  async sortPurchases(){
+    this.purchaseData.sort(function(x: { orderDate: number; },y: { orderDate: number; }){
+      return y.orderDate - x.orderDate
+    })
+  }
 
   async setTabIndex(index: any){
     await this.tabIndex.setTabToIndex(index);

@@ -169,11 +169,12 @@ export class ChartBarComponent {
 
   async calculateMonthlySales() {
     this.allPurchases.forEach((purchase: { orderdate: string; totalPrice: number; }) => {
-      const orderdate = purchase.orderdate.split(" ").splice(0, 1).toString();
+      const orderdate = parseInt(purchase.orderdate.split("/").splice(1, 1).toString());
       const price = purchase.totalPrice;  
       for (let i = 0; i < this.chartData.length; i++) {
         const month = this.chartData[i];
-        if (orderdate == month.month) {
+        const numberOfMonth = i + 1;
+        if (orderdate == numberOfMonth) {
           month.y += price;
         } 
       }

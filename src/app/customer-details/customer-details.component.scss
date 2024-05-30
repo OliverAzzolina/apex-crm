@@ -59,7 +59,7 @@
     width: 100%;
 }
 
-.tasks-table{
+.main-table{
     width: 100%;
     border-collapse: collapse;
     
@@ -76,14 +76,8 @@
     }
 
     tr{
-        height: 40px;
+        height: 56px;
         border-bottom: 1px solid rgba(0,0,0,0.04);
-            &:first-child{
-                &:hover{
-                    cursor:default;
-                    background-color: unset;
-                }
-            }
             &:last-child{
                     border-bottom: 0;
             }
@@ -98,6 +92,13 @@
             }
     }
 
+}
+
+.no-hover{
+    &:hover{
+        background-color: unset !important;
+        cursor: unset !important;
+    }
 }
 
 .table-container{
@@ -125,4 +126,9 @@
 
 .d-none{
     display: none !important;
+}
+
+.table-top-container{
+    display: flex;
+    justify-content: space-between;
 }

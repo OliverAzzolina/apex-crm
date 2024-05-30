@@ -32,13 +32,11 @@ import { BottomSheetService } from '../services/bottom-sheet.service';
 export class LoginComponent {
   loading = false;
   userIsLoggedIn = false;
-  emailFormControl = new FormControl('', [Validators.required, Validators.email]);
-  passwordFormControl = new FormControl('', [Validators.required, Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}')]);
+  email = new FormControl('', [Validators.required, Validators.email]);
+  password = new FormControl('', [Validators.required, Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}')]);
   hide = true;
   user: User;
   userData: any;
-  email:string;
-  password:string;
   userId: string;
   wrongPassword = false;
   userNotFound: boolean = false;
@@ -62,7 +60,7 @@ export class LoginComponent {
     this.wrongPassword = false;
     this.loading = true;
 
-    const q = query(collection(this.db, "users"), where("email", "==", this.email));
+    const q = query(collection(this.db, "users"), where("email", "==", this.email.value));
     const querySnapshot = await getDocs(q);
 
     if(querySnapshot.empty){
@@ -71,7 +69,7 @@ export class LoginComponent {
       this.userNotFound = false;
       querySnapshot.forEach((doc) => {
         const userData = doc.data();
-        if (this.password == userData['password']) {
+        if (this.password.value == userData['password']) {
           userData['userId'] = doc.id;
           this.setUserId(userData);
           

@@ -1,7 +1,7 @@
 <div class="edit-task-container dialog-container">
   <h2>{{ "task-dialog.header-add" | translate }}</h2>
 
-  <mat-form-field>
+  <mat-form-field appearance="outline">
     <mat-label>{{ "task-dialog.select-customer-label" | translate }}</mat-label>
     <mat-select [(ngModel)]="selectedCustomerName" name="customer" [formControl]="customerFormControl">
       @for (customer of allCustomers; track customer) {
@@ -10,7 +10,7 @@
     </mat-select>
   </mat-form-field>
 
-  <mat-form-field>
+  <mat-form-field appearance="outline">
     <mat-label>{{ "task-dialog.select-status-label" | translate }}</mat-label>
     <mat-select [(ngModel)]="task.status" name="status" [formControl]="statusFormControl">
           <mat-option value ="open">{{"task-dialog.status-option-open" | translate}}</mat-option>
@@ -18,7 +18,7 @@
     </mat-select>
   </mat-form-field>
 
-  <mat-form-field class="example-full-width">
+  <mat-form-field class="example-full-width" appearance="outline">
     <mat-label>{{ "task-dialog.note-label" | translate }}</mat-label>
     <textarea [(ngModel)]="task.note" matInput [formControl]="noteFormControl"></textarea>
   </mat-form-field>

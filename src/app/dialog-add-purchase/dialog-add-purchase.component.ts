@@ -112,7 +112,9 @@ export class DialogAddPurchaseComponent {
     this.purchase.totalPrice = this.totalPrice;
     this.purchase.orderDate = this.orderDate.getTime();
     this.orderDate = this.convertToDate(this.purchase.orderDate);
-    this.purchase.orderdate = this.orderDate.toString().split(" ").splice(1,3).join(" ");
+    this.purchase.orderdate = this.orderDate.toLocaleDateString('en-GB', {
+      day: 'numeric', month: 'numeric', year: 'numeric'
+    }).replaceAll('/', '.');
     const purchaseData = this.purchase.toJSON();
     purchaseData.customerId = this.customerId;
     purchaseData.translatedStatus = this.translatedStatus;
