@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, Inject, inject } from '@angular/core';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialogRef, MatDialogTitle, MatDialogContent, MatDialogActions, MatDialogClose } from '@angular/material/dialog';
@@ -7,7 +7,7 @@ import { FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angu
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { provideNativeDateAdapter } from '@angular/material/core';
+import { DateAdapter, MAT_DATE_LOCALE, provideNativeDateAdapter } from '@angular/material/core';
 import { Customer } from '../../models/customer.class';
 import { DatabaseService } from '../services/database.service';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
@@ -16,6 +16,8 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { FeedbackBottomSheetComponent } from '../feedback-bottom-sheet/feedback-bottom-sheet.component';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { BottomSheetService } from '../services/bottom-sheet.service';
+import { User } from '../../models/user.class';
+import { Firestore, doc, onSnapshot } from '@angular/fire/firestore';
 
 @Component({
   selector: 'app-dialog-edit-customer',
@@ -24,7 +26,10 @@ import { BottomSheetService } from '../services/bottom-sheet.service';
     FormsModule, MatInputModule, MatFormFieldModule, MatIconModule, MatDatepickerModule, MatProgressBarModule, ReactiveFormsModule,
     TranslateModule
   ],
-    providers: [provideNativeDateAdapter()],
+    providers: [
+      {provide: MAT_DATE_LOCALE, useValue: 'de-DE'},
+      provideNativeDateAdapter()
+    ],
   templateUrl: './dialog-edit-customer.component.html',
   styleUrl: './dialog-edit-customer.component.scss'
 })
@@ -35,6 +40,8 @@ export class DialogEditCustomerComponent {
   birthDate: Date;
   birthdate:Date;
   id:string;
+  userId:string;
+  user:User;
   
   firstNameFormControl = new FormControl('', [Validators.required, Validators.minLength(2)]);
   lastNameFormControl = new FormControl('', [Validators.required, Validators.minLength(2)]);
@@ -46,8 +53,14 @@ export class DialogEditCustomerComponent {
   zipCodeFormControl = new FormControl('', [Validators.required, Validators.minLength(1)]);
   cityFormControl = new FormControl('', [Validators.required, Validators.minLength(1)]);
 
-  constructor(private database: DatabaseService, public dialogRef: MatDialogRef<DialogEditCustomerComponent>, 
-    private _bottomSheet: MatBottomSheet){};
+  constructor(
+    public db: Firestore, 
+    private database: DatabaseService, 
+    public dialogRef: MatDialogRef<DialogEditCustomerComponent>, 
+    private _bottomSheet: MatBottomSheet,
+    private _adapter: DateAdapter<any>,
+    @Inject(MAT_DATE_LOCALE) private _locale: string
+  ){};
     
   sheetService = inject(BottomSheetService);
   translate = inject(TranslateService);
@@ -56,10 +69,32 @@ export class DialogEditCustomerComponent {
     return new Date(birthDate);
   };
   
-  ngOnInit(){
+  async ngOnInit(){
+    await this.getUserId()
+    await this.getUserData('users');
     this.birthdate = this.convertToDate(this.customer.birthDate);
     console.log(this.birthdate)
   };
+
+  async getUserId(){
+    this.userId = localStorage.getItem('User') as string;
+  };
+
+  async getUserData(users:string){
+    onSnapshot(doc(this.db, users, this.userId), (doc) => {
+      this.user = new User(doc.data());
+      this.checkCalendarLanguage(this.user.translation) 
+    })
+  };
+
+  async checkCalendarLanguage(translateDatePicker: boolean){
+    if(translateDatePicker){
+      this._locale = 'de-DE'
+    }else{
+      this._locale = 'en-EN'
+    }
+    this._adapter.setLocale(this._locale);
+  }
   
   async saveCustomer() {
     this.customer.birthDate = this.birthdate.getTime();

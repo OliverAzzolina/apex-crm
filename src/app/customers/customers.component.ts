@@ -1,31 +1,28 @@
 import { Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import {MatIconModule} from '@angular/material/icon';
-import {MatButtonModule} from '@angular/material/button';
-import {MatTooltipModule} from '@angular/material/tooltip';
-import {MatDialogModule} from '@angular/material/dialog';
-import {MatDialog,} from '@angular/material/dialog';
-import {FormsModule} from '@angular/forms';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
+import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import {MatInputModule} from '@angular/material/input';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatCardModule} from '@angular/material/card';
-import {MatTableDataSource, MatTableModule} from '@angular/material/table';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatCardModule } from '@angular/material/card';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { DatabaseService } from '../services/database.service';
-import { collection, doc, onSnapshot } from 'firebase/firestore';
+import { collection, onSnapshot } from 'firebase/firestore';
 import { Firestore } from '@angular/fire/firestore';
 import { SetTabIndexService } from '../services/set-tab-index.service';
 import { DialogAddCustomerComponent } from '../dialog-add-customer/dialog-add-customer.component';
 import { MatSort, MatSortModule, Sort } from '@angular/material/sort';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
-import { MatPaginator } from '@angular/material/paginator';
 import { MatPaginatorModule} from '@angular/material/paginator';
-import {AfterViewInit, ViewChild} from '@angular/core';
+import { ViewChild } from '@angular/core';
 import { TranslationService } from '../services/translation.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { SetHeaderService } from '../services/set-header.service';
-
-
 
 @Component({
   selector: 'app-customers',
@@ -43,7 +40,14 @@ export class CustomersComponent{
   dataSource = new MatTableDataSource(this.customerData);
   displayedColumns: string[] = ['firstName', 'lastName', 'email', 'company', 'position'];
   
-  constructor(public db: Firestore, public dialog: MatDialog, public database: DatabaseService, public tabIndex: SetTabIndexService, private _liveAnnouncer: LiveAnnouncer) {}
+  constructor(
+    public db: Firestore, 
+    public dialog: MatDialog, 
+    public database: DatabaseService, 
+    public tabIndex: SetTabIndexService, 
+    private _liveAnnouncer: LiveAnnouncer
+  ) {}
+
   translate = inject(TranslationService);
   setheader = inject(SetHeaderService);
 

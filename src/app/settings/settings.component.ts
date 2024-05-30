@@ -28,10 +28,11 @@ import { MatBottomSheet } from '@angular/material/bottom-sheet';
   styleUrl: './settings.component.scss'
 })
 export class SettingsComponent {
-  isDarkMode: boolean;
   translate = inject(TranslationService);
-  loading: boolean = false;
+  sheetService = inject(BottomSheetService);
 
+  isDarkMode: boolean;
+  loading: boolean = false;
   selectedLanguage = this.translate.translationOn;
   userData: any;
   user: User;
@@ -40,14 +41,18 @@ export class SettingsComponent {
   translation:boolean;
   userSettings:any = [];
 
-  constructor(private themeService: ThemeService, private database: DatabaseService, public db: Firestore, public dialog: MatDialog, 
-    private _bottomSheet: MatBottomSheet){
-      this.isDarkMode = this.themeService.isDarkMode();
+  constructor(
+    private themeService: ThemeService, 
+    private database: DatabaseService, 
+    public db: Firestore, 
+    public dialog: MatDialog, 
+    private _bottomSheet: MatBottomSheet
+  ){
+    this.isDarkMode = this.themeService.isDarkMode();
     };
-    
-  sheetService = inject(BottomSheetService);
-    
 
+
+    
   async ngOnInit(){
     await this.getUserId();
     await this.getUserData('users');

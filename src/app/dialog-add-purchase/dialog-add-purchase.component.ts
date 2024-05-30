@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, Inject, inject } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogActions, MatDialogRef } from '@angular/material/dialog';
@@ -8,18 +8,22 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatSelectModule } from '@angular/material/select';
 import { DatabaseService } from '../services/database.service';
 import { Purchase } from '../../models/purchase.class';
-import { Firestore, collection, getDocs, onSnapshot } from '@angular/fire/firestore';
-import { provideNativeDateAdapter } from '@angular/material/core';
-import { MatDatepickerModule } from '@angular/material/datepicker';
+import { Firestore, collection, doc, getDocs, onSnapshot } from '@angular/fire/firestore';
+import { DateAdapter, MAT_DATE_LOCALE, provideNativeDateAdapter } from '@angular/material/core';
+import { MatDatepickerIntl, MatDatepickerModule } from '@angular/material/datepicker';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { FeedbackBottomSheetComponent } from '../feedback-bottom-sheet/feedback-bottom-sheet.component';
 import { BottomSheetService } from '../services/bottom-sheet.service';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
+import { User } from '../../models/user.class';
 
 @Component({
   selector: 'app-dialog-add-purchase',
   standalone: true,
-  providers: [provideNativeDateAdapter()],
+  providers: [
+    {provide: MAT_DATE_LOCALE, useValue: 'de-DE'},
+    provideNativeDateAdapter()
+  ],
   imports: [ MatMenuModule, ReactiveFormsModule, MatDatepickerModule, MatButtonModule, MatFormField, MatLabel, MatInputModule, 
     MatFormFieldModule, FormsModule, MatSelectModule, MatDialogActions, ReactiveFormsModule, TranslateModule],
   templateUrl: './dialog-add-purchase.component.html',
@@ -43,6 +47,8 @@ export class DialogAddPurchaseComponent {
   orderDate: Date;
   productPrice: number = 0;
   translatedStatus:string;
+  userId:string;
+  user:User;
 
   customerFormControl = new FormControl('', [Validators.required, Validators.minLength(2)]);
   dateFormControl = new FormControl('', [Validators.required, Validators.minLength(2)]);
@@ -50,20 +56,46 @@ export class DialogAddPurchaseComponent {
   productFormControl = new FormControl('', [Validators.required, Validators.minLength(2)]);
   amountFormControl = new FormControl('', [Validators.required, Validators.minLength(1)]);
 
-  constructor(private database: DatabaseService, public db: Firestore, public dialogRef: MatDialogRef<DialogAddPurchaseComponent>,     
-    private _bottomSheet: MatBottomSheet
+  constructor(
+    private database: DatabaseService, 
+    public db: Firestore, 
+    public dialogRef: MatDialogRef<DialogAddPurchaseComponent>,     
+    private _bottomSheet: MatBottomSheet,
+    private _adapter: DateAdapter<any>,
+    @Inject(MAT_DATE_LOCALE) private _locale: string,
   ){};
-  sheetService = inject(BottomSheetService);
 
+  sheetService = inject(BottomSheetService);
   translate = inject(TranslateService);
   date = new FormControl(new Date());
   serializedDate = new FormControl(new Date().toISOString());
   
-
   async ngOnInit(){
+    await this.getUserId()
+    await this.getUserData('users');
     await this.loadAllProducts();
     await this.loadAllCustomers();
     await this.checkForCustomerId();
+  }
+
+  async getUserId(){
+    this.userId = localStorage.getItem('User') as string;
+  };
+
+  async getUserData(users:string){
+    onSnapshot(doc(this.db, users, this.userId), (doc) => {
+      this.user = new User(doc.data());
+      this.checkCalendarLanguage(this.user.translation) 
+    })
+  };
+
+  async checkCalendarLanguage(translateDatePicker: boolean){
+    if(translateDatePicker){
+      this._locale = 'de-DE'
+    }else{
+      this._locale = 'en-EN'
+    }
+    this._adapter.setLocale(this._locale);
   }
 
   async checkForCustomerId(){
