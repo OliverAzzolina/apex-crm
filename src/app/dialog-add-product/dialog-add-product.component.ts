@@ -29,18 +29,24 @@ export class DialogAddProductComponent {
   loading: boolean = false;
   translatedType: string;
 
-  productNameFormControl = new FormControl('', [Validators.required, Validators.minLength(2)]);
-  productPriceFormControl = new FormControl('', [Validators.required, Validators.minLength(1)]);
-  productTypeFormControl = new FormControl('', [Validators.required, Validators.minLength(1)]);
+  productName = new FormControl('', [Validators.required, Validators.minLength(2)]);
+  productPrice = new FormControl(0.01, [Validators.required, Validators.minLength(1)]);
+  productType = new FormControl('', [Validators.required, Validators.minLength(1)]);
 
-  constructor(private database: DatabaseService, public dialogRef: MatDialogRef<DialogAddProductComponent>,     
+  constructor(
+    private database: DatabaseService, 
+    public dialogRef: MatDialogRef<DialogAddProductComponent>,     
     private _bottomSheet: MatBottomSheet
   ){};
-  sheetService = inject(BottomSheetService);
 
+  sheetService = inject(BottomSheetService);
   translate = inject(TranslateService);
   
   async addProduct(){
+    this.product.name = this.productName.value!
+    this.product.ppu = this.productPrice.value!
+    this.product.type = this.productType.value!
+
     await this.generateTranslatedStatus(this.product.type);
     const productData = this.product.toJSON();
     productData.translatedType = this.translatedType;

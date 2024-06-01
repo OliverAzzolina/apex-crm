@@ -36,22 +36,22 @@ import { Firestore } from '@angular/fire/firestore';
 
 export class DialogAddCustomerComponent {
   customer: Customer = new Customer();
-  birthDate: Date;
   customerData: any;
   loading: boolean = false;
   language:string;
   userId:string;
   user: User;
-
-  firstNameFormControl = new FormControl('', [Validators.required, Validators.minLength(2)]);
-  lastNameFormControl = new FormControl('', [Validators.required, Validators.minLength(2)]);
-  birthdateFormControl = new FormControl('', [Validators.required, Validators.minLength(1)]);
-  emailFormControl = new FormControl('', [Validators.required, Validators.email]);
-  phoneFormControl = new FormControl('', [Validators.required, Validators.minLength(7)]);
-  streetFormControl = new FormControl('', [Validators.required, Validators.minLength(2)]);
-  numberFormControl = new FormControl('', [Validators.required, Validators.minLength(1)]);
-  zipCodeFormControl = new FormControl('', [Validators.required, Validators.minLength(1)]);
-  cityFormControl = new FormControl('', [Validators.required, Validators.minLength(1)]);
+  birthDate: string;
+  birth:string
+  firstname = new FormControl('', [Validators.required, Validators.minLength(2)]);
+  lastname = new FormControl('', [Validators.required, Validators.minLength(2)]);
+  dateOfBirth = new FormControl('', [Validators.required, Validators.minLength(1)]);
+  email = new FormControl('', [Validators.required, Validators.email]);
+  phone = new FormControl('', [Validators.required, Validators.minLength(7)]);
+  street = new FormControl('', [Validators.required, Validators.minLength(2)]);
+  number = new FormControl('', [Validators.required, Validators.minLength(1)]);
+  zipCode = new FormControl('', [Validators.required, Validators.minLength(1)]);
+  city = new FormControl('', [Validators.required, Validators.minLength(1)]);
 
   constructor(
     private database: DatabaseService, 
@@ -67,18 +67,11 @@ export class DialogAddCustomerComponent {
 
   async ngOnInit(){
     await this.getUserId()
-    await this.getUserData('users');
   }
 
   async getUserId(){
-    this.userId = localStorage.getItem('User') as string;
-  };
-
-  async getUserData(users:string){
-    onSnapshot(doc(this.db, users, this.userId), (doc) => {
-      this.user = new User(doc.data());
-      this.checkCalendarLanguage(this.user.translation) 
-  })
+    const data = JSON.parse(localStorage.getItem("loggedUserData") || '{}');
+    this.checkCalendarLanguage(data.translation);
   };
 
   async checkCalendarLanguage(translateDatePicker: boolean){
@@ -91,7 +84,17 @@ export class DialogAddCustomerComponent {
   }
 
   async saveCustomer() {
-    this.customer.birthDate = this.birthDate.getTime();
+    const birth = this.dateOfBirth.value!;
+    const birthDate = new Date(birth)
+    this.customer.birthDate = birthDate.getTime();
+    this.customer.firstName = this.firstname.value!;
+    this.customer.lastName = this.lastname.value!;
+    this.customer.email = this.email.value!;
+    this.customer.phone = this.phone.value!;
+    this.customer.street = this.street.value!;
+    this.customer.number = this.number.value!;
+    this.customer.zipCode = this.zipCode.value!;
+    this.customer.city = this.city.value!;
     const customerData = this.customer.toJSON();
     this.loading = true;
     await this.database.saveCustomer(customerData).then((result: any) => {

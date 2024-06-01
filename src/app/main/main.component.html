@@ -7,12 +7,12 @@
       </div>
   
       <ul>
-        <li routerLink="dashboard" (click)="setNewHeader('main.header-dashboard')"><mat-icon>dashboard</mat-icon>{{ "main.header-dashboard" | translate }}</li>
-        <li routerLink="customers" (click)="setNewHeader('main.header-customers')"><mat-icon>person</mat-icon>{{ 'main.header-customers' | translate }}</li>
-        <li routerLink="tasks" (click)="setNewHeader('main.header-tasks')"><mat-icon>task</mat-icon>{{ 'main.header-tasks' | translate }}</li>
-        <li routerLink="products" (click)="setNewHeader('main.header-products')"><mat-icon>inventory</mat-icon>{{ 'main.header-products' | translate }}</li>
-        <li routerLink="purchases" (click)="setNewHeader('main.header-purchases')"><mat-icon>shopping_bag</mat-icon>{{ 'main.header-purchases' | translate }}</li>
-        <li [routerLink]="['/main/settings/']" (click)="setNewHeader('main.header-settings')"><mat-icon>settings</mat-icon>{{ 'main.header-settings' | translate }}</li>
+        <li routerLink="dashboard" (click)="setHeader.setHeader('main.header-dashboard')"><mat-icon>dashboard</mat-icon>{{ "main.header-dashboard" | translate }}</li>
+        <li routerLink="customers" (click)="setHeader.setHeader('main.header-customers')"><mat-icon>person</mat-icon>{{ 'main.header-customers' | translate }}</li>
+        <li routerLink="tasks" (click)="setHeader.setHeader('main.header-tasks')"><mat-icon>task</mat-icon>{{ 'main.header-tasks' | translate }}</li>
+        <li routerLink="products" (click)="setHeader.setHeader('main.header-products')"><mat-icon>inventory</mat-icon>{{ 'main.header-products' | translate }}</li>
+        <li routerLink="purchases" (click)="setHeader.setHeader('main.header-purchases')"><mat-icon>shopping_bag</mat-icon>{{ 'main.header-purchases' | translate }}</li>
+        <li [routerLink]="['/main/settings/']" (click)="setHeader.setHeader('main.header-settings')"><mat-icon>settings</mat-icon>{{ 'main.header-settings' | translate }}</li>
         <li routerLink="/login" (click)="logoutUser()"><mat-icon>logout</mat-icon>{{ 'main.header-logout' | translate }}</li>
       </ul>
     </mat-drawer>

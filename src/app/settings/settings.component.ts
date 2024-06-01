@@ -30,6 +30,7 @@ import { MatBottomSheet } from '@angular/material/bottom-sheet';
 export class SettingsComponent {
   translate = inject(TranslationService);
   sheetService = inject(BottomSheetService);
+  darkmode = inject(ThemeService);
 
   isDarkMode: boolean;
   loading: boolean = false;
@@ -37,9 +38,10 @@ export class SettingsComponent {
   userData: any;
   user: User;
   userId:string;
-  darkmode:boolean;
+  setDarkmode:boolean;
   translation:boolean;
   userSettings:any = [];
+  language:string;
 
   constructor(
     private themeService: ThemeService, 
@@ -51,15 +53,40 @@ export class SettingsComponent {
     this.isDarkMode = this.themeService.isDarkMode();
     };
 
-
-    
   async ngOnInit(){
+    await this.checkUser();
     await this.getUserId();
     await this.getUserData('users');
   };
 
+  async checkUser() {
+    const data = JSON.parse(localStorage.getItem("loggedUserData") || '{}');
+    this.checkUserSettings(data.translation, data.darkmode);
+  }
+
+  checkUserSettings(translation: boolean, darkmode: boolean) {
+    if (translation) {
+      this.translate.switchLanguage(true);
+    }
+    if (darkmode) {
+      this.darkmode.setDarkMode(true);
+    }
+  }
+
   async getUserId(){
-    this.userId = localStorage.getItem('User') as string;
+    const data = JSON.parse(localStorage.getItem("loggedUserData") || '{}');
+    this.userId = data.userId;
+    if(data.translation == true){
+      this.language = 'Deutsch';
+    }else{
+      this.language = 'English'
+    }
+  };
+
+  async getUserData(users:string){
+    onSnapshot(doc(this.db, users, this.userId), (doc) => {
+      this.user = new User(doc.data());
+    });
   };
 
   toggleTheme() {
@@ -72,14 +99,17 @@ export class SettingsComponent {
     this.user.translation = this.translate.translationOn
     const userData = this.user.toJSON();
     this.database.saveEditedUser(userData, this.userId)
-    console.log(userData)
+    const loggedUserData = {
+      userId: userData['userId'],
+      translation: userData['translation'],
+      darkmode: userData['darkmode']
+    }
+    this.saveData("loggedUserData", JSON.stringify(loggedUserData))
     this.openBottomSheet();
   };
 
-  async getUserData(users:string){
-    onSnapshot(doc(this.db, users, this.userId), (doc) => {
-      this.user = new User(doc.data());
-    });
+  public saveData(key: string, value: string) {
+    localStorage.setItem(key, value);
   };
 
   openDialogDeleteUser(){

@@ -160,7 +160,7 @@
     
     "settings":{
         "dark-mode-header":"Dark or Light Mode:",
-        "language-header":"Select Language:",
+        "language-header":"Select System Language:",
         "language-input-label":"Language",
         "language-option-en":"English",
         "language-option-de":"German",

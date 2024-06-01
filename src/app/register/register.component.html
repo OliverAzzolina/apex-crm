@@ -12,22 +12,22 @@
 
           <mat-form-field class="full-width">
             <mat-label> {{ "register.header-firstname" | translate }} </mat-label>
-            <input type="text" [(ngModel)]="user.firstName" matInput [formControl]="firstNameFormControl" placeholder="Anna">
+            <input type="text" matInput [formControl]="firstNameFormControl" placeholder="Anna">
           </mat-form-field>
 
           <mat-form-field class="full-width">
             <mat-label> {{ "register.header-lastname" | translate }} </mat-label>
-            <input type="text" [(ngModel)]="user.lastName" matInput [formControl]="lastNameFormControl" placeholder="Mustermann">
+            <input type="text" matInput [formControl]="lastNameFormControl" placeholder="Mustermann">
           </mat-form-field>
 
           <mat-form-field class="full-width">
             <mat-label> {{ "register.header-email" | translate }} </mat-label>
-            <input type="email" [(ngModel)]="user.email" matInput [formControl]="emailFormControl" placeholder="Ex. pat@example.com">
+            <input type="email" matInput [formControl]="emailFormControl" placeholder="Ex. pat@example.com">
           </mat-form-field>
 
           <mat-form-field class="full-width">
             <mat-label> {{ "register.header-password" | translate }} </mat-label>
-            <input [type]="hide ? 'password' : 'text'" [(ngModel)]="user.password" matInput [formControl]="passwordFormControl" placeholder="Ex. pat@example.com">
+            <input [type]="hide ? 'password' : 'text'" matInput [formControl]="passwordFormControl" placeholder="Ex. pat@example.com">
             <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
               <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
             </button>

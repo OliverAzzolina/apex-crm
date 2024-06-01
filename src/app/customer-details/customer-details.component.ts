@@ -1,4 +1,4 @@
-import { Component, Input, ViewChild, forwardRef, inject } from '@angular/core';
+import { Component, HostListener, Input, ViewChild, forwardRef, inject } from '@angular/core';
 import {MatCardModule} from '@angular/material/card';
 import { Router } from '@angular/router';
 import { doc, onSnapshot } from "firebase/firestore";
@@ -33,19 +33,28 @@ import { TranslationService } from '../services/translation.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { MatSortModule } from '@angular/material/sort'
+import { ThemeService } from '../services/theme.service';
+import { SetHeaderService } from '../services/set-header.service';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-customer-details',
   standalone: true,
   imports: [MatCardModule, CommonModule, CustomersComponent, MatIconModule, MatButtonModule, MatTooltipModule, MatTabsModule, MatMenuModule, 
     MatTableModule, MatFormField, MatLabel, MatCheckboxModule, MatInputModule, MatFormFieldModule, FormsModule, ReactiveFormsModule, 
-    TranslateModule, MatSortModule],
+    TranslateModule, MatSortModule, MatProgressSpinnerModule],
   templateUrl: './customer-details.component.html',
   styleUrl: './customer-details.component.scss'
 })
 
 export class CustomerDetailsComponent {
-  constructor(private router: Router, public db: Firestore, public dialog: MatDialog, public tabIndex: SetTabIndexService, private _liveAnnouncer: LiveAnnouncer) {}
+  constructor(
+    private router: Router, 
+    public db: Firestore, 
+    public dialog: MatDialog, 
+    public tabIndex: SetTabIndexService, 
+    private _liveAnnouncer: LiveAnnouncer
+  ) {}
 
   id: string;
   customerData: any;
@@ -58,23 +67,41 @@ export class CustomerDetailsComponent {
   birthdate: Date;
   actualTabIndex:any = 0;
   selectedTabIndex = new FormControl( this.actualTabIndex);
-
+  loadPurchases: boolean = false;
+  loading: boolean = false;
   taskDataSource = new MatTableDataSource(this.allTasks);
   purchaseDataSource = new MatTableDataSource(this.allPurchases);
   taskColumns: string[] = ['status', 'note', 'taskId'];
   purchaseColumns: string[] = ['purchaseId', 'orderdate', 'status', 'product', 'amount', 'totalPrice'];
  
   translate = inject(TranslationService);
+  darkmode = inject(ThemeService);
+  setheader = inject(SetHeaderService);
 
   async ngOnInit(){
     this.id = this.router.url.split('/').splice(3, 1).toString();
+    await this.checkUser();
     await this.getCustomerData();
+    await this.getPurchases();
     await this.getTasks();
     await this.setNewTabIndex()
-    await this.getPurchases();
-    
+    this.setheader.updateCustomerHeader();
     this.taskDataSource.data = this.allTasks; 
     this.purchaseDataSource.data = this.allPurchases; 
+  }
+
+  async checkUser() {
+    const data = JSON.parse(localStorage.getItem("loggedUserData") || '{}');
+    this.checkUserSettings(data.translation, data.darkmode);
+  }
+
+  checkUserSettings(translation: boolean, darkmode: boolean) {
+    if (translation) {
+      this.translate.switchLanguage(true);
+    }
+    if (darkmode) {
+      this.darkmode.setDarkMode(true);
+    }
   }
 
   applyFilter(event: Event) {
@@ -117,6 +144,7 @@ export class CustomerDetailsComponent {
   }
 
   async getCustomerData(){
+    
     onSnapshot(doc(this.db, "customers", this.id), (doc) => {
           this.customer = new Customer(doc.data());
           this.birthdate = this.convertToDate(this.customer.birthDate);
@@ -124,6 +152,7 @@ export class CustomerDetailsComponent {
             day: 'numeric', month: 'numeric', year: 'numeric'
           }).replaceAll('/', '.');
     });
+ 
   };
 
   private convertToDate(birthDate: number){
@@ -181,6 +210,7 @@ export class CustomerDetailsComponent {
     });
     this.sortPurchases();
     this.purchaseDataSource.data = this.allPurchases;
+    this.loadPurchases = true; 
   })}
 
   openDialogAddPurchase(){
@@ -200,6 +230,4 @@ export class CustomerDetailsComponent {
       return y.orderDate - x.orderDate
     })
   }
-
-
 }

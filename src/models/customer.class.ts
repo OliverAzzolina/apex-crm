@@ -11,7 +11,7 @@ export class Customer{
     email: string;
     street: string;
     number: string;
-    zipCode: number;
+    zipCode: string;
     city: string;
     company: string;
     position: string;

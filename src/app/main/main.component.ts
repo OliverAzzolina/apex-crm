@@ -41,30 +41,29 @@ export class MainComponent {
   darkmode = inject(ThemeService);
   translate = inject(TranslationService);
   header: string = '';
+  headerId: string;
 
   async ngOnInit(){
     await this.checkUser();
-    await this.setHeader.setFirstHeader()
+    this.headerId = this.router.url.split('/').splice(2, 1).toString();
+    this.setHeader.updateHeader(this.headerId)
   };
 
-  async checkUser(){
-    const userId = localStorage.getItem('User') as string;
-      const q = query(collection(this.db, "users"), where("userId", "==", userId));
-      const querySnapshot = await getDocs(q);
-  
-      querySnapshot.forEach((doc) => {
-        const userData = doc.data();
-          this.checkUserSettings(userData)
-      });
+  async checkUser() {
+    const data = JSON.parse(localStorage.getItem("loggedUserData") || '{}');
+    this.checkUserSettings(data.translation, data.darkmode);
   }
 
-  async checkUserSettings(userData: any){
-    if(userData['translation'] == true){
-      this.translate.translationOn;
-      this.translate.switchLanguage(true)
+  checkUserSettings(translation: boolean, darkmode: boolean) {
+    if (translation) {
+      this.translate.switchLanguage(true);
+    }else{
+      this.translate.switchLanguage(false);
     }
-    if(userData['darkmode'] == true){
+    if (darkmode) {
       this.darkmode.setDarkMode(true);
+    }else{
+      this.darkmode.setDarkMode(false);
     }
   }
 
@@ -73,7 +72,7 @@ export class MainComponent {
   }
 
   logoutUser(){
-    localStorage.removeItem('User');
+    localStorage.removeItem('loggedUserData');
     this.openBottomSheet();
     this.darkmode.setDarkMode(false);
     this.translate.translationOn = false;
@@ -88,3 +87,7 @@ export class MainComponent {
   };
 
 }
+function updateHeader(newHeader: any, string: any) {
+  throw new Error('Function not implemented.');
+}
+

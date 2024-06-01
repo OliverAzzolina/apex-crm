@@ -161,7 +161,7 @@
 
     "settings":{
         "dark-mode-header":"Dunkles oder helles Design",
-        "language-header":"Sprache wählen:",
+        "language-header":"Systemsprache wählen:",
         "language-input-label":"Sprache",
         "language-option-en":"Englisch",
         "language-option-de":"Deutsch",

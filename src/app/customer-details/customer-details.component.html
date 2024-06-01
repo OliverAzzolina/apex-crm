@@ -1,247 +1,196 @@
+
+
 <div class="customer-detail-container">
-    <mat-card class="customer-detail-card">
-        <mat-card-content>
-            <div>
-                <div>
-                    <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu"
-                    #tooltip="matTooltip" 
-                        matTooltip=" {{ 'customer-detail.tooltip-options' | translate }} "
-                        [matTooltipPosition]="'above'"
-                        matTooltipHideDelay="">
-                        <mat-icon>more_vert</mat-icon>
-                      </button>
-                      <mat-menu #menu="matMenu">
-                        <button mat-menu-item (click)="openDialogEditCustomer()">
-                          <mat-icon>edit</mat-icon>
-                          <span> {{ "customer-detail.header-edit" | translate }} </span>
-                        </button>
-                        <button mat-menu-item (click)="openDialogDeleteCustomer()">
-                          <mat-icon color="warn">delete</mat-icon>
-                          <span> {{ "customer-detail.header-delete" | translate }} </span>
-                        </button>
-                      </mat-menu>
-                </div>
-                <div class="customer-header">
-                    <img src="assets/icons/user.png" alt="">
-                    <h2>{{customer.firstName}} {{customer.lastName}}</h2>
-                    <div class="customer-job-info">
-                        <div>{{customer.position}}</div>
-                        <div>{{customer.company}}</div>
-                    </div>
-                    <div class="customer-action-btn-container">
-                        <a mat-icon-button color="primary" href="tel:{{customer.phone}}" 
-                            #tooltip="matTooltip" 
-                            matTooltip=" {{ 'customer-detail.tooltip-call' | translate }} "
-                            [matTooltipPosition]="'above'"
-                            matTooltipHideDelay="">
-                                <mat-icon>call</mat-icon>
-                        </a>
-
-                        <a mat-icon-button color="primary" href="mailto:{{customer.email}}" 
-                            #tooltip="matTooltip" 
-                            matTooltip=" {{ 'customer-detail.tooltip-mail' | translate }} "
-                            [matTooltipPosition]="'above'"
-                            matTooltipHideDelay="">
-                                <mat-icon>mail</mat-icon>
-                        </a>
-                    </div>
-                </div>
-    
-                <div class="customer-contact-info">
-                    <b> {{ "customer-detail.detail-header" | translate }} </b>
-    
-                    <div class="customer-contact-detail" >
-                        {{ "customer-detail.birthdate-header" | translate }}:<br>
-                        {{customer.birthdate}}                    
-                    </div>
-    
-                    <div class="customer-contact-detail" >
-                        E-Mail: 
-                        <a href="mailto:{{customer.email}}" 
-                        #tooltip="matTooltip" 
-                        matTooltip=" {{ 'customer-detail.tooltip-mail' | translate }} "
-                        [matTooltipPosition]="'right'"
-                        matTooltipHideDelay="">{{customer.email}}</a>
-                    </div>
-    
-                    <div class="customer-contact-detail">
-                        {{ "customer-detail.phone-header" | translate }}:
-                        <a href="tel:{{customer.phone}}" 
-                        #tooltip="matTooltip" 
-                        matTooltip=" {{ 'customer-detail.tooltip-call' | translate }} "
-                        [matTooltipPosition]="'right'"
-                        matTooltipHideDelay="">{{customer.phone}}</a>
-                    </div>
-    
-                    <div class="customer-contact-detail">
-                        {{ "customer-detail.adress-header" | translate }}:
-                        <a class="adress-link" target="_blank" 
-                        #tooltip="matTooltip" 
-                        matTooltip=" {{ 'customer-detail.tooltip-maps' | translate }} "
-                        [matTooltipPosition]="'right'"
-                        matTooltipHideDelay="" 
-                        href="https://www.google.com/maps/place/{{customer.street}}+{{customer.number}},+{{customer.zipCode}}+{{customer.city}}">
-                            {{customer.street}} {{customer.number}},<br>
-                            {{customer.zipCode}} {{customer.city}}
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </mat-card-content>
-    </mat-card>
-    
-    <mat-card class="customer-dashboard">
-        <mat-tab-group  [selectedIndex]="selectedTabIndex.value"
-        (selectedIndexChange)="selectedTabIndex.setValue($event)" ngDefaultControl >
-            <mat-tab label="{{ 'tasks.tab-header1' | translate }}" class="table-container"> 
-                <mat-card>
-                    <mat-card-content>
-                      <div class="table-top-container">
-                        <mat-form-field>
-                          <mat-label>{{ "tasks.search-label" | translate }}</mat-label>
-                          <input
-                            matInput
-                            (keyup)="applyFilter($event)"
-                            placeholder="Ex. Mia"
-                            #input
-                          />
-                        </mat-form-field>
-                        <button
-                          (click)="openDialogAddTask()"
-                          class="add-button"
-                          mat-fab
-                          color="warn"
-                          #tooltip="matTooltip"
-                          matTooltip="{{ 'tasks.tooltip-add' | translate }}"
-                          [matTooltipPosition]="'above'"
-                          matTooltipHideDelay="1000"
-                        >
-                          <mat-icon>add</mat-icon>
-                        </button>
-                      </div>
-                  
-                      <table
-                        #tasksTable
-                        mat-table
-                        [dataSource]="taskDataSource"
-                        class="main-table"
-                        matSort
-                        (matSortChange)="announceSortChange($event)"
-                      >
-                        <ng-container matColumnDef="status">
-                          <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ "tasks.table-header1" | translate }}</th>
-                          <td mat-cell *matCellDef="let task">{{ translate.translationOn == true ? task.translatedStatus : task.status }}</td>
-                        </ng-container>
-                  
-                        <ng-container matColumnDef="note">
-                          <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ "tasks.table-header2" | translate }}</th>
-                          <td mat-cell *matCellDef="let task">{{ task.note }}</td>
-                        </ng-container>
-                  
-                        <ng-container matColumnDef="taskId">
-                          <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ "tasks.table-header4" | translate }}</th>
-                          <td mat-cell *matCellDef="let task">{{ task.taskId }}</td>
-                        </ng-container>
-                  
-                        <tr
-                          class="no-hover"
-                          mat-header-row
-                          *matHeaderRowDef="taskColumns"
-                        ></tr>
-                        <tr
-                          mat-row
-                          *matRowDef="let task; columns: taskColumns"
-
-                          (click)="openDialogEditTask(task)"
-                          #tooltip="matTooltip" 
-                          matTooltip="{{ 'tasks.tooltip-edit' | translate }}"     
-                          [matTooltipPosition]="'above'"               
-                          matTooltipHideDelay=""
-                        ></tr>
-                  
-                        <!-- Row shown when there is no matching data. -->
-                        <tr class="mat-row" *matNoDataRow>
-                          <td class="mat-cell" colspan="4">
-                            {{ "tasks.search-not-found" | translate }} "{{ input.value }}"
-                          </td>
-                        </tr>
-                      </table>
-                    </mat-card-content>
-                </mat-card>
-            </mat-tab>
-
-            <mat-tab label= "{{ 'purchases.tab-header1' | translate }}" > 
-              <mat-card>
-                <mat-card-content>       
-                  <div class="table-top-container">
-                      <mat-form-field>
-                          <mat-label>{{ "purchases.search-label" | translate }}</mat-label>
-                          <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input2>
-                      </mat-form-field>
-                      <button (click)="openDialogAddPurchase()" class="add-button" mat-fab color="warn" 
+  <mat-card class="customer-detail-card">
+    <mat-card-content>
+      <div>
+        <div>
+          <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu"
+                  #tooltip="matTooltip" 
+                  matTooltip="{{ 'customer-detail.tooltip-options' | translate }}"
+                  [matTooltipPosition]="'above'"
+                  matTooltipHideDelay="">
+            <mat-icon>more_vert</mat-icon>
+          </button>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item (click)="openDialogEditCustomer()">
+              <mat-icon>edit</mat-icon>
+              <span>{{ 'customer-detail.header-edit' | translate }}</span>
+            </button>
+            <button mat-menu-item (click)="openDialogDeleteCustomer()">
+              <mat-icon color="warn">delete</mat-icon>
+              <span>{{ 'customer-detail.header-delete' | translate }}</span>
+            </button>
+          </mat-menu>
+        </div>
+        <div class="customer-header">
+          <img src="assets/icons/user.png" alt="">
+          <h2>{{customer.firstName}} {{customer.lastName}}</h2>
+          <div class="customer-job-info">
+            <div>{{customer.position}}</div>
+            <div>{{customer.company}}</div>
+          </div>
+          <div class="customer-action-btn-container">
+            <a mat-icon-button color="primary" href="tel:{{customer.phone}}" 
+               #tooltip="matTooltip" 
+               matTooltip="{{ 'customer-detail.tooltip-call' | translate }}"
+               [matTooltipPosition]="'above'"
+               matTooltipHideDelay="">
+              <mat-icon>call</mat-icon>
+            </a>
+            <a mat-icon-button color="primary" href="mailto:{{customer.email}}" 
+               #tooltip="matTooltip" 
+               matTooltip="{{ 'customer-detail.tooltip-mail' | translate }}"
+               [matTooltipPosition]="'above'"
+               matTooltipHideDelay="">
+              <mat-icon>mail</mat-icon>
+            </a>
+          </div>
+        </div>
+        <div class="customer-contact-info">
+          <b>{{ 'customer-detail.detail-header' | translate }}</b>
+          <div class="customer-contact-detail">
+            {{ 'customer-detail.birthdate-header' | translate }}:<br>
+            {{customer.birthdate}}                    
+          </div>
+          <div class="customer-contact-detail">
+            E-Mail:
+            <a href="mailto:{{customer.email}}" 
+               #tooltip="matTooltip" 
+               matTooltip="{{ 'customer-detail.tooltip-mail' | translate }}"
+               [matTooltipPosition]="'right'"
+               matTooltipHideDelay="">{{customer.email}}</a>
+          </div>
+          <div class="customer-contact-detail">
+            {{ 'customer-detail.phone-header' | translate }}:
+            <a href="tel:{{customer.phone}}" 
+               #tooltip="matTooltip" 
+               matTooltip="{{ 'customer-detail.tooltip-call' | translate }}"
+               [matTooltipPosition]="'right'"
+               matTooltipHideDelay="">{{customer.phone}}</a>
+          </div>
+          <div class="customer-contact-detail">
+            {{ 'customer-detail.adress-header' | translate }}:
+            <a class="adress-link" target="_blank" 
+               #tooltip="matTooltip" 
+               matTooltip="{{ 'customer-detail.tooltip-maps' | translate }}"
+               [matTooltipPosition]="'right'"
+               matTooltipHideDelay="" 
+               href="https://maps.google.com/maps?q={{customer.street}}+{{customer.number}},+{{customer.zipCode}}+{{customer.city}}">
+              {{customer.street}} {{customer.number}},<br>
+              {{customer.zipCode}} {{customer.city}}
+            </a>
+          </div>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+  <mat-card class="customer-dashboard">
+    <mat-tab-group [selectedIndex]="selectedTabIndex.value"
+                   (selectedIndexChange)="selectedTabIndex.setValue($event)" ngDefaultControl>
+      <mat-tab label="{{ 'tasks.tab-header1' | translate }}" class="table-container"> 
+        <mat-card>
+          <mat-card-content>
+            <div class="table-top-container">
+              <mat-form-field>
+                <mat-label>{{ 'tasks.search-label' | translate }}</mat-label>
+                <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input />
+              </mat-form-field>
+              <button (click)="openDialogAddTask()" class="add-button" mat-fab color="warn" 
                       #tooltip="matTooltip" 
-                      matTooltip="{{ 'purchases.tooltip-add' | translate }}" 
+                      matTooltip="{{ 'tasks.tooltip-add' | translate }}"
+                      [matTooltipPosition]="'above'"
+                      matTooltipHideDelay="1000">
+                <mat-icon>add</mat-icon>
+              </button>
+            </div>
+            <table #tasksTable mat-table [dataSource]="taskDataSource" class="main-table" matSort
+                   (matSortChange)="announceSortChange($event)">
+              <ng-container matColumnDef="status">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'tasks.table-header1' | translate }}</th>
+                <td mat-cell *matCellDef="let task">{{ translate.translationOn ? task.translatedStatus : task.status }}</td>
+              </ng-container>
+              <ng-container matColumnDef="note">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'tasks.table-header2' | translate }}</th>
+                <td mat-cell *matCellDef="let task">{{ task.note }}</td>
+              </ng-container>
+              <ng-container matColumnDef="taskId">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'tasks.table-header4' | translate }}</th>
+                <td mat-cell *matCellDef="let task">{{ task.taskId }}</td>
+              </ng-container>
+              <tr class="no-hover" mat-header-row *matHeaderRowDef="taskColumns"></tr>
+              <tr mat-row *matRowDef="let task; columns: taskColumns" (click)="openDialogEditTask(task)"
+                  #tooltip="matTooltip" 
+                  matTooltip="{{ 'tasks.tooltip-edit' | translate }}"     
+                  [matTooltipPosition]="'above'"               
+                  matTooltipHideDelay=""></tr>
+              <tr class="mat-row" *matNoDataRow>
+                <td class="mat-cell" colspan="4">{{ 'tasks.search-not-found' | translate }} "{{ input.value }}"</td>
+              </tr>
+            </table>
+          </mat-card-content>
+        </mat-card>
+      </mat-tab>
+      <mat-tab (click)="this.getPurchases();" label="{{ 'purchases.tab-header1' | translate }}"> 
+        <mat-card>
+          <mat-card-content>
+            <div class="table-top-container">
+              <mat-form-field>
+                <mat-label>{{ 'purchases.search-label' | translate }}</mat-label>
+                <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input2 />
+              </mat-form-field>
+              <button (click)="openDialogAddPurchase()" class="add-button" mat-fab color="warn" 
+                      #tooltip="matTooltip" 
+                      matTooltip="{{ 'purchases.tooltip-add' | translate }}"
                       [matTooltipPosition]="'above'" 
                       matTooltipHideDelay="1000">
-                          <mat-icon>add</mat-icon>
-                      </button>
-                  </div>
-                
-                  <table #purchaseTable mat-table [dataSource]="purchaseDataSource" class="main-table" matSort matSortDirection="asc" (matSortChange)="announceSortChange($event)">
-                  
-                    <ng-container matColumnDef="purchaseId">
-                      <th mat-header-cell *matHeaderCellDef mat-sort-header> {{ "purchases.table-header1" | translate }} </th>
-                      <td mat-cell *matCellDef="let purchase"> {{purchase.purchaseId}} </td>
-                    </ng-container>
-                  
-                    <ng-container matColumnDef="orderdate">
-                      <th mat-header-cell *matHeaderCellDef mat-sort-header> {{ "purchases.table-header2" | translate }} </th>
-                      <td mat-cell *matCellDef="let purchase"> {{purchase.orderdate}} </td>
-                    </ng-container>
-                  
-                    <ng-container matColumnDef="status">
-                      <th mat-header-cell *matHeaderCellDef mat-sort-header> {{ "purchases.table-header3" | translate }} </th>
-                      <td mat-cell *matCellDef="let purchase"> {{ translate.translationOn == true ? purchase.translatedStatus : purchase.status }}</td>
-                    </ng-container>
-                  
-                    <ng-container matColumnDef="product">
-                      <th mat-header-cell *matHeaderCellDef mat-sort-header> {{ "purchases.table-header4" | translate }} </th>
-                      <td mat-cell *matCellDef="let purchase"> {{purchase.product}} </td>
-                    </ng-container>
-                  
-                    <ng-container matColumnDef="amount">
-                      <th mat-header-cell *matHeaderCellDef mat-sort-header> {{ "purchases.table-header5" | translate }} </th>
-                      <td mat-cell *matCellDef="let purchase"> {{purchase.amount}} </td>
-                    </ng-container>
-                  
-                    <ng-container matColumnDef="totalPrice">
-                      <th mat-header-cell *matHeaderCellDef mat-sort-header> {{ "purchases.table-header7" | translate }} </th>
-                      <td mat-cell *matCellDef="let purchase"> {{purchase.totalPrice.toFixed(2)}} </td>
-                    </ng-container>
-                  
-                    <tr class="no-hover" mat-header-row *matHeaderRowDef="purchaseColumns"></tr>
-                    <tr mat-row *matRowDef="let purchase; columns: purchaseColumns;" 
-                  
-                    (click)="openDialogEditPurchase(purchase)"
-                    #tooltip="matTooltip" 
-                    matTooltip=" {{ 'purchases.tooltip-edit' | translate }} "      
-                    [matTooltipPosition]="'above'"               
-                    matTooltipHideDelay=""></tr>
-                  
-                    <!-- Row shown when there is no matching data. -->
-                    <tr class="mat-row" *matNoDataRow>
-                      <td class="mat-cell" colspan="4">{{ "purchases.search-not-found" | translate }} "{{input2.value}}"</td>
-                    </tr>
-
-                  </table>
-                </mat-card-content>
-              </mat-card>
-          </mat-tab>
-        </mat-tab-group>
-    </mat-card>
+                <mat-icon>add</mat-icon>
+              </button>
+            </div>
+            <table *ngIf="loadPurchases" #purchaseTable mat-table [dataSource]="purchaseDataSource" class="main-table" matSort
+                   (matSortChange)="announceSortChange($event)">
+              <ng-container matColumnDef="purchaseId">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'purchases.table-header1' | translate }}</th>
+                <td mat-cell *matCellDef="let purchase">{{ purchase.purchaseId }}</td>
+              </ng-container>
+              <ng-container matColumnDef="orderdate">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'purchases.table-header2' | translate }}</th>
+                <td mat-cell *matCellDef="let purchase">{{ purchase.orderdate }}</td>
+              </ng-container>
+              <ng-container matColumnDef="status">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'purchases.table-header3' | translate }}</th>
+                <td mat-cell *matCellDef="let purchase">{{ translate.translationOn ? purchase.translatedStatus : purchase.status }}</td>
+              </ng-container>
+              <ng-container matColumnDef="product">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'purchases.table-header4' | translate }}</th>
+                <td mat-cell *matCellDef="let purchase">{{ purchase.product }}</td>
+              </ng-container>
+              <ng-container matColumnDef="amount">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'purchases.table-header5' | translate }}</th>
+                <td mat-cell *matCellDef="let purchase">{{ purchase.amount }}</td>
+              </ng-container>
+              <ng-container matColumnDef="totalPrice">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'purchases.table-header7' | translate }}</th>
+                <td mat-cell *matCellDef="let purchase">{{ purchase.totalPrice.toFixed(2) }}</td>
+              </ng-container>
+              <tr class="no-hover" mat-header-row *matHeaderRowDef="purchaseColumns"></tr>
+              <tr mat-row *matRowDef="let purchase; columns: purchaseColumns" (click)="openDialogEditPurchase(purchase)"
+                  #tooltip="matTooltip" 
+                  matTooltip="{{ 'purchases.tooltip-edit' | translate }}"      
+                  [matTooltipPosition]="'above'"               
+                  matTooltipHideDelay=""></tr>
+              <tr class="mat-row" *matNoDataRow>
+                <td class="mat-cell" colspan="4">{{ 'purchases.search-not-found' | translate }} "{{ input2.value }}"</td>
+              </tr>
+            </table>
+          </mat-card-content>
+        </mat-card>
+      </mat-tab>
+    </mat-tab-group>
+  </mat-card>
 </div>
 
-  <mat-form-field class="d-none">
-    <mat-label>Selected tab index</mat-label>
-    <input matInput type="number" [formControl]="selectedTabIndex" (ngModel)="selectedTabIndex">
-  </mat-form-field>
+<mat-form-field class="d-none">
+  <mat-label>Selected tab index</mat-label>
+  <input matInput type="number" [formControl]="selectedTabIndex" />
+</mat-form-field>

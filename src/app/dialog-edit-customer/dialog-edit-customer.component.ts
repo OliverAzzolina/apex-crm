@@ -17,7 +17,6 @@ import { FeedbackBottomSheetComponent } from '../feedback-bottom-sheet/feedback-
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { BottomSheetService } from '../services/bottom-sheet.service';
 import { User } from '../../models/user.class';
-import { Firestore, doc, onSnapshot } from '@angular/fire/firestore';
 
 @Component({
   selector: 'app-dialog-edit-customer',
@@ -37,24 +36,24 @@ import { Firestore, doc, onSnapshot } from '@angular/fire/firestore';
 export class DialogEditCustomerComponent {
   loading: boolean = false;
   customer: Customer;
-  birthDate: Date;
   birthdate:Date;
   id:string;
   userId:string;
   user:User;
   
-  firstNameFormControl = new FormControl('', [Validators.required, Validators.minLength(2)]);
-  lastNameFormControl = new FormControl('', [Validators.required, Validators.minLength(2)]);
-  birthdateFormControl = new FormControl('', [Validators.required, Validators.minLength(1)]);
-  emailFormControl = new FormControl('', [Validators.required, Validators.email]);
-  phoneFormControl = new FormControl('', [Validators.required, Validators.minLength(7)]);
-  streetFormControl = new FormControl('', [Validators.required, Validators.minLength(2)]);
-  numberFormControl = new FormControl('', [Validators.required, Validators.minLength(1)]);
-  zipCodeFormControl = new FormControl('', [Validators.required, Validators.minLength(1)]);
-  cityFormControl = new FormControl('', [Validators.required, Validators.minLength(1)]);
+  birthDate: string;
+  birth:string
+  firstname = new FormControl('', [Validators.required, Validators.minLength(2)]);
+  lastname = new FormControl('', [Validators.required, Validators.minLength(2)]);
+  dateOfBirth = new FormControl('', [Validators.required, Validators.minLength(1)]);
+  email = new FormControl('', [Validators.required, Validators.email]);
+  phone = new FormControl('', [Validators.required, Validators.minLength(7)]);
+  street = new FormControl('', [Validators.required, Validators.minLength(2)]);
+  number = new FormControl('', [Validators.required, Validators.minLength(1)]);
+  zipCode = new FormControl('', [Validators.required, Validators.minLength(1)]);
+  city = new FormControl('', [Validators.required, Validators.minLength(1)]);
 
   constructor(
-    public db: Firestore, 
     private database: DatabaseService, 
     public dialogRef: MatDialogRef<DialogEditCustomerComponent>, 
     private _bottomSheet: MatBottomSheet,
@@ -71,20 +70,20 @@ export class DialogEditCustomerComponent {
   
   async ngOnInit(){
     await this.getUserId()
-    await this.getUserData('users');
     this.birthdate = this.convertToDate(this.customer.birthDate);
-    console.log(this.birthdate)
+    this.firstname.setValue(this.customer.firstName)
+    this.lastname.setValue(this.customer.lastName)
+    this.email.setValue(this.customer.email)
+    this.phone.setValue(this.customer.phone)
+    this.street.setValue(this.customer.street)
+    this.number.setValue(this.customer.number)
+    this.zipCode.setValue(this.customer.zipCode)
+    this.city.setValue(this.customer.city)
   };
 
   async getUserId(){
-    this.userId = localStorage.getItem('User') as string;
-  };
-
-  async getUserData(users:string){
-    onSnapshot(doc(this.db, users, this.userId), (doc) => {
-      this.user = new User(doc.data());
-      this.checkCalendarLanguage(this.user.translation) 
-    })
+    const data = JSON.parse(localStorage.getItem("loggedUserData") || '{}');
+    this.checkCalendarLanguage(data.translation);
   };
 
   async checkCalendarLanguage(translateDatePicker: boolean){
@@ -97,7 +96,28 @@ export class DialogEditCustomerComponent {
   }
   
   async saveCustomer() {
-    this.customer.birthDate = this.birthdate.getTime();
+    if(this.dateOfBirth.value){
+      const birth = this.dateOfBirth.value!;
+      const birthDate = new Date(birth)
+      this.customer.birthDate = birthDate.getTime();
+      this.customer.birthdate = birthDate.toLocaleDateString('en-GB', {
+        day: 'numeric', month: 'numeric', year: 'numeric'
+      }).replaceAll('/', '.');
+    }else{
+      const birthDate = new Date(this.customer.birthDate);
+      this.customer.birthDate = birthDate.getTime();
+      this.customer.birthdate = birthDate.toLocaleDateString('en-GB', {
+        day: 'numeric', month: 'numeric', year: 'numeric'
+      }).replaceAll('/', '.');
+    }
+    this.customer.firstName = this.firstname.value!;
+    this.customer.lastName = this.lastname.value!;
+    this.customer.email = this.email.value!;
+    this.customer.phone = this.phone.value!;
+    this.customer.street = this.street.value!;
+    this.customer.number = this.number.value!;
+    this.customer.zipCode = this.zipCode.value!;
+    this.customer.city = this.city.value!;
     const customerData = this.customer.toJSON();
     this.loading = true;
     await this.database.saveEditedCustomer(customerData, this.id).then((result: any) => {

@@ -69,35 +69,47 @@ export class LoginComponent {
       this.userNotFound = false;
       querySnapshot.forEach((doc) => {
         const userData = doc.data();
-        if (this.password.value == userData['password']) {
-          userData['userId'] = doc.id;
-          this.setUserId(userData);
-          
-          this.checkUserSettings(userData)
-          this.loading = false;
-          this.router.navigateByUrl('/main/dashboard');
-          this.openBottomSheet();
-        }else{
-          this.wrongPassword = true;
-        }
+        this.checkPassword(userData, doc)
       });
     };
   };
 
-  async setUserId(userData: DocumentData) {
+  async checkPassword(userData: any, doc:any){
+    if (this.password.value == userData['password']) {
+      await this.loginUser(userData, doc)
+    }else{
+      this.wrongPassword = true;
+    }
+  }
+
+  async loginUser(userData: any, doc:any){
+    userData['userId'] = doc.id;
+    await this.setUserId(userData);
+    await this.checkUserSettings(userData);
+    this.router.navigateByUrl('/main/dashboard');
+    this.openBottomSheet();
+  }
+
+  async setUserId(userData: any) {
     const userId = userData['userId'];
-      await this.database.saveEditedUser(userData, userId).then((result: any) => {
-    });
-    this.saveData('User', userId)
+    const loggedUserData = {
+      userId: userData['userId'],
+      translation: userData['translation'],
+      darkmode: userData['darkmode']
+    }
+    await this.database.saveEditedUser(userData, userId).then((result: any) => {});
+    this.saveData("loggedUserData", JSON.stringify(loggedUserData))
   };
 
   async checkUserSettings(userData: DocumentData){
     if(userData['translation'] == true){
       this.translate.translationOn;
       this.translate.switchLanguage(true)
+      console.log(userData['translation'])
     }
     if(userData['darkmode'] == true){
       this.darkmode.setDarkMode(true);
+      console.log(userData['darkmode'])
     }
   };
 

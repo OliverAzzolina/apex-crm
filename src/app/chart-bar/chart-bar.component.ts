@@ -33,6 +33,9 @@ export class ChartBarComponent {
   }
 
  async ngOnInit() {
+    if(this.chart){
+      this.chart.destroy();
+    }
     await this.getAllPurchases();
     await this.checkForTranslation();
     await this.calculateMonthlySales();
@@ -158,7 +161,6 @@ export class ChartBarComponent {
     };
   };
     
-
   async getAllPurchases(){
     const querySnapshot = await getDocs(collection(this.db, "purchases"));
     querySnapshot.forEach((doc) => {
@@ -169,7 +171,7 @@ export class ChartBarComponent {
 
   async calculateMonthlySales() {
     this.allPurchases.forEach((purchase: { orderdate: string; totalPrice: number; }) => {
-      const orderdate = parseInt(purchase.orderdate.split("/").splice(1, 1).toString());
+      const orderdate = parseInt(purchase.orderdate.split(".").splice(1, 1).toString());
       const price = purchase.totalPrice;  
       for (let i = 0; i < this.chartData.length; i++) {
         const month = this.chartData[i];

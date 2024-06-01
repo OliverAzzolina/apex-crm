@@ -23,12 +23,14 @@ import { ViewChild } from '@angular/core';
 import { TranslationService } from '../services/translation.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { SetHeaderService } from '../services/set-header.service';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-customers',
   standalone: true,
   imports: [RouterLink, MatIconModule, MatButtonModule, MatTooltipModule, MatDialogModule, FormsModule, MatFormFieldModule, 
-    MatInputModule, CommonModule, MatCardModule, MatTableModule, MatSortModule, MatPaginatorModule, TranslateModule],
+    MatInputModule, CommonModule, MatCardModule, MatTableModule, MatSortModule, MatPaginatorModule, TranslateModule,
+    MatProgressSpinnerModule],
   templateUrl: './customers.component.html',
   styleUrl: './customers.component.scss'
 })

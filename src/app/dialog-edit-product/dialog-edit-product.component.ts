@@ -31,17 +31,30 @@ export class DialogEditProductComponent {
   translatedType: string;
   
   productNameFormControl = new FormControl('', [Validators.required, Validators.minLength(2)]);
-  productPriceFormControl = new FormControl('', [Validators.required, Validators.minLength(1)]);
+  productPriceFormControl = new FormControl(0.01, [Validators.required, Validators.minLength(1)]);
   productTypeFormControl = new FormControl('', [Validators.required, Validators.minLength(1)]);
 
-  constructor(private database: DatabaseService,  public dialog: MatDialog, public dialogRef: MatDialogRef<DialogEditProductComponent>, 
-    private _bottomSheet: MatBottomSheet){};
+  constructor(
+    private database: DatabaseService,  
+    public dialog: MatDialog, 
+    public dialogRef: MatDialogRef<DialogEditProductComponent>, 
+    private _bottomSheet: MatBottomSheet
+  ){};
     
   sheetService = inject(BottomSheetService);
-
   translate = inject(TranslateService);
 
+  async ngOnInit(){
+    this.productNameFormControl.setValue(this.product.name);
+    this.productPriceFormControl.setValue(this.product.ppu);
+    this.productTypeFormControl.setValue(this.product.type);
+  }
+
   async updateProduct(){
+    this.product.name = this.productNameFormControl.value!
+    this.product.ppu = this.productPriceFormControl.value!
+    this.product.type = this.productTypeFormControl.value!
+
     await this.generateTranslatedStatus(this.product.type);  
     const productData = this.product.toJSON();
     productData.translatedType = this.translatedType;

@@ -73,6 +73,11 @@ export class RegisterComponent {
     });
 
     if(this.userExistsNote == false){
+      this.user.firstName = this.firstNameFormControl.value!;
+      this.user.lastName = this.lastNameFormControl.value!;
+      this.user.email = this.emailFormControl.value!;
+      this.user.password = this.passwordFormControl.value!;
+      this.user.translation = this.translate.translationOn;
       const userData = this.user.toJSON();
       this.registerUser(userData);
       this.openBottomSheet();

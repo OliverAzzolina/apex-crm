@@ -49,8 +49,12 @@ export class DialogAddTaskComponent {
   statusFormControl = new FormControl('', [Validators.required, Validators.minLength(2)]);
   noteFormControl = new FormControl('', [Validators.required, Validators.minLength(2)]);
 
-  constructor(private database: DatabaseService, public db: Firestore, public dialogRef: MatDialogRef<DialogAddTaskComponent>, 
-              private _bottomSheet: MatBottomSheet){};
+  constructor(
+    private database: DatabaseService, 
+    public db: Firestore, 
+    public dialogRef: MatDialogRef<DialogAddTaskComponent>,             
+    private _bottomSheet: MatBottomSheet
+  ){};
               
   sheetService = inject(BottomSheetService);
   translate = inject(TranslationService);
@@ -81,12 +85,13 @@ export class DialogAddTaskComponent {
   };
 
   async saveTask() {
+    this.task.status = this.statusFormControl.value!;
+    this.task.note = this.noteFormControl.value!;
+    this.task.customerName = this.customerFormControl.value!;
     await this.generateTranslatedStatus(this.task.status);
     const taskData = this.task.toJSON();
     taskData.customerId = this.customerId;
-    taskData.customerName = this.selectedCustomerName;
     taskData.translatedStatus = this.translatedStatus;
-    this.loading = true;
     await this.database.saveNewTask(taskData).then((result: any) => {
       console.log('added task', taskData);
       this.loading = false;
@@ -102,7 +107,6 @@ export class DialogAddTaskComponent {
       this.translatedStatus = 'geschlossen'
     };
   };
-
 
   openBottomSheet(){
     this.sheetService.message = "sheet.task-save";

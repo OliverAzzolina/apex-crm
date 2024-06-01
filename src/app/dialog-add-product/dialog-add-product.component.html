@@ -3,17 +3,17 @@
 
     <mat-form-field class="example-full-width" appearance="outline">
         <mat-label>{{ "product-dialog.product-name" | translate }}</mat-label>
-        <input type="text" matInput [(ngModel)]="product.name" [formControl]="productNameFormControl">
+        <input type="text" matInput [formControl]="productName">
     </mat-form-field>
 
     <mat-form-field class="example-full-width" appearance="outline">
         <mat-label>{{ "product-dialog.product-price" | translate }}</mat-label>
-        <input type="number" matInput min="0" [(ngModel)]="product.ppu" [formControl]="productPriceFormControl">
+        <input type="number" matInput min="0" [formControl]="productPrice">
     </mat-form-field>
 
     <mat-form-field appearance="outline">
       <mat-label>{{ "product-dialog.product-type" | translate }}</mat-label>
-      <mat-select [(ngModel)]="product.type" name="status" [formControl]="productTypeFormControl">
+      <mat-select name="status" [formControl]="productType">
             <mat-option value="Product">{{ "product-dialog.type-option-product" | translate }}</mat-option>
             <mat-option value="Service">{{ "product-dialog.type-option-service" | translate }}</mat-option>
       </mat-select>
@@ -21,9 +21,9 @@
   
     <mat-dialog-actions class="items-center">
       <button mat-button (click)="addProduct()" 
-      [disabled]="productNameFormControl.invalid || 
-        	        productPriceFormControl.invalid ||
-                  productTypeFormControl.invalid ">{{ "product-dialog.save-button" | translate }}</button>
+      [disabled]="productName.invalid || 
+        	        productPrice.invalid ||
+                  productType.invalid ">{{ "product-dialog.save-button" | translate }}</button>
       <button mat-button (click)="this.dialogRef.close();">{{ "product-dialog.cancel-button" | translate }}</button>
     </mat-dialog-actions>
   </div>

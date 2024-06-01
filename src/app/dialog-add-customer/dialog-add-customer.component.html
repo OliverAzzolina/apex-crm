@@ -5,11 +5,11 @@
       <div>
         <mat-form-field class="mr-16" appearance="outline">
             <mat-label> {{ "customer-dialog.firstname" | translate }} </mat-label>
-            <input [(ngModel)]="customer.firstName" matInput [formControl]="firstNameFormControl">
+            <input matInput id="firstname" type="text" [formControl]="firstname">
           </mat-form-field>
           <mat-form-field appearance="outline">
             <mat-label> {{ "customer-dialog.lastname" | translate }} </mat-label>
-            <input [(ngModel)]="customer.lastName" matInput [formControl]="lastNameFormControl">
+            <input matInput id="lastname" [formControl]="lastname">
           </mat-form-field>
       </div>
 
@@ -28,7 +28,7 @@
       <div>
         <mat-form-field class="full-width" appearance="outline">
             <mat-label> {{ "customer-dialog.birthdate" | translate }} </mat-label>
-            <input [(ngModel)]="birthDate" matInput [matDatepicker]="picker" [formControl]="birthdateFormControl">
+            <input matInput [matDatepicker]="picker" [formControl]="dateOfBirth">
             <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
           </mat-form-field>
@@ -37,38 +37,38 @@
       <div>
         <mat-form-field class="mr-16 full-width" appearance="outline">
           <mat-label>E-Mail</mat-label>
-          <input [(ngModel)]="customer.email" matInput [formControl]="emailFormControl">
+          <input id="email" matInput [formControl]="email">
         </mat-form-field>
       </div>
 
       <div>
         <mat-form-field class="mr-16 full-width" appearance="outline">
           <mat-label> {{ "customer-dialog.phone" | translate }} </mat-label>
-          <input [(ngModel)]="customer.phone" type="number" matInput [formControl]="phoneFormControl">
+          <input id="number" type="number" matInput [formControl]="phone">
         </mat-form-field>
       </div>
 
       <div>
         <mat-form-field class="mr-16" appearance="outline">
             <mat-label> {{ "customer-dialog.street" | translate }} </mat-label>
-            <input [(ngModel)]="customer.street" type="text" matInput [formControl]="streetFormControl">
+            <input id="street" [(ngModel)]="customer.street" type="text" matInput [formControl]="street">
           </mat-form-field>
 
           <mat-form-field appearance="outline">
             <mat-label> {{ "customer-dialog.number" | translate }} </mat-label>
-            <input [(ngModel)]="customer.number" type="number" matInput [formControl]="numberFormControl">
+            <input id="number" type="number" matInput [formControl]="number">
           </mat-form-field>
       </div>
 
       <div>
         <mat-form-field class="mr-16" appearance="outline">
             <mat-label> {{ "customer-dialog.zipcode" | translate }} </mat-label>
-            <input [(ngModel)]="customer.zipCode" type="number" matInput [formControl]="zipCodeFormControl">
+            <input id="zipCode" type="number" matInput [formControl]="zipCode">
           </mat-form-field>
 
           <mat-form-field appearance="outline">
             <mat-label> {{ "customer-dialog.city" | translate }} </mat-label>
-            <input [(ngModel)]="customer.city" matInput type="text" [formControl]="cityFormControl">
+            <input id="city" matInput type="text" [formControl]="city">
           </mat-form-field>
       </div>
     </mat-dialog-content>
@@ -76,14 +76,14 @@
     <mat-dialog-actions>
       <button mat-button (click)="saveCustomer()"  
         [disabled]="
-          firstNameFormControl.invalid || 
-          lastNameFormControl.invalid ||
-          emailFormControl.invalid || 
-          phoneFormControl.invalid ||
-          streetFormControl.invalid ||
-          numberFormControl.invalid ||
-          zipCodeFormControl.invalid ||
-          cityFormControl.invalid"
+          firstname.invalid || 
+          lastname.invalid ||
+          email.invalid || 
+          phone.invalid ||
+          street.invalid ||
+          number.invalid ||
+          zipCode.invalid ||
+          city.invalid"
       > {{ "customer-dialog.save-button" | translate }} </button>
       <button mat-button (click)="this.dialogRef.close();"> {{ "customer-dialog.cancel-button" | translate }} </button>
     </mat-dialog-actions>

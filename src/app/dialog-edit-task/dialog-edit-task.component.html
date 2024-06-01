@@ -3,7 +3,7 @@
 
   <mat-form-field appearance="outline">
     <mat-label>{{ "task-dialog.select-status-label" | translate }}</mat-label>
-    <mat-select [(ngModel)]="task.status" name="status" [formControl]="statusFormControl">    
+    <mat-select name="status" [formControl]="statusFormControl">    
       <mat-option value ="open">{{"task-dialog.status-option-open" | translate}}</mat-option>
       <mat-option value ="closed">{{"task-dialog.status-option-closed" | translate}}</mat-option> 
     </mat-select>
@@ -11,7 +11,7 @@
 
   <mat-form-field class="example-full-width" appearance="outline">
     <mat-label>{{ "task-dialog.note-label" | translate }}</mat-label>
-    <textarea [(ngModel)]="task.note" matInput value="{{task.note}}" [formControl]="noteFormControl"></textarea>
+    <textarea matInput value="{{task.note}}" [formControl]="noteFormControl"></textarea>
   </mat-form-field>
 
   <mat-dialog-actions class="items-center" appearance="outline">

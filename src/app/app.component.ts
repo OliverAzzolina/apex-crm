@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, HostListener, inject } from '@angular/core';
 import { RouterLink, RouterOutlet, Router } from '@angular/router';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatIconModule} from '@angular/material/icon';
@@ -21,12 +21,11 @@ export class AppComponent {
   title = 'simple-crm';
 
 
-  constructor(public setHeader: SetHeaderService, public translate: TranslateService){
-  }
-
-  ngOnInit(){
-    
-  }
+  constructor(
+    public setHeader: SetHeaderService, 
+    public translate: TranslateService,
+    private router: Router
+  ){}
 
   async setNewHeader(newHeader:string){
     await this.setHeader.updateHeader(newHeader);

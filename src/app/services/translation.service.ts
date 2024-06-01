@@ -4,13 +4,12 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 @Injectable({
   providedIn: 'root'
 })
+
 export class TranslationService {
   translationOn: boolean = false;
   flag: string = "assets/icons/de.png";
-  constructor(public translate: TranslateService){
-
-    //translate.setDefaultLang('en');
-  }
+  
+  constructor(public translate: TranslateService){}
 
   switchLanguage(switchTo: boolean){
     if(switchTo){

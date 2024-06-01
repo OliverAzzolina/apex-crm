@@ -8,10 +8,10 @@
 
 <mat-divider></mat-divider>
 
-<div class="pd-top-16 pd-btm-16">
+<div class="pd-top-16 pd-btm-16" >
   <mat-card-title>{{ "settings.language-header" | translate }}</mat-card-title>
-  <mat-form-field  class="pd-top-16">
-    <mat-select [(value)]="selectedLanguage">
+  <mat-form-field  class="pd-top-16" appearance="outline">
+    <mat-select placeholder="{{language}}">
         <mat-option [value]="false" (click)="translate.switchLanguage(translate.translationOn = false)">{{ "settings.language-option-en" | translate }}</mat-option>
         <mat-option [value]="true" (click)="translate.switchLanguage(translate.translationOn = true)">{{ "settings.language-option-de" | translate }}</mat-option>
     </mat-select>

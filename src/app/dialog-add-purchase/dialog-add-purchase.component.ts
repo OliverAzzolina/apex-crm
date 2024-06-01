@@ -16,6 +16,7 @@ import { FeedbackBottomSheetComponent } from '../feedback-bottom-sheet/feedback-
 import { BottomSheetService } from '../services/bottom-sheet.service';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { User } from '../../models/user.class';
+import { ThemeService } from '../services/theme.service';
 
 @Component({
   selector: 'app-dialog-add-purchase',
@@ -51,10 +52,10 @@ export class DialogAddPurchaseComponent {
   user:User;
 
   customerFormControl = new FormControl('', [Validators.required, Validators.minLength(2)]);
-  dateFormControl = new FormControl('', [Validators.required, Validators.minLength(2)]);
+  dateFormControl = new FormControl(new Date(), [Validators.required, Validators.minLength(2)]);
   statusFormControl = new FormControl('', [Validators.required, Validators.minLength(2)]);
   productFormControl = new FormControl('', [Validators.required, Validators.minLength(2)]);
-  amountFormControl = new FormControl('', [Validators.required, Validators.minLength(1)]);
+  amountFormControl = new FormControl(1, [Validators.required, Validators.minLength(1)]);
 
   constructor(
     private database: DatabaseService, 
@@ -67,27 +68,15 @@ export class DialogAddPurchaseComponent {
 
   sheetService = inject(BottomSheetService);
   translate = inject(TranslateService);
+  darkmode = inject(ThemeService);
   date = new FormControl(new Date());
   serializedDate = new FormControl(new Date().toISOString());
   
   async ngOnInit(){
-    await this.getUserId()
-    await this.getUserData('users');
     await this.loadAllProducts();
     await this.loadAllCustomers();
     await this.checkForCustomerId();
   }
-
-  async getUserId(){
-    this.userId = localStorage.getItem('User') as string;
-  };
-
-  async getUserData(users:string){
-    onSnapshot(doc(this.db, users, this.userId), (doc) => {
-      this.user = new User(doc.data());
-      this.checkCalendarLanguage(this.user.translation) 
-    })
-  };
 
   async checkCalendarLanguage(translateDatePicker: boolean){
     if(translateDatePicker){
@@ -129,28 +118,29 @@ export class DialogAddPurchaseComponent {
   }
 
   getProductPrice(ppu: number){
+    this.purchase.amount = this.amountFormControl.value!;
     this.productPrice = ppu;
-    this.purchase.amount = 1;
     this.totalPrice = this.productPrice  * this.purchase.amount;
   }
 
   getTotalPrice(){
-    this.totalPrice = this.productPrice  * this.purchase.amount;
+    this.totalPrice = this.productPrice  * this.amountFormControl.value!;
   }
 
   async savePurchase(){
-    await this.generateTranslatedStatus(this.purchase.status);
+    this.purchase.status = this.statusFormControl.value!;
+    this.purchase.product = this.productFormControl.value!;
     this.purchase.ppu = this.productPrice;
     this.purchase.totalPrice = this.totalPrice;
-    this.purchase.orderDate = this.orderDate.getTime();
-    this.orderDate = this.convertToDate(this.purchase.orderDate);
-    this.purchase.orderdate = this.orderDate.toLocaleDateString('en-GB', {
+    this.purchase.orderDate = this.dateFormControl.value!.getTime();
+    this.purchase.orderdate = this.dateFormControl.value!.toLocaleDateString('en-GB', {
       day: 'numeric', month: 'numeric', year: 'numeric'
     }).replaceAll('/', '.');
+    await this.generateTranslatedStatus(this.purchase.status);
     const purchaseData = this.purchase.toJSON();
     purchaseData.customerId = this.customerId;
     purchaseData.translatedStatus = this.translatedStatus;
-    this.loading = true;
+
     await this.database.saveNewPurchase(purchaseData).then((result: any) => {
       console.log('added purchase', purchaseData);
       this.loading = false;

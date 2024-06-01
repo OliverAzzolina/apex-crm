@@ -43,12 +43,20 @@ export class DialogEditTaskComponent {
     private database: DatabaseService, 
     public dialog: MatDialog, public db: Firestore, 
     public dialogRef: MatDialogRef<DialogEditTaskComponent>, 
-    private _bottomSheet: MatBottomSheet){};
+    private _bottomSheet: MatBottomSheet
+  ){};
     
   sheetService = inject(BottomSheetService);
   translate = inject(TranslationService);
 
+  async ngOnInit(){
+    this.statusFormControl.setValue(this.task.status);
+    this.noteFormControl.setValue(this.task.note);
+  }
+
   async updateTask(){
+    this.task.status = this.statusFormControl.value!;
+    this.task.note = this.noteFormControl.value!
     await this.generateTranslatedStatus(this.task.status);
     const taskData = this.task.toJSON();
     this.loading = true;

@@ -3,17 +3,17 @@
 
     <mat-form-field class="example-full-width" appearance="outline">
         <mat-label>{{ "product-dialog.product-name" | translate }}</mat-label>
-        <input type="text" matInput [(ngModel)]="product.name" value="{{product.name}}" [formControl]="productNameFormControl">
+        <input type="text" matInput value="{{product.name}}" [formControl]="productNameFormControl">
     </mat-form-field>
 
     <mat-form-field class="example-full-width" appearance="outline">
         <mat-label>{{ "product-dialog.product-price" | translate }}</mat-label>
-        <input type="number" matInput [(ngModel)]="product.ppu" [formControl]="productPriceFormControl">
+        <input type="number" matInput [formControl]="productPriceFormControl">
     </mat-form-field>
 
     <mat-form-field appearance="outline">
       <mat-label>{{ "product-dialog.product-type" | translate }}</mat-label>
-      <mat-select [(ngModel)]="product.type" name="status" [formControl]="productTypeFormControl">
+      <mat-select name="status" [formControl]="productTypeFormControl">
         <mat-option value="Product">{{ "product-dialog.type-option-product" | translate }}</mat-option>
         <mat-option value="Service">{{ "product-dialog.type-option-service" | translate }}</mat-option>
       </mat-select>
