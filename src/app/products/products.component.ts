@@ -1,4 +1,4 @@
-import { Component, Injectable, inject } from '@angular/core';
+import { Component, HostListener, Injectable, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
@@ -69,6 +69,7 @@ export class ProductsComponent {
   async ngOnInit(): Promise<void>{
     await this.getAllproducts('products');
     this.dataSource.data = this.productData; 
+    this.checkScreenSize();
   }
 
   async getAllproducts(products: string) {
@@ -99,6 +100,7 @@ export class ProductsComponent {
           };
           
         });
+        this.sortProducts();
         this.dataSource.data = this.productData;
         this.loading = false;
       },
@@ -108,6 +110,10 @@ export class ProductsComponent {
       }
     );
   };
+
+  async sortProducts(){
+    this.productData.sort((a: { name: string; }, b: { name: any; }) => a.name.localeCompare(b.name))
+  }
 
   openDialogAddProduct(){
     let dialog = this.dialog.open(DialogAddProductComponent);
@@ -119,4 +125,19 @@ export class ProductsComponent {
     dialog.componentInstance.productId = product.productId;
     console.log(product)
   }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+    this.checkScreenSize();
+  }
+
+  checkScreenSize(){
+    const width = window.innerWidth;
+    if(width > 1280){
+      this.displayedColumns = ['name', 'type', 'ppu'];
+    }
+    if(width <= 860){
+      this.displayedColumns = ['name', 'ppu'];
+    }
+  };
 }

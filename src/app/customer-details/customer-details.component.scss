@@ -94,6 +94,11 @@
 
 }
 
+table {
+    width: 100%;
+    table-layout: fixed;
+  }
+
 .no-hover{
     &:hover{
         background-color: unset !important;
@@ -131,4 +136,18 @@
 .table-top-container{
     display: flex;
     justify-content: space-between;
+    button{
+        margin: 0;
+    }
+}
+
+@media (max-width: 1230px) {
+    .customer-detail-container{
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .customer-detail-card{
+        width: 100%;
+    }
 }

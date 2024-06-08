@@ -14,7 +14,6 @@ export class SetHeaderService {
 
   async updateHeader(newHeader:string){
     this.header = 'main.header-' + newHeader;
-    console.log(newHeader)
   }
 
   async updateCustomerHeader(){

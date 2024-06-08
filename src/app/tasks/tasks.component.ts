@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, HostListener, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
@@ -58,9 +58,16 @@ export class TasksComponent {
 
     async ngOnInit(): Promise<void>{
       await this.getAllTasks('tasks');
+      await this.sortTasks();
       this.dataSource.data = this.allTasks; 
+      this.checkScreenSize();
     }
   
+    async sortTasks(){
+      this.allTasks.sort((a: { status: string; }, b: { status: any; }) => b.status.localeCompare(a.status))
+    }
+
+
     /** Announce the change in sort state for assistive technology. */
     announceSortChange(sortState: Sort) {
       // This example uses English messages. If your application supports
@@ -105,8 +112,8 @@ export class TasksComponent {
           };
           
         });
+        this.sortTasks()
         this.dataSource.data = this.allTasks;
-        
         this.loading = false;
       },
       (error) => {
@@ -124,4 +131,18 @@ export class TasksComponent {
     await this.setHeader.updateHeader(newHeader);
   }
 
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+    this.checkScreenSize()
+  }
+
+  checkScreenSize(){
+    const width = window.innerWidth;
+    if(width > 1280){
+      this.displayedColumns = ['status', 'note', 'customerName'];;
+    }
+    if(width <= 860){
+      this.displayedColumns = ['status', 'customerName'];
+    }
+  };
 }

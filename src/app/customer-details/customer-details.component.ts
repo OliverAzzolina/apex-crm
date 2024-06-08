@@ -71,7 +71,7 @@ export class CustomerDetailsComponent {
   loading: boolean = false;
   taskDataSource = new MatTableDataSource(this.allTasks);
   purchaseDataSource = new MatTableDataSource(this.allPurchases);
-  taskColumns: string[] = ['status', 'note', 'taskId'];
+  taskColumns: string[] = ['status', 'note'];
   purchaseColumns: string[] = ['purchaseId', 'orderdate', 'status', 'product', 'amount', 'totalPrice'];
  
   translate = inject(TranslationService);
@@ -88,6 +88,7 @@ export class CustomerDetailsComponent {
     this.setheader.updateCustomerHeader();
     this.taskDataSource.data = this.allTasks; 
     this.purchaseDataSource.data = this.allPurchases; 
+    this.checkScreenSize()
   }
 
   async checkUser() {
@@ -181,6 +182,7 @@ export class CustomerDetailsComponent {
       this.task.taskId = doc.id;
       this.allTasks.push(this.task);
     });
+    this.sortTasks();
     this.taskDataSource.data = this.allTasks;
   })}
 
@@ -195,6 +197,10 @@ export class CustomerDetailsComponent {
       dialog.componentInstance.task = new Task(task);
       dialog.componentInstance.taskId = task.taskId;
       dialog.componentInstance.customerId = this.id;
+    }
+
+    async sortTasks(){
+      this.allTasks.sort((a: { status: string; }, b: { status: any; }) => b.status.localeCompare(a.status))
     }
     
   //PURCHASES TABLE
@@ -229,5 +235,23 @@ export class CustomerDetailsComponent {
     this.allPurchases.sort(function(x: { orderDate: number; },y: { orderDate: number; }){
       return y.orderDate - x.orderDate
     })
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+    this.checkScreenSize()
+  }
+
+  checkScreenSize(){
+    const width = window.innerWidth;
+    if(width > 1280){
+      this.purchaseColumns = ['purchaseId', 'orderdate', 'status', 'product', 'amount', 'totalPrice'];
+    }
+    if(width <= 1280){
+      this.purchaseColumns = ['purchaseId', 'orderdate', 'status', 'product', 'totalPrice'];
+    }
+    if(width <= 860){
+      this.purchaseColumns = ['purchaseId', 'orderdate',];
+    }
   }
 }

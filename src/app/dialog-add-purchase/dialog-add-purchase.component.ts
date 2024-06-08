@@ -1,7 +1,7 @@
 import { Component, Inject, inject } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-import { MatDialogActions, MatDialogRef } from '@angular/material/dialog';
+import { MatDialogActions, MatDialogModule, MatDialogRef, MatDialogTitle } from '@angular/material/dialog';
 import { MatFormField, MatFormFieldModule, MatLabel } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
@@ -26,7 +26,8 @@ import { ThemeService } from '../services/theme.service';
     provideNativeDateAdapter()
   ],
   imports: [ MatMenuModule, ReactiveFormsModule, MatDatepickerModule, MatButtonModule, MatFormField, MatLabel, MatInputModule, 
-    MatFormFieldModule, FormsModule, MatSelectModule, MatDialogActions, ReactiveFormsModule, TranslateModule],
+    MatFormFieldModule, FormsModule, MatSelectModule, MatDialogActions, ReactiveFormsModule, TranslateModule, MatDialogModule,
+    MatDialogTitle],
   templateUrl: './dialog-add-purchase.component.html',
   styleUrl: './dialog-add-purchase.component.scss'
 })
@@ -38,7 +39,7 @@ export class DialogAddPurchaseComponent {
   selectedStatus:string;
   selectedProduct:string;
   selectedCustomer:any;
-  selectedCustomerName:string;
+  selectedCustomerName:string | null;
   loading = false;
   productData:any;
   allCustomers:any = [];
@@ -74,9 +75,14 @@ export class DialogAddPurchaseComponent {
   
   async ngOnInit(){
     await this.loadAllProducts();
+    await this.sortProducts();
     await this.loadAllCustomers();
     await this.checkForCustomerId();
   }
+
+  async sortProducts(){
+    this.allProducts.sort((a: { name: string; }, b: { name: any; }) => a.name.localeCompare(b.name))
+  };
 
   async checkCalendarLanguage(translateDatePicker: boolean){
     if(translateDatePicker){
@@ -92,6 +98,7 @@ export class DialogAddPurchaseComponent {
       this.selectedCustomer = this.allCustomers.find( (cust: { customerId: string; }) => this.customerId == cust.customerId );
       this.selectedCustomerName = this.selectedCustomer.firstName + ' ' + this.selectedCustomer.lastName;
       console.log(this.selectedCustomerName)
+      this.customerFormControl.setValue(this.selectedCustomerName);
     }
   }
 

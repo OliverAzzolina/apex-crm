@@ -7,10 +7,28 @@
 }
 
 .small-container{
+    padding: 16px;
     width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .chart-sales-container{
     padding: 16px;
+}
+
+canvas{
+    padding: 16px;
+}
+
+@media (max-width: 940px) {
+    .first-row{
+        flex-wrap: wrap;
+    }
+
+    canvas{
+        height: 400px;
+    }
 }
 

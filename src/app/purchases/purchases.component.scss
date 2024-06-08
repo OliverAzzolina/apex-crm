@@ -33,6 +33,11 @@
 
 }
 
+table {
+    width: 100%;
+    table-layout: fixed;
+  }
+
 .no-hover{
     &:hover{
         background-color: unset !important;

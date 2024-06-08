@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, HostListener, inject } from '@angular/core';
 import { Firestore, collection, onSnapshot } from '@angular/fire/firestore';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -78,6 +78,7 @@ constructor(public db: Firestore, public dialog: MatDialog, public database: Dat
   async ngOnInit(){
     await this.getAllPurchases('purchases');
     this.dataSource.data = this.purchaseData; 
+    this.checkScreenSize();
   }
 
   openDialogAddPurchase(){
@@ -141,4 +142,29 @@ constructor(public db: Firestore, public dialog: MatDialog, public database: Dat
   async setNewHeader(newHeader:string){
     await this.setHeader.updateHeader(newHeader);
   }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+    this.checkScreenSize();
+  }
+
+  checkScreenSize(){
+    const width = window.innerWidth;
+    if(width > 1280){
+      this.displayedColumns = ['purchaseId', 'orderdate', 'status', 'product', 'amount', 'totalPrice'];
+      
+    }
+    if(width <= 1280){
+      this.displayedColumns = ['purchaseId', 'orderdate', 'status', 'product', 'totalPrice'];
+    }
+    if(width <= 1120){
+      this.displayedColumns = ['purchaseId', 'orderdate', 'status', 'totalPrice'];
+    }
+    if(width <= 1000){
+      this.displayedColumns = ['purchaseId', 'orderdate', 'status'];
+    }
+    if(width <= 820){
+      this.displayedColumns = ['purchaseId', 'orderdate'];
+    }
+  };
 }

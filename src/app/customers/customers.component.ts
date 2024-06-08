@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, HostListener, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
@@ -80,6 +80,7 @@ export class CustomersComponent{
   async ngOnInit(): Promise<void>{
     await this.getAllCustomers('customers');
     this.dataSource.data = this.customerData;
+    this.checkScreenSize()
   }
 
   openDialog(){
@@ -126,5 +127,23 @@ export class CustomersComponent{
 
   async setTabIndex(index: any){
     await this.tabIndex.setTabToIndex(index);
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+    this.checkScreenSize()
+  }
+
+  checkScreenSize(){
+    const width = window.innerWidth;
+    if(width > 1280){
+      this.displayedColumns = ['firstName', 'lastName', 'email', 'company', 'position'];
+    }
+    if(width <= 1280){
+      this.displayedColumns = ['firstName', 'lastName', 'email'];
+    }
+    if(width <= 860){
+      this.displayedColumns = ['firstName', 'lastName'];
+    }
   }
 }

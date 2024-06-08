@@ -17,11 +17,22 @@
     }
 }
 
+.close-icon{
+    padding: 4px;
+    border-radius: 50%;
+    transition: all 200ms ease-in-out;
+    cursor: pointer;
+    &:hover{
+        background-color: rgba(0, 0, 0, 0.2);
+    }
+}
+
 .logo-container{
     height: 64px;
     padding: 0 16px;
     display: flex;
     align-items: center;
+    justify-content: space-between;
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
 
@@ -55,6 +66,16 @@ ul{
     padding: 16px 16px;
 }
 
+@media (max-width: 620px) {
+    .sidenav-container{
+        width: 250px;
+    }
+}
 
+@media (max-width: 520px) {
+    .sidenav-container{
+        width: 100%;
+    }
+}
 
 

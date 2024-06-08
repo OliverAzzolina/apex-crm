@@ -2,7 +2,7 @@
     <mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
       <h2 mat-dialog-title> {{ "customer-dialog.header-add" | translate }} </h2>
     <mat-dialog-content class="pd-top-16">
-      <div>
+      <div class="splitted-rows">
         <mat-form-field class="mr-16" appearance="outline">
             <mat-label> {{ "customer-dialog.firstname" | translate }} </mat-label>
             <input matInput id="firstname" type="text" [formControl]="firstname">
@@ -51,7 +51,7 @@
       <div>
         <mat-form-field class="mr-16" appearance="outline">
             <mat-label> {{ "customer-dialog.street" | translate }} </mat-label>
-            <input id="street" [(ngModel)]="customer.street" type="text" matInput [formControl]="street">
+            <input id="street" type="text" matInput [formControl]="street">
           </mat-form-field>
 
           <mat-form-field appearance="outline">

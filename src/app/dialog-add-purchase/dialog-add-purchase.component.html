@@ -1,4 +1,4 @@
-<div class="add-purchase-container dialog-container">
+<div class="dialog-container add-product-container">
     <h2> {{ "purchase-dialog.header-add" | translate }} </h2>
 
     <mat-form-field appearance="outline">
@@ -50,6 +50,7 @@
     <mat-form-field appearance="outline">
         <input matInput [value]="totalPrice" placeholder=" {{ 'purchase-dialog.totalprice' | translate }} " disabled type="number">
     </mat-form-field>
+
 
     <mat-dialog-actions class="items-center">
       <button mat-button (click)="savePurchase()"

@@ -4,22 +4,23 @@
     <mat-drawer #drawer class="sidenav-container" opened="true" mode="side">
       <div class="logo-container">
         <img class="logo" src="{{setLogo.logo}}" alt="">
+        <mat-icon (click)="drawer.toggle(); navbar.changeNavbar(false)" class="close-icon">close</mat-icon>
       </div>
   
       <ul>
-        <li routerLink="dashboard" (click)="setHeader.setHeader('main.header-dashboard')"><mat-icon>dashboard</mat-icon>{{ "main.header-dashboard" | translate }}</li>
-        <li routerLink="customers" (click)="setHeader.setHeader('main.header-customers')"><mat-icon>person</mat-icon>{{ 'main.header-customers' | translate }}</li>
-        <li routerLink="tasks" (click)="setHeader.setHeader('main.header-tasks')"><mat-icon>task</mat-icon>{{ 'main.header-tasks' | translate }}</li>
-        <li routerLink="products" (click)="setHeader.setHeader('main.header-products')"><mat-icon>inventory</mat-icon>{{ 'main.header-products' | translate }}</li>
-        <li routerLink="purchases" (click)="setHeader.setHeader('main.header-purchases')"><mat-icon>shopping_bag</mat-icon>{{ 'main.header-purchases' | translate }}</li>
-        <li [routerLink]="['/main/settings/']" (click)="setHeader.setHeader('main.header-settings')"><mat-icon>settings</mat-icon>{{ 'main.header-settings' | translate }}</li>
+        <li routerLink="dashboard" (click)="setHeader.setHeader('main.header-dashboard'); navbar.setNavbarLink('dashboard'); checkScreenSize()"><mat-icon>dashboard</mat-icon>{{ "main.header-dashboard" | translate }}</li>
+        <li routerLink="customers" (click)="setHeader.setHeader('main.header-customers'); navbar.setNavbarLink('customers'); checkScreenSize() "><mat-icon>person</mat-icon>{{ 'main.header-customers' | translate }}</li>
+        <li routerLink="tasks" (click)="setHeader.setHeader('main.header-tasks'); navbar.setNavbarLink('tasks'); checkScreenSize()"><mat-icon>task</mat-icon>{{ 'main.header-tasks' | translate }}</li>
+        <li routerLink="products" (click)="setHeader.setHeader('main.header-products'); navbar.setNavbarLink('products'); checkScreenSize()"><mat-icon>inventory</mat-icon>{{ 'main.header-products' | translate }}</li>
+        <li routerLink="purchases" (click)="setHeader.setHeader('main.header-purchases'); navbar.setNavbarLink('purchases'); checkScreenSize()"><mat-icon>shopping_bag</mat-icon>{{ 'main.header-purchases' | translate }}</li>
+        <li [routerLink]="['/main/settings/']" (click)="setHeader.setHeader('main.header-settings'); navbar.setNavbarLink('settings'); checkScreenSize()"><mat-icon>settings</mat-icon>{{ 'main.header-settings' | translate }}</li>
         <li routerLink="/login" (click)="logoutUser()"><mat-icon>logout</mat-icon>{{ 'main.header-logout' | translate }}</li>
       </ul>
     </mat-drawer>
   
     <div class="example-sidenav-content">
       <mat-toolbar color="primary">
-        <mat-icon (click)="drawer.toggle()" class="menu-icon">menu</mat-icon>
+        <mat-icon (click)="drawer.toggle();  navbar.changeNavbar(true)" class="menu-icon">menu</mat-icon>
         <span>{{ this.setHeader.header | translate }}</span>
       </mat-toolbar>
   
