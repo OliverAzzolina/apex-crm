@@ -132,12 +132,14 @@ export class ProductsComponent {
   }
 
   checkScreenSize(){
-    const width = window.innerWidth;
-    if(width > 1280){
-      this.displayedColumns = ['name', 'type', 'ppu'];
-    }
-    if(width <= 860){
-      this.displayedColumns = ['name', 'ppu'];
-    }
+    if(typeof window !== undefined){
+      const width = window.innerWidth;
+      if(width > 1280){
+        this.displayedColumns = ['name', 'type', 'ppu'];
+      }
+      if(width <= 860){
+        this.displayedColumns = ['name', 'ppu'];
+      }
+    }  
   };
 }

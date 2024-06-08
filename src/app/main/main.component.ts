@@ -15,7 +15,7 @@ import { TranslationService } from '../services/translation.service';
 import { FeedbackBottomSheetComponent } from '../feedback-bottom-sheet/feedback-bottom-sheet.component';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { BottomSheetService } from '../services/bottom-sheet.service';
-import { NavbarService } from '../navbar.service';
+import { NavbarService } from '../services/navbar.service';
 
 @Component({
   selector: 'app-main',

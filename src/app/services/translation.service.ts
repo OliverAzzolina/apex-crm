@@ -14,11 +14,11 @@ export class TranslationService {
   switchLanguage(switchTo: boolean){
     if(switchTo){
       this.translationOn = true;
-      this.translate.use('de');
+      this.translate.use('crm-de');
     }
     if(!switchTo){
       this.translationOn = false;
-      this.translate.use('en');
+      this.translate.use('crm-en');
     }
   }
 

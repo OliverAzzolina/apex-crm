@@ -137,12 +137,14 @@ export class TasksComponent {
   }
 
   checkScreenSize(){
-    const width = window.innerWidth;
-    if(width > 1280){
-      this.displayedColumns = ['status', 'note', 'customerName'];;
-    }
-    if(width <= 860){
-      this.displayedColumns = ['status', 'customerName'];
+    if(typeof window !== undefined){
+      const width = window.innerWidth;
+      if(width > 1280){
+        this.displayedColumns = ['status', 'note', 'customerName'];
+      }
+      if(width <= 860){
+        this.displayedColumns = ['status', 'customerName'];
+      }
     }
   };
 }

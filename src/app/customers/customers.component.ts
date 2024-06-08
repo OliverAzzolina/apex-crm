@@ -135,15 +135,17 @@ export class CustomersComponent{
   }
 
   checkScreenSize(){
-    const width = window.innerWidth;
-    if(width > 1280){
-      this.displayedColumns = ['firstName', 'lastName', 'email', 'company', 'position'];
-    }
-    if(width <= 1280){
-      this.displayedColumns = ['firstName', 'lastName', 'email'];
-    }
-    if(width <= 860){
-      this.displayedColumns = ['firstName', 'lastName'];
+    if(typeof window !== undefined){
+      const width = window.innerWidth;
+      if(width > 1280){
+        this.displayedColumns = ['firstName', 'lastName', 'email', 'company', 'position'];
+      }
+      if(width <= 1280){
+        this.displayedColumns = ['firstName', 'lastName', 'email'];
+      }
+      if(width <= 860){
+        this.displayedColumns = ['firstName', 'lastName'];
+      }
     }
   }
 }

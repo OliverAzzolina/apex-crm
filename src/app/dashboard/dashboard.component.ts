@@ -10,7 +10,7 @@ import { TranslateModule } from '@ngx-translate/core';
 
 import { ThemeService } from '../services/theme.service';
 import { Chart, registerables} from 'chart.js';
-import { NavbarService } from '../navbar.service';
+import { NavbarService } from '../services/navbar.service';
 
 Chart.register(...registerables);
 

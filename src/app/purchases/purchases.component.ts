@@ -149,22 +149,24 @@ constructor(public db: Firestore, public dialog: MatDialog, public database: Dat
   }
 
   checkScreenSize(){
-    const width = window.innerWidth;
-    if(width > 1280){
-      this.displayedColumns = ['purchaseId', 'orderdate', 'status', 'product', 'amount', 'totalPrice'];
-      
-    }
-    if(width <= 1280){
-      this.displayedColumns = ['purchaseId', 'orderdate', 'status', 'product', 'totalPrice'];
-    }
-    if(width <= 1120){
-      this.displayedColumns = ['purchaseId', 'orderdate', 'status', 'totalPrice'];
-    }
-    if(width <= 1000){
-      this.displayedColumns = ['purchaseId', 'orderdate', 'status'];
-    }
-    if(width <= 820){
-      this.displayedColumns = ['purchaseId', 'orderdate'];
+
+    if(typeof window !== undefined){
+      const width = window.innerWidth;
+      if(width > 1280){
+        this.displayedColumns = ['purchaseId', 'orderdate', 'status', 'product', 'amount', 'totalPrice']; 
+      }
+      if(width <= 1280){
+        this.displayedColumns = ['purchaseId', 'orderdate', 'status', 'product', 'totalPrice'];
+      }
+      if(width <= 1120){
+        this.displayedColumns = ['purchaseId', 'orderdate', 'status', 'totalPrice'];
+      }
+      if(width <= 1000){
+        this.displayedColumns = ['purchaseId', 'orderdate', 'status'];
+      }
+      if(width <= 820){
+        this.displayedColumns = ['purchaseId', 'orderdate'];
+      }
     }
   };
 }

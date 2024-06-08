@@ -243,15 +243,17 @@ export class CustomerDetailsComponent {
   }
 
   checkScreenSize(){
-    const width = window.innerWidth;
-    if(width > 1280){
-      this.purchaseColumns = ['purchaseId', 'orderdate', 'status', 'product', 'amount', 'totalPrice'];
+    if(typeof window !== undefined){
+      const width = window.innerWidth;
+      if(width > 1280){
+        this.purchaseColumns = ['purchaseId', 'orderdate', 'status', 'product', 'amount', 'totalPrice'];
+      }
+      if(width <= 1280){
+        this.purchaseColumns = ['purchaseId', 'orderdate', 'status', 'product', 'totalPrice'];
+      }
+      if(width <= 860){
+        this.purchaseColumns = ['purchaseId', 'orderdate',];
+      }
     }
-    if(width <= 1280){
-      this.purchaseColumns = ['purchaseId', 'orderdate', 'status', 'product', 'totalPrice'];
     }
-    if(width <= 860){
-      this.purchaseColumns = ['purchaseId', 'orderdate',];
-    }
-  }
 }
