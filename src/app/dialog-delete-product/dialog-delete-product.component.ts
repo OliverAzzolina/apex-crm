@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { MatCheckbox, MatCheckboxModule } from '@angular/material/checkbox';
-import { MatDialog, MatDialogActions, MatDialogContent, MatDialogRef } from '@angular/material/dialog';
+import { MatDialogActions, MatDialogContent, MatDialogRef } from '@angular/material/dialog';
 import { DatabaseService } from '../services/database.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -24,15 +24,17 @@ export class DialogDeleteProductComponent {
   productId:string;
   checked = false;
 
-  constructor(private database: DatabaseService, public dialogRef: MatDialogRef<DialogDeleteProductComponent>, 
-    private _bottomSheet: MatBottomSheet){};
+  constructor(
+    private database: DatabaseService, 
+    public dialogRef: MatDialogRef<DialogDeleteProductComponent>, 
+    private _bottomSheet: MatBottomSheet
+  ){};
     
   sheetService = inject(BottomSheetService);
   translate = inject(TranslateService);
   
   async deleteProduct(){
     this.database.deleteSelectedProduct(this.productId).then((result:any) =>{
-      console.log('deleted product with ID: ', this.productId, result);
       this.dialogRef.close();
       this.openBottomSheet();
     })

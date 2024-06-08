@@ -1,18 +1,18 @@
-import { Component, HostListener, Injectable, inject } from '@angular/core';
+import { Component, HostListener, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import {MatIconModule} from '@angular/material/icon';
-import {MatButtonModule} from '@angular/material/button';
-import {MatTooltipModule} from '@angular/material/tooltip';
-import {MatDialogModule} from '@angular/material/dialog';
-import {MatDialog,} from '@angular/material/dialog';
-import {FormsModule} from '@angular/forms';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
+import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import {MatInputModule} from '@angular/material/input';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatCardModule} from '@angular/material/card';
-import {MatTableModule} from '@angular/material/table';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatCardModule } from '@angular/material/card';
+import { MatTableModule } from '@angular/material/table';
 import { DatabaseService } from '../services/database.service';
-import { collection, doc, onSnapshot, query } from 'firebase/firestore';
+import { collection, onSnapshot } from 'firebase/firestore';
 import { Firestore } from '@angular/fire/firestore';
 import { DialogAddProductComponent } from '../dialog-add-product/dialog-add-product.component';
 import { Product } from '../../models/product.class';
@@ -32,6 +32,7 @@ import { TranslateModule } from '@ngx-translate/core';
   templateUrl: './products.component.html',
   styleUrl: './products.component.scss'
 })
+
 export class ProductsComponent {
   productData:any = [];
   product:any;
@@ -40,7 +41,12 @@ export class ProductsComponent {
   dataSource = new MatTableDataSource(this.productData);
   displayedColumns: string[] = ['name', 'type', 'ppu'];
 
-  constructor(public db: Firestore, public dialog: MatDialog, public database: DatabaseService, private _liveAnnouncer: LiveAnnouncer) {}
+  constructor(
+    public db: Firestore, 
+    public dialog: MatDialog, 
+    public database: DatabaseService, 
+    private _liveAnnouncer: LiveAnnouncer
+  ) {}
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
@@ -123,7 +129,6 @@ export class ProductsComponent {
     let dialog = this.dialog.open(DialogEditProductComponent);
     dialog.componentInstance.product = new Product(product);
     dialog.componentInstance.productId = product.productId;
-    console.log(product)
   }
 
   @HostListener('window:resize', ['$event'])

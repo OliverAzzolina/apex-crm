@@ -1,15 +1,15 @@
-import { Component, HostListener, Input, ViewChild, forwardRef, inject } from '@angular/core';
-import {MatCardModule} from '@angular/material/card';
+import { Component, HostListener, Input, ViewChild, inject } from '@angular/core';
+import { MatCardModule } from '@angular/material/card';
 import { Router } from '@angular/router';
 import { doc, onSnapshot } from "firebase/firestore";
-import { Firestore, docData } from '@angular/fire/firestore';
-import {MatIconModule} from '@angular/material/icon';
-import {MatButtonModule} from '@angular/material/button';
-import {MatTooltipModule} from '@angular/material/tooltip';
-import {MatTabsModule} from '@angular/material/tabs';
-import {MatMenuModule} from '@angular/material/menu';
+import { Firestore } from '@angular/fire/firestore';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatMenuModule } from '@angular/material/menu';
 import { MatDialog } from '@angular/material/dialog';
-import {MatTableDataSource, MatTableModule} from '@angular/material/table';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatSort, Sort } from '@angular/material/sort';
 import { Task } from '../../models/task.class';
@@ -21,10 +21,10 @@ import { Purchase } from '../../models/purchase.class';
 import { DialogAddPurchaseComponent } from '../dialog-add-purchase/dialog-add-purchase.component';
 import { DialogEditPurchaseComponent } from '../dialog-edit-purchase/dialog-edit-purchase.component';
 import { SetTabIndexService } from '../services/set-tab-index.service';
-import {FormControl, FormsModule, NG_VALUE_ACCESSOR, ReactiveFormsModule} from '@angular/forms';
-import {MatCheckboxModule} from '@angular/material/checkbox';
-import {MatInputModule} from '@angular/material/input';
-import {MatFormFieldModule} from '@angular/material/form-field';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { CustomersComponent } from '../customers/customers.component';
 import { Customer } from '../../models/customer.class';
 import { DialogEditCustomerComponent } from '../dialog-edit-customer/dialog-edit-customer.component';
@@ -35,7 +35,7 @@ import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { MatSortModule } from '@angular/material/sort'
 import { ThemeService } from '../services/theme.service';
 import { SetHeaderService } from '../services/set-header.service';
-import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-customer-details',
@@ -145,7 +145,6 @@ export class CustomerDetailsComponent {
   }
 
   async getCustomerData(){
-    
     onSnapshot(doc(this.db, "customers", this.id), (doc) => {
           this.customer = new Customer(doc.data());
           this.birthdate = this.convertToDate(this.customer.birthDate);
@@ -153,7 +152,6 @@ export class CustomerDetailsComponent {
             day: 'numeric', month: 'numeric', year: 'numeric'
           }).replaceAll('/', '.');
     });
- 
   };
 
   private convertToDate(birthDate: number){
@@ -186,22 +184,21 @@ export class CustomerDetailsComponent {
     this.taskDataSource.data = this.allTasks;
   })}
 
-    openDialogAddTask(){
-      let dialog = this.dialog.open(DialogAddTaskComponent);
-      dialog.componentInstance.customerId = this.id;
-      dialog.componentInstance.customerName = this.customer.firstName + ' ' + this.customer.lastName;
-    }
+  openDialogAddTask(){
+    let dialog = this.dialog.open(DialogAddTaskComponent);
+    dialog.componentInstance.customerId = this.id;
+    dialog.componentInstance.customerName = this.customer.firstName + ' ' + this.customer.lastName;
+  }
+  openDialogEditTask(task:any){
+    let dialog = this.dialog.open(DialogEditTaskComponent);
+    dialog.componentInstance.task = new Task(task);
+    dialog.componentInstance.taskId = task.taskId;
+    dialog.componentInstance.customerId = this.id;
+  }
 
-    openDialogEditTask(task:any){
-      let dialog = this.dialog.open(DialogEditTaskComponent);
-      dialog.componentInstance.task = new Task(task);
-      dialog.componentInstance.taskId = task.taskId;
-      dialog.componentInstance.customerId = this.id;
-    }
-
-    async sortTasks(){
-      this.allTasks.sort((a: { status: string; }, b: { status: any; }) => b.status.localeCompare(a.status))
-    }
+  async sortTasks(){
+    this.allTasks.sort((a: { status: string; }, b: { status: any; }) => b.status.localeCompare(a.status))
+  }
     
   //PURCHASES TABLE
   async getPurchases(){
@@ -255,5 +252,5 @@ export class CustomerDetailsComponent {
         this.purchaseColumns = ['purchaseId', 'orderdate',];
       }
     }
-    }
+  }
 }

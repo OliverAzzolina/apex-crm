@@ -2,7 +2,7 @@ import { Component, HostListener, ViewChild, inject } from '@angular/core';
 import { RouterLink, RouterOutlet, Router } from '@angular/router';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
-import { MatDrawer, MatDrawerContainer, MatSidenavModule } from '@angular/material/sidenav';
+import { MatDrawerContainer, MatSidenavModule } from '@angular/material/sidenav';
 import { CommonModule } from '@angular/common';
 import { MatTableModule } from '@angular/material/table'  
 import { SetHeaderService } from '../services/set-header.service';
@@ -36,7 +36,6 @@ import { NavbarService } from '../services/navbar.service';
 })
 
 export class MainComponent {
-
   constructor(
     public setHeader: SetHeaderService, 
     public db: Firestore,  
@@ -54,6 +53,7 @@ export class MainComponent {
  
   header: string = '';
   headerId: string;
+  width: number;
 
   async ngOnInit(){
     await this.checkUser();
@@ -105,7 +105,6 @@ export class MainComponent {
   onResize(event: any) {
     this.checkScreenSize()
   }
-  width: number;
 
   checkScreenSize(){
     this.width = window.innerWidth;

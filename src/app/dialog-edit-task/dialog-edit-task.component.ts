@@ -62,7 +62,6 @@ export class DialogEditTaskComponent {
     this.loading = true;
     taskData.translatedStatus = this.translatedStatus;
     await this.database.saveEditedTask(taskData, this.taskId).then((result: any) => {
-      console.log('updated task', taskData);
       this.loading = false;
       this.dialogRef.close();
       this.openBottomSheet();

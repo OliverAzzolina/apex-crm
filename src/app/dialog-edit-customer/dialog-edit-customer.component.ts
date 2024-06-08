@@ -10,7 +10,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { DateAdapter, MAT_DATE_LOCALE, provideNativeDateAdapter } from '@angular/material/core';
 import { Customer } from '../../models/customer.class';
 import { DatabaseService } from '../services/database.service';
-import {MatProgressBarModule} from '@angular/material/progress-bar';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { CommonModule } from '@angular/common'
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { FeedbackBottomSheetComponent } from '../feedback-bottom-sheet/feedback-bottom-sheet.component';
@@ -121,7 +121,6 @@ export class DialogEditCustomerComponent {
     const customerData = this.customer.toJSON();
     this.loading = true;
     await this.database.saveEditedCustomer(customerData, this.id).then((result: any) => {
-      console.log('updated Customer', result);
       this.loading = false;
       this.dialogRef.close();
       this.openBottomSheet();

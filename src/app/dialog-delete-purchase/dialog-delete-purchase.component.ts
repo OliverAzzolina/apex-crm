@@ -1,7 +1,7 @@
-import { Component, TRANSLATIONS_FORMAT, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Purchase } from '../../models/purchase.class';
 import { MatDialogActions, MatDialogContent, MatDialogRef } from '@angular/material/dialog';
-import { MatCheckbox, MatCheckboxChange } from '@angular/material/checkbox';
+import { MatCheckbox } from '@angular/material/checkbox';
 import { DatabaseService } from '../services/database.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -26,15 +26,17 @@ export class DialogDeletePurchaseComponent {
   customerId:string;
   checked = false;
 
-  constructor(private database: DatabaseService, public dialogRef: MatDialogRef<DialogDeletePurchaseComponent>, 
-    private _bottomSheet: MatBottomSheet){};
+  constructor(
+    private database: DatabaseService, 
+    public dialogRef: MatDialogRef<DialogDeletePurchaseComponent>, 
+    private _bottomSheet: MatBottomSheet
+  ){};
     
   sheetService = inject(BottomSheetService);
   translate = inject(TranslationService);
 
   deletePurchase(){
     this.database.deleteSelectedPurchase(this.purchaseId).then((result:any) =>{
-      console.log('deleted purchase with ID: ', this.purchaseId, result);
       this.dialogRef.close();
       this.openBottomSheet();
     })

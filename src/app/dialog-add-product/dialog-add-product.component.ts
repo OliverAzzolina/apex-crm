@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { MatDialogActions, MatDialogRef } from '@angular/material/dialog';
 import { MatFormField, MatFormFieldModule, MatLabel } from '@angular/material/form-field';
-import {MatInputModule} from '@angular/material/input';
+import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { Product } from '../../models/product.class';
 import { DatabaseService } from '../services/database.service';
@@ -52,7 +52,6 @@ export class DialogAddProductComponent {
     productData.translatedType = this.translatedType;
     this.loading = true;
     await this.database.saveNewProduct(productData).then((result: any) => {
-      console.log('added task', productData);
       this.loading = false;
       this.dialogRef.close();
       this.openBottomSheet();

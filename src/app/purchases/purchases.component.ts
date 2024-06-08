@@ -11,9 +11,9 @@ import { DatabaseService } from '../services/database.service';
 import { RouterLink } from '@angular/router';
 import { SetTabIndexService } from '../services/set-tab-index.service';
 import { SetHeaderService } from '../services/set-header.service';
-import {FormsModule} from '@angular/forms';
-import {MatInputModule} from '@angular/material/input';
-import {MatFormFieldModule} from '@angular/material/form-field';
+import { FormsModule } from '@angular/forms';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort, MatSortModule, Sort } from '@angular/material/sort';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
@@ -39,8 +39,15 @@ customerId: any;
 dataSource = new MatTableDataSource(this.purchaseData);
 displayedColumns: string[] = ['purchaseId', 'orderdate', 'status', 'product', 'amount', 'totalPrice'];
 
-constructor(public db: Firestore, public dialog: MatDialog, public database: DatabaseService, public tabIndex: SetTabIndexService, 
-  public setHeader: SetHeaderService, private _liveAnnouncer: LiveAnnouncer) {}
+constructor(
+  public db: Firestore, 
+  public dialog: MatDialog, 
+  public database: DatabaseService, 
+  public tabIndex: SetTabIndexService, 
+  public setHeader: SetHeaderService, 
+  private _liveAnnouncer: LiveAnnouncer
+) {}
+
   setheader = inject(SetHeaderService);
   translate = inject(TranslationService);
 

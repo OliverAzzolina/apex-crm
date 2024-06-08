@@ -93,7 +93,6 @@ export class DialogAddTaskComponent {
     taskData.customerId = this.customerId;
     taskData.translatedStatus = this.translatedStatus;
     await this.database.saveNewTask(taskData).then((result: any) => {
-      console.log('added task', taskData);
       this.loading = false;
       this.dialogRef.close();
       this.openBottomSheet();

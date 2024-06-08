@@ -9,7 +9,7 @@ import { MatInputModule } from '@angular/material/input';
 import { Router, RouterLink } from '@angular/router';
 import { User } from '../../models/user.class';
 import { DatabaseService } from '../services/database.service';
-import { doc, getDoc, getDocs } from "firebase/firestore";
+import { getDocs } from "firebase/firestore";
 import { Firestore, collection, query, where } from '@angular/fire/firestore';
 import { TranslateModule } from '@ngx-translate/core';
 import { TranslationService } from '../services/translation.service';
@@ -28,7 +28,13 @@ import { FeedbackBottomSheetComponent } from '../feedback-bottom-sheet/feedback-
 })
 
 export class RegisterComponent {
-  constructor(private database: DatabaseService, public db: Firestore, private router: Router, private _bottomSheet: MatBottomSheet){}
+  constructor(
+    private database: DatabaseService, 
+    public db: Firestore, 
+    private router: Router, 
+    private _bottomSheet: MatBottomSheet
+  ){}
+  
   loading = false;
   hide = true;
   userIsLoggedIn = false;
@@ -50,9 +56,7 @@ export class RegisterComponent {
 
   async registerUser(userData:any){
     await this.database.saveNewUser(userData).then((result: any) => {
-      console.log('added new User', result);
       this.loading = false;
-      console.log("registered", userData)
     });
   }
 
@@ -67,7 +71,6 @@ export class RegisterComponent {
     querySnapshot.forEach((doc) => {
       const userExists = doc.id;
       if (userExists) {
-        console.log("User already exists:", userExists);
         this.userExistsNote = true;
       }
     });

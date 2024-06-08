@@ -13,10 +13,9 @@ import { TranslateModule } from '@ngx-translate/core';
   templateUrl: './feedback-bottom-sheet.component.html',
   styleUrl: './feedback-bottom-sheet.component.scss'
 })
+
 export class FeedbackBottomSheetComponent {
-sheetService = inject(BottomSheetService);
-translate = inject(TranslationService)
-
-message:string = this.sheetService.message;
-
+  sheetService = inject(BottomSheetService);
+  translate = inject(TranslationService)
+  message:string = this.sheetService.message;
 }

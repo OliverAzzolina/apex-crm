@@ -1,10 +1,10 @@
 import { Component, inject } from '@angular/core';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { DatabaseService } from '../services/database.service';
-import {MatCheckboxModule} from '@angular/material/checkbox';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { CommonModule } from '@angular/common';
-import {FormsModule} from '@angular/forms';
-import {MatButtonModule} from '@angular/material/button';
+import { FormsModule } from '@angular/forms';
+import { MatButtonModule} from '@angular/material/button';
 import { RouterLink } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { TranslationService } from '../services/translation.service';
@@ -25,15 +25,17 @@ export class DialogDeleteCustomerComponent {
   id:string;
   checked = false;
 
-  constructor(private database: DatabaseService, public dialogRef: MatDialogRef<DialogDeleteCustomerComponent>, 
-    private _bottomSheet: MatBottomSheet){};
+  constructor(
+    private database: DatabaseService, 
+    public dialogRef: MatDialogRef<DialogDeleteCustomerComponent>, 
+    private _bottomSheet: MatBottomSheet
+  ){};
     
   sheetService = inject(BottomSheetService);
   translate = inject(TranslationService);
 
   async deleteCustomer(){
     this.database.deleteSelectedCustomer(this.id).then((result:any) =>{
-      console.log('deleted Customer with ID: ', this.id, result);
       this.dialogRef.close();
       this.openBottomSheet();
     });

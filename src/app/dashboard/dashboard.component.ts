@@ -1,19 +1,16 @@
 import { Component, HostListener, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import {MatCardModule} from '@angular/material/card';
+import { MatCardModule } from '@angular/material/card';
 import { CanvasJSAngularChartsModule } from '@canvasjs/angular-charts';
 import { collection, getDocs } from 'firebase/firestore';
 import { Firestore } from '@angular/fire/firestore';
 import { CommonModule } from '@angular/common';
 import { TranslationService } from '../services/translation.service';
 import { TranslateModule } from '@ngx-translate/core';
-
 import { ThemeService } from '../services/theme.service';
 import { Chart, registerables} from 'chart.js';
 import { NavbarService } from '../services/navbar.service';
-
 Chart.register(...registerables);
-
 
 @Component({
   selector: 'app-dashboard',
@@ -22,6 +19,7 @@ Chart.register(...registerables);
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss'
 })
+
 export class DashboardComponent {
   public chart: any;
   allCustomer:string[] = [];
@@ -38,14 +36,12 @@ export class DashboardComponent {
   constructor(public db: Firestore) {
     this.navbar.change.subscribe(emitedValue => {
           this.navbarOn = emitedValue;
-        
           if(this.navbar.navLink == 'dashboard'){
             this.chart.config.options.maintainAspectRatio = false;
             this.chart.canvas.parentNode.style.height = 'auto';
             this.chart.canvas.parentNode.style.width = 'auto';
-            
-              console.log('ping')
-        }});
+          }
+    });
   }
 
   translate = inject(TranslationService);
@@ -267,5 +263,4 @@ async createChart(){
       }
     }
   }
-
 }

@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { MatDialog, MatDialogActions, MatDialogRef } from '@angular/material/dialog';
 import { MatFormField, MatFormFieldModule, MatLabel } from '@angular/material/form-field';
-import {MatInputModule} from '@angular/material/input';
+import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { Product } from '../../models/product.class';
 import { DatabaseService } from '../services/database.service';
@@ -61,7 +61,6 @@ export class DialogEditProductComponent {
     this.loading = true;
 
     await this.database.saveEditedProduct(productData, this.productId).then((result: any) => {
-      console.log('updated product', productData);
       this.loading = false;
       this.dialogRef.close();
       this.openBottomSheet();

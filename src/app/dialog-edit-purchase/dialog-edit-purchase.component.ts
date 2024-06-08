@@ -8,12 +8,12 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatSelectModule } from '@angular/material/select';
 import { DatabaseService } from '../services/database.service';
 import { Purchase } from '../../models/purchase.class';
-import { Firestore, collection, getDocs, onSnapshot } from '@angular/fire/firestore';
+import { Firestore, collection, getDocs } from '@angular/fire/firestore';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatCard, MatCardContent } from '@angular/material/card';
+import { MatCardContent } from '@angular/material/card';
 import { DialogDeletePurchaseComponent } from '../dialog-delete-purchase/dialog-delete-purchase.component';
-import {MatCardModule} from '@angular/material/card';
+import { MatCardModule } from '@angular/material/card';
 import { TranslateModule } from '@ngx-translate/core';
 import { TranslationService } from '../services/translation.service';
 import { FeedbackBottomSheetComponent } from '../feedback-bottom-sheet/feedback-bottom-sheet.component';
@@ -72,7 +72,6 @@ export class DialogEditPurchaseComponent {
     this.statusFormControl.setValue(this.purchase.status);
     this.productFormControl.setValue(this.purchase.product);
     this.amountFormControl.setValue(this.purchase.amount);
-    console.log(this.purchase.amount)
   }
 
   async loadAllProducts(){
@@ -92,7 +91,6 @@ export class DialogEditPurchaseComponent {
 
   getTotalPrice(){
     this.totalPrice = this.purchase.ppu * this.amountFormControl.value!;
-    console.log(this.totalPrice)
   }
 
   async updatePurchase(){
@@ -106,7 +104,6 @@ export class DialogEditPurchaseComponent {
     this.loading = true;
 
     await this.database.saveEditedPurchase(purchaseData, this.purchaseId).then((result: any) => {
-      console.log('updated task', purchaseData);
       this.loading = false;
       this.dialogRef.close();
       this.openBottomSheet();

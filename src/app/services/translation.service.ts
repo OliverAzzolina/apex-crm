@@ -23,7 +23,6 @@ export class TranslationService {
   }
 
   switchLogRegTranslation(){
-      console.log(this.translationOn)
       if(this.translationOn){
         this.switchLanguage(false);
         this.translationOn = false;
@@ -35,5 +34,4 @@ export class TranslationService {
         this.flag = "assets/icons/en.png";
       }
     }
-  
 }

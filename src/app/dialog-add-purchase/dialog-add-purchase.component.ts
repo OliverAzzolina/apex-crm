@@ -8,9 +8,9 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatSelectModule } from '@angular/material/select';
 import { DatabaseService } from '../services/database.service';
 import { Purchase } from '../../models/purchase.class';
-import { Firestore, collection, doc, getDocs, onSnapshot } from '@angular/fire/firestore';
+import { Firestore, collection, getDocs } from '@angular/fire/firestore';
 import { DateAdapter, MAT_DATE_LOCALE, provideNativeDateAdapter } from '@angular/material/core';
-import { MatDatepickerIntl, MatDatepickerModule } from '@angular/material/datepicker';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { FeedbackBottomSheetComponent } from '../feedback-bottom-sheet/feedback-bottom-sheet.component';
 import { BottomSheetService } from '../services/bottom-sheet.service';
@@ -97,7 +97,6 @@ export class DialogAddPurchaseComponent {
     if(this.customerId){
       this.selectedCustomer = this.allCustomers.find( (cust: { customerId: string; }) => this.customerId == cust.customerId );
       this.selectedCustomerName = this.selectedCustomer.firstName + ' ' + this.selectedCustomer.lastName;
-      console.log(this.selectedCustomerName)
       this.customerFormControl.setValue(this.selectedCustomerName);
     }
   }
@@ -149,7 +148,6 @@ export class DialogAddPurchaseComponent {
     purchaseData.translatedStatus = this.translatedStatus;
 
     await this.database.saveNewPurchase(purchaseData).then((result: any) => {
-      console.log('added purchase', purchaseData);
       this.loading = false;
       this.dialogRef.close();
       this.openBottomSheet();

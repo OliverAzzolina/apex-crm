@@ -2,22 +2,20 @@ import { Component, inject } from '@angular/core';
 import { ThemeService } from '../services/theme.service';
 import { MatButtonModule, MatIconButton } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import {MatCardModule} from '@angular/material/card';
-import {MatSelectModule} from '@angular/material/select';
+import { MatCardModule } from '@angular/material/card';
+import { MatSelectModule } from '@angular/material/select';
 import { TranslationService } from '../services/translation.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { DatabaseService } from '../services/database.service';
 import { User } from '../../models/user.class';
-import {MatDividerModule} from '@angular/material/divider';
-import { Firestore, collection, doc, getDocs, onSnapshot, query, where } from '@angular/fire/firestore';
+import { MatDividerModule } from '@angular/material/divider';
+import { Firestore, doc, onSnapshot } from '@angular/fire/firestore';
 import { DialogDeleteUserComponent } from '../dialog-delete-user/dialog-delete-user.component';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { FormsModule } from '@angular/forms';
 import { FeedbackBottomSheetComponent } from '../feedback-bottom-sheet/feedback-bottom-sheet.component';
 import { BottomSheetService } from '../services/bottom-sheet.service';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
-
-
 
 @Component({
   selector: 'app-settings',
@@ -27,6 +25,7 @@ import { MatBottomSheet } from '@angular/material/bottom-sheet';
   templateUrl: './settings.component.html',
   styleUrl: './settings.component.scss'
 })
+
 export class SettingsComponent {
   translate = inject(TranslationService);
   sheetService = inject(BottomSheetService);

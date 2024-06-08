@@ -126,7 +126,6 @@ async saveNewProduct(productData:any){
 
 async saveEditedProduct(productData:any, productId:string){
   try{
-    console.log(productId)
     await setDoc(doc(this.db, "products", productId), productData);
   }catch(error:any){
     console.error('Fehler beim updaten des Produkts:', error);

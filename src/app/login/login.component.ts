@@ -8,7 +8,7 @@ import { MatInputModule } from '@angular/material/input';
 import { Router, RouterLink } from '@angular/router';
 import { RegisterComponent } from '../register/register.component';
 import { User } from '../../models/user.class';
-import { DocumentData, doc, getDoc, getDocs } from "firebase/firestore";
+import { DocumentData, getDocs } from "firebase/firestore";
 import { Firestore, collection, query, where } from '@angular/fire/firestore';
 import { DatabaseService } from '../services/database.service';
 import { TranslationService } from '../services/translation.service';
@@ -105,11 +105,9 @@ export class LoginComponent {
     if(userData['translation'] == true){
       this.translate.translationOn;
       this.translate.switchLanguage(true)
-      console.log(userData['translation'])
     }
     if(userData['darkmode'] == true){
       this.darkmode.setDarkMode(true);
-      console.log(userData['darkmode'])
     }
   };
 
