@@ -22,7 +22,6 @@
             <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
               <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
             </button>
-            
           </mat-form-field>
 
         </form>
@@ -46,6 +45,11 @@
         <mat-card-subtitle> {{ "login.register-text" | translate }} </mat-card-subtitle>
         <mat-card-subtitle class="register-link" routerLink="/register"> {{ "login.register-link-text" | translate }} </mat-card-subtitle>
       </mat-card-content>
+
+      <mat-card-actions class="login-btn-container">
+        <button class="login-btn" mat-raised-button color="primary"
+        (click)="loginGuest()"> {{ "login.guest-button" | translate }} </button>
+      </mat-card-actions>
 
       <button mat-icon-button color="primary" (click)="translate.switchLogRegTranslation()">
         <mat-icon><img class="flag" src= {{translate.flag}} alt=""></mat-icon>

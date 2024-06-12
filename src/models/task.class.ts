@@ -10,6 +10,9 @@ export class Task{
     translatedStatus: string;
     note: string;
     customerName: string;
+    due: string;
+    dueDateStamp: number;
+    exceeded: boolean;
 
     constructor(obj?: any){
         this.taskId = obj ? obj.taskId : '';
@@ -18,6 +21,9 @@ export class Task{
         this.translatedStatus = obj ? obj.translatedStatus : '';
         this.note = obj ? obj.note : '';
         this.customerName = obj ? obj.customerName : '';
+        this.due = obj ? obj.due : '';
+        this.dueDateStamp = obj ? obj.dueDateStamp : '';
+        this.exceeded = obj ? obj.exceeded : '';
     }
     
     public toJSON() {
@@ -28,6 +34,9 @@ export class Task{
             translatedStatus: this.translatedStatus,
             note: this.note,
             customerName: this.customerName,
+            due: this.due,
+            dueDateStamp: this.dueDateStamp,
+            exceeded: this.exceeded,
         };
     }
 }

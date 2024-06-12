@@ -106,27 +106,40 @@
             </div>
             <table #tasksTable mat-table [dataSource]="taskDataSource" class="main-table" matSort
                    (matSortChange)="announceSortChange($event)">
+
               <ng-container matColumnDef="status">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'tasks.table-header1' | translate }}</th>
                 <td mat-cell *matCellDef="let task">{{ translate.translationOn ? task.translatedStatus : task.status }}</td>
               </ng-container>
+
               <ng-container matColumnDef="note">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'tasks.table-header2' | translate }}</th>
                 <td mat-cell *matCellDef="let task">{{ task.note }}</td>
               </ng-container>
+
               <ng-container matColumnDef="taskId">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'tasks.table-header4' | translate }}</th>
                 <td mat-cell *matCellDef="let task">{{ task.taskId }}</td>
               </ng-container>
+
+              <ng-container matColumnDef="due" >
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ "tasks.table-header5" | translate }}</th>
+                <td mat-cell *matCellDef="let task" [ngStyle]="task.exceeded?{'color':'red'}:{'color':'white'}">{{ task.due }}</td>
+              </ng-container>
+
               <tr class="no-hover" mat-header-row *matHeaderRowDef="taskColumns"></tr>
               <tr mat-row *matRowDef="let task; columns: taskColumns" (click)="openDialogEditTask(task)"
                   #tooltip="matTooltip" 
                   matTooltip="{{ 'tasks.tooltip-edit' | translate }}"     
                   [matTooltipPosition]="'above'"               
                   matTooltipHideDelay=""></tr>
-              <tr class="mat-row" *matNoDataRow>
-                <td class="mat-cell" colspan="4">{{ 'tasks.search-not-found' | translate }} "{{ input.value }}"</td>
-              </tr>
+
+              <div *ngIf="noTasks">
+                <tr class="mat-row" *matNoDataRow>
+                  <td class="mat-cell" colspan="4">{{ 'tasks.search-not-found' | translate }} "{{ input.value }}"</td>
+                </tr>
+              </div>
+
             </table>
           </mat-card-content>
         </mat-card>
@@ -179,9 +192,14 @@
                   matTooltip="{{ 'purchases.tooltip-edit' | translate }}"      
                   [matTooltipPosition]="'above'"               
                   matTooltipHideDelay=""></tr>
-              <tr class="mat-row" *matNoDataRow>
-                <td class="mat-cell" colspan="4">{{ 'purchases.search-not-found' | translate }} "{{ input2.value }}"</td>
-              </tr>
+
+              <div *ngIf="!noPurchases">
+                <tr class="mat-row"  *matNoDataRow>
+                  <td class="mat-cell" colspan="4">{{ 'purchases.search-not-found' | translate }} "{{ input2.value }}"</td>
+                </tr>
+              </div>    
+
+
             </table>
           </mat-card-content>
         </mat-card>

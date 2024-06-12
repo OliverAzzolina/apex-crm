@@ -31,6 +31,12 @@
       matSort
       (matSortChange)="announceSortChange($event)"
     >
+
+      <ng-container matColumnDef="due" >
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ "tasks.table-header5" | translate }}</th>
+        <td mat-cell *matCellDef="let task" [ngStyle]="task.exceeded?{'color':'red'}:{'color':'white'}">{{ task.due }}</td>
+      </ng-container>
+
       <ng-container matColumnDef="status">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ "tasks.table-header1" | translate }}</th>
         <td mat-cell *matCellDef="let task">{{ translate.translationOn == true ? task.translatedStatus : task.status }}</td>
@@ -51,6 +57,7 @@
         mat-header-row
         *matHeaderRowDef="displayedColumns"
       ></tr>
+
       <tr
         mat-row
         *matRowDef="let task; columns: displayedColumns"
@@ -60,6 +67,8 @@
         matTooltip="{{ 'tasks.tooltip-open' | translate }}"     
         [matTooltipPosition]="'above'"               
         matTooltipHideDelay=""
+        
+        
       ></tr>
 
       <!-- Row shown when there is no matching data. -->

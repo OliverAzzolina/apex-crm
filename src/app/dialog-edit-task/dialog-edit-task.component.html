@@ -9,6 +9,13 @@
     </mat-select>
   </mat-form-field>
 
+  <mat-form-field appearance="outline">
+    <mat-label> {{ "task-dialog.duedate" | translate }} </mat-label>
+    <input matInput [matDatepicker]="picker1" [formControl]="dueDateFormControl">
+    <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
+    <mat-datepicker #picker1></mat-datepicker>
+  </mat-form-field>
+
   <mat-form-field class="example-full-width" appearance="outline">
     <mat-label>{{ "task-dialog.note-label" | translate }}</mat-label>
     <textarea matInput value="{{task.note}}" [formControl]="noteFormControl"></textarea>

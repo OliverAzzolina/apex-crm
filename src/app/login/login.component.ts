@@ -122,4 +122,26 @@ export class LoginComponent {
       this._bottomSheet.dismiss();
     }, 2000)
   };
+
+  async loginGuest(){
+    this.wrongPassword = false;
+    this.loading = true;
+
+    const q = query(collection(this.db, "users"), where("userId", "==", "guest"));
+    const querySnapshot = await getDocs(q);
+
+    querySnapshot.forEach((doc) => {
+      const userData = doc.data();
+      userData['userId'] = doc.id;
+      this.checkGuestUser(userData);
+      this.router.navigateByUrl('/main/dashboard');
+      this.openBottomSheet();
+    });
+  }
+
+  async checkGuestUser(userData: DocumentData){
+    await this.setUserId(userData);
+    await this.checkUserSettings(userData);
+  }
 };
+

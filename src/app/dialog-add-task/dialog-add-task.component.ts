@@ -16,16 +16,20 @@ import { TranslateModule } from '@ngx-translate/core';
 import { MatBottomSheet, MatBottomSheetModule, MatBottomSheetRef } from '@angular/material/bottom-sheet';
 import { FeedbackBottomSheetComponent } from '../feedback-bottom-sheet/feedback-bottom-sheet.component';
 import { BottomSheetService } from '../services/bottom-sheet.service';
+import { DateAdapter, MAT_DATE_LOCALE, provideNativeDateAdapter } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 
 
 @Component({
   selector: 'app-dialog-add-task',
   standalone: true,
   imports: [ MatMenuModule, RouterLink, MatButtonModule, MatFormField, MatLabel, MatInputModule, MatFormFieldModule, 
-    FormsModule, MatSelectModule, MatDialogActions, ReactiveFormsModule, TranslateModule
+    FormsModule, MatSelectModule, MatDialogActions, ReactiveFormsModule, TranslateModule, MatDatepickerModule
   ],
   providers: [
-    { provide: MatBottomSheetRef, useValue: { dismiss: () => {} } }
+    { provide: MatBottomSheetRef, useValue: { dismiss: () => {} } },
+    {provide: MAT_DATE_LOCALE, useValue: 'de-DE'},
+    provideNativeDateAdapter()
   ],
   templateUrl: './dialog-add-task.component.html',
   styleUrl: './dialog-add-task.component.scss'
@@ -48,6 +52,7 @@ export class DialogAddTaskComponent {
   customerFormControl = new FormControl('', [Validators.required, Validators.minLength(2)]);
   statusFormControl = new FormControl('', [Validators.required, Validators.minLength(2)]);
   noteFormControl = new FormControl('', [Validators.required, Validators.minLength(2)]);
+  dueDateFormControl = new FormControl(new Date(), [Validators.required, Validators.minLength(2)]);
 
   constructor(
     private database: DatabaseService, 
@@ -77,6 +82,8 @@ export class DialogAddTaskComponent {
     if(this.customerId){
       this.selectedCustomer = this.allCustomers.find( (cust: { customerId: string; }) => this.customerId == cust.customerId );
       this.selectedCustomerName = this.selectedCustomer.firstName + ' ' + this.selectedCustomer.lastName;
+      this.customerFormControl.setValue(this.selectedCustomerName);
+      this.customerFormControl.disable();
     };
   };
 
@@ -88,6 +95,11 @@ export class DialogAddTaskComponent {
     this.task.status = this.statusFormControl.value!;
     this.task.note = this.noteFormControl.value!;
     this.task.customerName = this.customerFormControl.value!;
+    this.task.dueDateStamp = this.dueDateFormControl.value!.getTime();
+    this.task.due = this.dueDateFormControl.value!.toLocaleDateString('en-GB', {
+      day: 'numeric', month: 'numeric', year: 'numeric'
+    }).replaceAll('/', '.');
+    this.task.exceeded = false;
     await this.generateTranslatedStatus(this.task.status);
     const taskData = this.task.toJSON();
     taskData.customerId = this.customerId;

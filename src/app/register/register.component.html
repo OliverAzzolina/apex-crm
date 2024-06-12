@@ -27,7 +27,14 @@
 
           <mat-form-field class="full-width">
             <mat-label> {{ "register.header-password" | translate }} </mat-label>
-            <input [type]="hide ? 'password' : 'text'" matInput [formControl]="passwordFormControl" placeholder="Ex. pat@example.com">
+            <input [type]="hide ? 'password' : 'text'" matInput [formControl]="passwordFormControl" placeholder="Ex. Test1234!">
+            @if (passwordFormControl.hasError('pattern')) {
+              <mat-error 
+              matTooltip="{{ 'register.tip-password'| translate }}"
+              matTooltipPosition="below"
+              matTooltipHideDelay="1000">{{ "register.password-error" | translate }}
+              </mat-error>
+            }
             <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
               <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
             </button>

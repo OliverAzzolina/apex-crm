@@ -29,10 +29,12 @@
 
 <div class="pd-top-16 pd-btm-16">
   <mat-card-title>{{ "settings.delete-user-header" | translate }}</mat-card-title>
-  <button  class="mr-top-16" mat-flat-button color="warn" (click)="openDialogDeleteUser()">
+  <button [disabled]="isGuest" class="mr-top-16" mat-flat-button color="warn" (click)="openDialogDeleteUser()">
     <mat-icon color="white">delete</mat-icon>
     <span> {{ "settings.delete-button" | translate }} </span>
   </button>
+  <mat-card-subtitle style="color: red;" class="pd-top-16" *ngIf="isGuest">{{ "settings.delete-guest-info" | translate }}</mat-card-subtitle>
+
 </div>
 
 

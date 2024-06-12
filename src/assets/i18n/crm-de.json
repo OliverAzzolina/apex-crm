@@ -68,6 +68,7 @@
         "table-header2": "Aufgabe",
         "table-header3": "für Kunde",
         "table-header4": "Aufgaben-ID",
+        "table-header5": "Fälligeitsdatum",
         "tooltip-open": "Klicke um Kunden zu öffnen",
         "tooltip-add": "Aufgabe hinzufügen",
         "search-not-found": "Keine Übereinstimmung der Suche",
@@ -88,7 +89,9 @@
         "status-option-closed":"geschlossen",
         "header-delete": "Lösche Aufgabe",
         "text-delete": "Sind Sie sicher, dass Sie die ausgewählte Aufgabe löschen möchten?",
-        "checkbox-text-delete": "Ich bin mir sicher!"
+        "checkbox-text-delete": "Ich bin mir sicher!",
+        "duedate": "Fälligkeitsdatum"
+        
     },
 
     "products": {
@@ -167,7 +170,8 @@
         "language-option-de":"Deutsch",
         "save-button": "Einstellungen Speichern",
         "delete-user-header": "Benutzeraccount löschen",
-        "delete-button": "Löschen"
+        "delete-button": "Löschen",
+        "delete-guest-info": "Gast Account kann nicht gelöscht werden!"
     },
 
     "delete-user-dialog":{
@@ -183,6 +187,7 @@
         "header-email": "E-Mail",
         "header-password": "Passwort",
         "login-button": "Einloggen",
+        "guest-button": "Als Gast einloggen",
         "register-text": "Sie haben noch kein Benutzerkonto?",
         "register-link-text": "Hier geht es zur Registrierung!",
         "msg-no-user": "Benutzer nicht gefunden!",
@@ -195,6 +200,8 @@
         "header-lastname": "Nachname",
         "header-email": "E-Mail",
         "header-password": "Passwort",
+        "password-error": "Bitte verwende ein gültiges Passwort!",
+        "tip-password": "min. 8 Zeichen (Groß- und Kleinbuchstaben), min. 1 Zahl (0-9), min. 1 Sonderzeichen ($@!%*?&_.,-)",
         "register-button": "REGISTRIEREN",
         "login-text": "Sie haben schon ein Benutzerkonto?",
         "login-link-text": "Hier geht es zum Einloggen!",

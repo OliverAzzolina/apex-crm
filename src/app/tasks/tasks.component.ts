@@ -40,7 +40,7 @@ export class TasksComponent {
   loading: boolean = false;
   translate = inject(TranslationService);
   dataSource = new MatTableDataSource(this.allTasks);
-  displayedColumns: string[] = ['status', 'note', 'customerName'];
+  displayedColumns: string[] = [ 'due', 'status', 'note', 'customerName',];
 
   constructor(
     public db: Firestore, 
@@ -61,6 +61,7 @@ export class TasksComponent {
   ngAfterViewInit() {
     this.dataSource.sort = this.sort;
   }
+
   async ngOnInit(): Promise<void>{
     await this.getAllTasks('tasks');
     await this.sortTasks();
@@ -71,6 +72,7 @@ export class TasksComponent {
   async sortTasks(){
     this.allTasks.sort((a: { status: string; }, b: { status: any; }) => b.status.localeCompare(a.status))
   }
+
   /** Announce the change in sort state for assistive technology. */
   announceSortChange(sortState: Sort) {
     // This example uses English messages. If your application supports
@@ -111,11 +113,15 @@ export class TasksComponent {
             translatedStatus: taskData['translatedStatus'],
             note: taskData['note'],
             customerId: taskData['customerId'],
-            customerName: taskData['customerName']
+            customerName: taskData['customerName'],
+            due: taskData['due'],
+            dueDateStamp: taskData['dueDateStamp'],
+            exceeded: taskData['exceeded'],
           };
           
         });
         this.sortTasks()
+        this.checkTaskDueDate()
         this.dataSource.data = this.allTasks;
         this.loading = false;
       },
@@ -125,6 +131,21 @@ export class TasksComponent {
       }
     );
   };
+  
+  checkTaskDueDate(){
+    const today = new Date().getTime();
+    this.allTasks.forEach((task: {
+      exceeded: boolean; dueDateStamp: number;
+    }) => {
+
+      if(task.dueDateStamp <= today ){
+        task.exceeded = true;
+      }else{
+        task.exceeded = false;
+      }
+
+    });
+  }
 
   async setTabIndex(index: any){
     await this.tabIndex.setTabToIndex(index);
@@ -143,10 +164,10 @@ export class TasksComponent {
     if(typeof window !== undefined){
       const width = window.innerWidth;
       if(width > 1280){
-        this.displayedColumns = ['status', 'note', 'customerName'];
+        this.displayedColumns = ['status', 'note', 'customerName', 'due'];
       }
       if(width <= 860){
-        this.displayedColumns = ['status', 'customerName'];
+        this.displayedColumns = ['status', 'customerName', 'due'];
       }
     }
   };

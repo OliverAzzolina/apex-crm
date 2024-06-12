@@ -71,9 +71,11 @@ export class CustomerDetailsComponent {
   loading: boolean = false;
   taskDataSource = new MatTableDataSource(this.allTasks);
   purchaseDataSource = new MatTableDataSource(this.allPurchases);
-  taskColumns: string[] = ['status', 'note'];
+  taskColumns: string[] = ['status', 'note', 'due'];
   purchaseColumns: string[] = ['purchaseId', 'orderdate', 'status', 'product', 'amount', 'totalPrice'];
- 
+  noTasks: boolean = false;
+  noPurchases: boolean = false;
+
   translate = inject(TranslationService);
   darkmode = inject(ThemeService);
   setheader = inject(SetHeaderService);
@@ -84,11 +86,11 @@ export class CustomerDetailsComponent {
     await this.getCustomerData();
     await this.getPurchases();
     await this.getTasks();
-    await this.setNewTabIndex()
+    await this.setNewTabIndex();
     this.setheader.updateCustomerHeader();
     this.taskDataSource.data = this.allTasks; 
     this.purchaseDataSource.data = this.allPurchases; 
-    this.checkScreenSize()
+    this.checkScreenSize();
   }
 
   async checkUser() {
@@ -114,7 +116,6 @@ export class CustomerDetailsComponent {
   @ViewChild('purchaseTable', { read: MatSort, static: true}) sortPurchaseTable: MatSort;
   @ViewChild('tasksTable', { read: MatSort, static: true}) sortTasksTable: MatSort;
 
-
   ngAfterViewInit() {
     this.taskDataSource.sort = this.sortTasksTable;
     this.purchaseDataSource.sort = this.sortPurchaseTable;
@@ -124,6 +125,7 @@ export class CustomerDetailsComponent {
         default: return purchaseData[orderdate];
       }
     };
+    
   }
 
   /** Announce the change in sort state for assistive technology. */
@@ -168,9 +170,10 @@ export class CustomerDetailsComponent {
     let dialog = this.dialog.open(DialogDeleteCustomerComponent);
     dialog.componentInstance.id = this.id;
   }
-
+  
   //TASKS TABLE
   async getTasks(){
+    this.noTasks = false;
     const tasksRef = collection(this.db, "tasks");
     const q = query(tasksRef, where('customerId', "==", this.id));
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
@@ -180,15 +183,26 @@ export class CustomerDetailsComponent {
       this.task.taskId = doc.id;
       this.allTasks.push(this.task);
     });
+    this.checkNoTasks();
     this.sortTasks();
+    //this.checkTaskDueDate()
     this.taskDataSource.data = this.allTasks;
+    
   })}
+
+  async checkNoTasks(){
+    console.log(this.allTasks.length)
+    if(this.allTasks.length == 0){
+      this.noTasks = true;
+    }
+  }
 
   openDialogAddTask(){
     let dialog = this.dialog.open(DialogAddTaskComponent);
     dialog.componentInstance.customerId = this.id;
     dialog.componentInstance.customerName = this.customer.firstName + ' ' + this.customer.lastName;
   }
+
   openDialogEditTask(task:any){
     let dialog = this.dialog.open(DialogEditTaskComponent);
     dialog.componentInstance.task = new Task(task);
@@ -199,9 +213,25 @@ export class CustomerDetailsComponent {
   async sortTasks(){
     this.allTasks.sort((a: { status: string; }, b: { status: any; }) => b.status.localeCompare(a.status))
   }
+
+  checkTaskDueDate(){
+    const today = new Date().getTime();
+    this.allTasks.forEach((task: {
+      exceeded: boolean; dueDateStamp: number;
+    }) => {
+
+      if(task.dueDateStamp <= today ){
+        task.exceeded = true;
+      }else{
+        task.exceeded = false;
+      }
+
+    });
+  }
     
   //PURCHASES TABLE
   async getPurchases(){
+    this.noPurchases = false;
     const purchasesRef = collection(this.db, "purchases");
     const q = query(purchasesRef, where('customerId', "==", this.id));
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
@@ -211,10 +241,17 @@ export class CustomerDetailsComponent {
       this.purchase.purchaseId = doc.id;
       this.allPurchases.push(this.purchase);
     });
+    this.checkNoPurchases();
     this.sortPurchases();
     this.purchaseDataSource.data = this.allPurchases;
     this.loadPurchases = true; 
   })}
+
+  checkNoPurchases(){
+    if(this.allPurchases.length == 0){
+      this.noPurchases = true;
+    }
+  }
 
   openDialogAddPurchase(){
     let dialog = this.dialog.open(DialogAddPurchaseComponent);

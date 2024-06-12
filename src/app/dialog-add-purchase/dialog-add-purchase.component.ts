@@ -98,6 +98,7 @@ export class DialogAddPurchaseComponent {
       this.selectedCustomer = this.allCustomers.find( (cust: { customerId: string; }) => this.customerId == cust.customerId );
       this.selectedCustomerName = this.selectedCustomer.firstName + ' ' + this.selectedCustomer.lastName;
       this.customerFormControl.setValue(this.selectedCustomerName);
+      this.customerFormControl.disable();
     }
   }
 

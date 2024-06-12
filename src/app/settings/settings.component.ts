@@ -16,12 +16,13 @@ import { FormsModule } from '@angular/forms';
 import { FeedbackBottomSheetComponent } from '../feedback-bottom-sheet/feedback-bottom-sheet.component';
 import { BottomSheetService } from '../services/bottom-sheet.service';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-settings',
   standalone: true,
   imports: [MatIconButton, MatIconModule, MatCardModule, MatSelectModule, TranslateModule, MatButtonModule, FormsModule, MatDialogModule,
-    MatDividerModule],
+    MatDividerModule, CommonModule],
   templateUrl: './settings.component.html',
   styleUrl: './settings.component.scss'
 })
@@ -41,6 +42,7 @@ export class SettingsComponent {
   translation:boolean;
   userSettings:any = [];
   language:string;
+  isGuest: boolean = false;
 
   constructor(
     private themeService: ThemeService, 
@@ -75,6 +77,9 @@ export class SettingsComponent {
   async getUserId(){
     const data = JSON.parse(localStorage.getItem("loggedUserData") || '{}');
     this.userId = data.userId;
+    if(this.userId == "guest"){
+      this.isGuest = true;
+    }
     if(data.translation == true){
       this.language = 'Deutsch';
     }else{

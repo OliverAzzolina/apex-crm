@@ -16,13 +16,14 @@ import { TranslationService } from '../services/translation.service';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { BottomSheetService } from '../services/bottom-sheet.service';
 import { FeedbackBottomSheetComponent } from '../feedback-bottom-sheet/feedback-bottom-sheet.component';
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 
 @Component({
   selector: 'app-register',
   standalone: true,
   imports: [RouterLink, MatCardModule, MatInputModule, FormsModule, ReactiveFormsModule, MatButtonModule, MatDividerModule, CommonModule, 
-    RegisterComponent, MatIconModule, TranslateModule],
+    RegisterComponent, MatIconModule, TranslateModule, MatTooltipModule],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss'
 })
@@ -45,7 +46,7 @@ export class RegisterComponent {
   firstNameFormControl = new FormControl('', [Validators.required, Validators.pattern('(?=.*[a-z])(?=.*[A-Z]).{1,30}')]);
   lastNameFormControl = new FormControl('', [Validators.required, Validators.pattern('(?=.*[a-z])(?=.*[A-Z]).{1,30}')]);
   emailFormControl = new FormControl('', [Validators.required, Validators.email]);
-  passwordFormControl = new FormControl('', [Validators.required, Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}')]);
+  passwordFormControl = new FormControl('', [Validators.required, Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@!%*?&_.,-])[A-Za-z\d$@!%*?&_.,-].{8,}')]);
 
   sheetService = inject(BottomSheetService);
   translate = inject(TranslationService);
@@ -62,31 +63,26 @@ export class RegisterComponent {
 
   async checkIfUserExists(){
     this.userExistsNote = false;
-    const userEmail = this.user.email
+    const userEmail = this.emailFormControl.value
     this.loading = true;
 
     const q = query(collection(this.db, "users"), where("email", "==", userEmail));
     const querySnapshot = await getDocs(q);
 
-    querySnapshot.forEach((doc) => {
-      const userExists = doc.id;
-      if (userExists) {
+      if (querySnapshot.empty) {
+        this.user.firstName = this.firstNameFormControl.value!;
+        this.user.lastName = this.lastNameFormControl.value!;
+        this.user.email = this.emailFormControl.value!;
+        this.user.password = this.passwordFormControl.value!;
+        this.user.translation = this.translate.translationOn;
+        const userData = this.user.toJSON();
+        this.registerUser(userData);
+        this.openBottomSheet();
+        this.router.navigateByUrl('/login');
+      }else    {
         this.userExistsNote = true;
-      }
-    });
-
-    if(this.userExistsNote == false){
-      this.user.firstName = this.firstNameFormControl.value!;
-      this.user.lastName = this.lastNameFormControl.value!;
-      this.user.email = this.emailFormControl.value!;
-      this.user.password = this.passwordFormControl.value!;
-      this.user.translation = this.translate.translationOn;
-      const userData = this.user.toJSON();
-      this.registerUser(userData);
-      this.openBottomSheet();
-      this.router.navigateByUrl('/login');
-    };
-  };   
+      };
+  };
 
   openBottomSheet(){
     this.sheetService.message = "sheet.user-registered";
