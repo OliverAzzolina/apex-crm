@@ -23,6 +23,7 @@ import { ViewChild} from '@angular/core';
 import { DialogAddTaskComponent } from '../dialog-add-task/dialog-add-task.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { TranslationService } from '../services/translation.service';
+import { ThemeService } from '../services/theme.service';
 
 @Component({
   selector: 'app-tasks',
@@ -39,6 +40,7 @@ export class TasksComponent {
   userData:any;
   loading: boolean = false;
   translate = inject(TranslationService);
+  darkmode = inject(ThemeService)
   dataSource = new MatTableDataSource(this.allTasks);
   displayedColumns: string[] = [ 'due', 'status', 'note', 'customerName',];
 
@@ -132,16 +134,24 @@ export class TasksComponent {
     );
   };
   
+  color: any;
   checkTaskDueDate(){
     const today = new Date().getTime();
     this.allTasks.forEach((task: {
       exceeded: boolean; dueDateStamp: number;
     }) => {
-
-      if(task.dueDateStamp <= today ){
+      console.log(this.darkmode.darkMode)
+      if(task.dueDateStamp <= today){
         task.exceeded = true;
+        
       }else{
         task.exceeded = false;
+        if(this.darkmode.darkMode){
+          this.color = {'color':'white'}
+        }else{
+          this.color = {'color':'black'}
+        }
+        
       }
 
     });

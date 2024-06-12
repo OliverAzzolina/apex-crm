@@ -34,7 +34,7 @@
 
       <ng-container matColumnDef="due" >
         <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ "tasks.table-header5" | translate }}</th>
-        <td mat-cell *matCellDef="let task" [ngStyle]="task.exceeded?{'color':'red'}:{'color':'white'}">{{ task.due }}</td>
+        <td mat-cell *matCellDef="let task" [ngStyle]="task.exceeded?{'color':'red'}:color">{{ task.due }}</td>
       </ng-container>
 
       <ng-container matColumnDef="status">
