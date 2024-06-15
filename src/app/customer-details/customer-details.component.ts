@@ -75,6 +75,7 @@ export class CustomerDetailsComponent {
   purchaseColumns: string[] = ['purchaseId', 'orderdate', 'status', 'product', 'amount', 'totalPrice'];
   noTasks: boolean = false;
   noPurchases: boolean = false;
+  color: any;
 
   translate = inject(TranslationService);
   darkmode = inject(ThemeService);
@@ -125,7 +126,6 @@ export class CustomerDetailsComponent {
         default: return purchaseData[orderdate];
       }
     };
-    
   }
 
   /** Announce the change in sort state for assistive technology. */
@@ -169,6 +169,8 @@ export class CustomerDetailsComponent {
   openDialogDeleteCustomer(){
     let dialog = this.dialog.open(DialogDeleteCustomerComponent);
     dialog.componentInstance.id = this.id;
+    dialog.componentInstance.allTasks = this.allTasks;
+    dialog.componentInstance.allPurchases = this.allPurchases;
   }
   
   //TASKS TABLE
@@ -185,13 +187,11 @@ export class CustomerDetailsComponent {
     });
     this.checkNoTasks();
     this.sortTasks();
-    //this.checkTaskDueDate()
+    this.checkTaskDueDate()
     this.taskDataSource.data = this.allTasks;
-    
   })}
 
   async checkNoTasks(){
-    console.log(this.allTasks.length)
     if(this.allTasks.length == 0){
       this.noTasks = true;
     }
@@ -219,13 +219,16 @@ export class CustomerDetailsComponent {
     this.allTasks.forEach((task: {
       exceeded: boolean; dueDateStamp: number;
     }) => {
-
-      if(task.dueDateStamp <= today ){
+      if(task.dueDateStamp <= today){
         task.exceeded = true;
       }else{
         task.exceeded = false;
+        if(this.darkmode.darkMode){
+          this.color = {'color':'white'}
+        }else{
+          this.color = {'color':'black'}
+        }
       }
-
     });
   }
     

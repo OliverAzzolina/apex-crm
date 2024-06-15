@@ -24,6 +24,8 @@ export class DialogDeleteCustomerComponent {
   router: any;
   id:string;
   checked = false;
+  allTasks: any;
+  allPurchases: any;
 
   constructor(
     private database: DatabaseService, 
@@ -35,10 +37,19 @@ export class DialogDeleteCustomerComponent {
   translate = inject(TranslationService);
 
   async deleteCustomer(){
+    this.allTasks.forEach((task:any)=>{
+      const taskId = task.taskId;
+      this.database.deleteSelectedTask(taskId);
+    })
+    this.allPurchases.forEach((purchase:any)=>{
+      const purchaseId = purchase.purchaseId;
+      this.database.deleteSelectedPurchase(purchaseId);
+    })
     this.database.deleteSelectedCustomer(this.id).then((result:any) =>{
       this.dialogRef.close();
       this.openBottomSheet();
     });
+
   };
 
   openBottomSheet(){

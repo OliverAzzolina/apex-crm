@@ -111,7 +111,6 @@ async deleteSelectedPurchase(purchaseId: string){
     await deleteDoc(doc(this.db, "purchases", purchaseId));
   }catch(error: any) {
     console.error('Fehler beim löschen des Kaufs:', error);
-
   }
 }
 
@@ -137,7 +136,6 @@ async deleteSelectedProduct(productId: string){
     await deleteDoc(doc(this.db, "products", productId));
   }catch(error: any) {
     console.error('Fehler beim löschen des Produkts:', error);
-
-}
+  }
 }
 }

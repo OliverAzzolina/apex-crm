@@ -39,6 +39,7 @@ export class TasksComponent {
   allTasks:any = [];
   userData:any;
   loading: boolean = false;
+  color: any;
   translate = inject(TranslationService);
   darkmode = inject(ThemeService)
   dataSource = new MatTableDataSource(this.allTasks);
@@ -134,16 +135,13 @@ export class TasksComponent {
     );
   };
   
-  color: any;
   checkTaskDueDate(){
     const today = new Date().getTime();
     this.allTasks.forEach((task: {
       exceeded: boolean; dueDateStamp: number;
-    }) => {
-      console.log(this.darkmode.darkMode)
+      }) => {
       if(task.dueDateStamp <= today){
         task.exceeded = true;
-        
       }else{
         task.exceeded = false;
         if(this.darkmode.darkMode){
@@ -151,9 +149,7 @@ export class TasksComponent {
         }else{
           this.color = {'color':'black'}
         }
-        
       }
-
     });
   }
 
